@@ -153,3 +153,21 @@ func TestMergeKLists(t *testing.T) {
 
 	assert.Equal(t, expected, actual)
 }
+
+func TestReverseKGroup(t *testing.T) {
+	given := &ListNode{Val: 1,
+		Next: &ListNode{Val: 2,
+			Next: &ListNode{Val: 3,
+				Next: &ListNode{Val: 4,
+					Next: &ListNode{Val: 5}}}}}
+
+	expected := &ListNode{Val: 3,
+		Next: &ListNode{Val: 2,
+			Next: &ListNode{Val:1,
+				Next: &ListNode{Val: 4,
+					Next: &ListNode{Val: 5}}}}}
+
+	actual := reverseKGroup(given, 3)
+
+	assert.Equal(t, expected, actual)
+}
