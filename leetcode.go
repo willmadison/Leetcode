@@ -134,7 +134,7 @@ func isMatch(s, pattern string) bool {
 }
 
 type ListNode struct {
-	Val int
+	Val  int
 	Next *ListNode
 }
 
@@ -175,19 +175,4 @@ func hasMore(lists []*ListNode) bool {
 	}
 
 	return false
-}
-
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	var current, next, last, newHead *ListNode
-
-	current = head
-	next = current.Next
-
-	for i := 0; i < k; i++ {
-		last = current.Next
-	}
-
-
-
-	return newHead
 }

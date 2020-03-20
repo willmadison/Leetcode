@@ -11,7 +11,7 @@ const epsilon = .00001
 
 func TestFindMedianSortedArrays(t *testing.T) {
 	cases := []struct {
-		a, b     [] int
+		a, b     []int
 		expected float64
 	}{
 		{
@@ -150,24 +150,6 @@ func TestMergeKLists(t *testing.T) {
 								Next: &ListNode{Val: 6}}}}}}}}
 
 	actual := mergeKLists(given)
-
-	assert.Equal(t, expected, actual)
-}
-
-func TestReverseKGroup(t *testing.T) {
-	given := &ListNode{Val: 1,
-		Next: &ListNode{Val: 2,
-			Next: &ListNode{Val: 3,
-				Next: &ListNode{Val: 4,
-					Next: &ListNode{Val: 5}}}}}
-
-	expected := &ListNode{Val: 3,
-		Next: &ListNode{Val: 2,
-			Next: &ListNode{Val:1,
-				Next: &ListNode{Val: 4,
-					Next: &ListNode{Val: 5}}}}}
-
-	actual := reverseKGroup(given, 3)
 
 	assert.Equal(t, expected, actual)
 }
