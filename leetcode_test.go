@@ -212,3 +212,38 @@ func TestNumIslands(t *testing.T) {
 		})
 	}
 }
+
+func TestIsValid(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected bool
+	}{
+		{
+			"()",
+			true,
+		},
+		{
+			"()[]{}",
+			true,
+		},
+		{
+			"(]",
+			false,
+		},
+		{
+			"([)]",
+			false,
+		},
+		{
+			"{[]}",
+			true,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("isValid(%v)", tc.given), func(t *testing.T) {
+			actual := isValid(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

@@ -333,3 +333,76 @@ func discoverContiguousLand(c coordinate, grid [][]byte, seen map[coordinate]str
 
 	return coordinates
 }
+
+type stack interface {
+	push(rune)
+	pop() (rune, error)
+	peek() (rune, error)
+	empty() bool
+}
+
+type runeStack struct {
+	data []rune
+	size int
+}
+
+func newRuneStack() stack {
+	return &runeStack{data: []rune{}}
+}
+
+func (s *runeStack) push(r rune) {
+	s.data = append(s.data, r)
+	s.size++
+}
+
+func (s *runeStack) pop() (rune, error) {
+	if s.size > 0 {
+		value := s.data[s.size-1]
+		s.size--
+		s.data = s.data[:s.size]
+		return value, nil
+	}
+
+	return 0, errors.New("No Such Element")
+}
+
+func (s *runeStack) peek() (rune, error) {
+	if s.size > 0 {
+		value := s.data[s.size-1]
+		return value, nil
+	}
+
+	return 0, errors.New("No Such Element")
+}
+
+func (s *runeStack) empty() bool {
+	return s.size == 0
+}
+
+// https://leetcode.com/problems/valid-parentheses/
+func isValid(s string) bool {
+	openingParenByClosingParen := map[rune]rune{
+		')': '(',
+		']': '[',
+		'}': '{',
+	}
+
+	stack := newRuneStack()
+
+	for _, r := range s {
+		switch r {
+		case '(', '{', '[':
+			stack.push(r)
+		default:
+			opening := openingParenByClosingParen[r]
+
+			if top, err := stack.peek(); top != opening || err != nil {
+				return false
+			}
+
+			stack.pop()
+		}
+	}
+
+	return stack.empty()
+}
