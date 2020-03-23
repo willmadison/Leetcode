@@ -2,9 +2,12 @@ package leetcode
 
 import (
 	"bytes"
+	"container/heap"
 	"errors"
+	"fmt"
 	"math"
 	"sort"
+	"time"
 )
 
 // https://leetcode.com/problems/median-of-two-sorted-arrays/description/
@@ -405,4 +408,123 @@ func isValid(s string) bool {
 	}
 
 	return stack.empty()
+}
+
+// https://leetcode.com/problems/lru-cache/
+type cacheEntry struct {
+	key, index int
+	lastAccess time.Time
+}
+
+func (c cacheEntry) String() string {
+	return fmt.Sprintf("cacheEntry{key: %v, index: %v, lastAccess: %v}", c.key,
+		c.index, c.lastAccess)
+}
+
+type priorityQueue []*cacheEntry
+
+func (p priorityQueue) Len() int {
+	return len(p)
+}
+
+func (p priorityQueue) Less(i, j int) bool {
+	return p[i].lastAccess.Before(p[j].lastAccess)
+}
+
+func (p priorityQueue) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+	p[i].index = i
+	p[j].index = j
+}
+
+func (p *priorityQueue) Push(x interface{}) {
+	n := len(*p)
+	entry := x.(*cacheEntry)
+	entry.index = n
+	*p = append(*p, entry)
+}
+
+func (p *priorityQueue) Pop() interface{} {
+	old := *p
+	n := len(old)
+	entry := old[n-1]
+	entry.index = -1
+	*p = old[0 : n-1]
+
+	return entry
+}
+
+func (p priorityQueue) String() string {
+	var b bytes.Buffer
+
+	b.WriteString("priorityQueue[")
+
+	for i, e := range p {
+		b.WriteString(fmt.Sprintf("%v", e))
+
+		if i < len(p)-1 {
+			b.WriteString(", ")
+		}
+	}
+
+	b.WriteString("]")
+
+	return b.String()
+}
+
+func (p *priorityQueue) updateLastAccess(c *cacheEntry, t time.Time) {
+	c.lastAccess = t
+	heap.Fix(p, c.index)
+}
+
+type LRUCache struct {
+	data              map[int]int
+	cacheEntriesByKey map[int]*cacheEntry
+	queue             *priorityQueue
+}
+
+func Constructor(capacity int) LRUCache {
+	q := make(priorityQueue, 0, capacity)
+	heap.Init(&q)
+	return LRUCache{data: map[int]int{},
+		cacheEntriesByKey: map[int]*cacheEntry{},
+		queue:             &q,
+	}
+}
+
+func (c *LRUCache) Get(key int) int {
+	if value, present := c.data[key]; present {
+		entry := c.cacheEntriesByKey[key]
+		c.queue.updateLastAccess(entry, time.Now())
+		return value
+	}
+
+	return -1
+}
+
+func (c *LRUCache) Put(key int, value int) {
+	if _, present := c.data[key]; !present {
+		if c.full() {
+			c.evict()
+		}
+
+		entry := &cacheEntry{key: key, lastAccess: time.Now()}
+		c.cacheEntriesByKey[key] = entry
+		heap.Push(c.queue, entry)
+		c.data[key] = value
+	} else {
+		c.data[key] = value
+		entry := c.cacheEntriesByKey[key]
+		c.queue.updateLastAccess(entry, time.Now())
+	}
+}
+
+func (c *LRUCache) full() bool {
+	return cap(*c.queue) == c.queue.Len()
+}
+
+func (c *LRUCache) evict() {
+	evictee := heap.Pop(c.queue).(*cacheEntry)
+	delete(c.cacheEntriesByKey, evictee.key)
+	delete(c.data, evictee.key)
 }

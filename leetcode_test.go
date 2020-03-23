@@ -247,3 +247,38 @@ func TestIsValid(t *testing.T) {
 		})
 	}
 }
+
+func TestLRUCacheBaseCase(t *testing.T) {
+	cache := Constructor(2)
+
+	cache.Put(1, 1)
+	cache.Put(2, 2)
+
+	assert.Equal(t, 1, cache.Get(1))
+
+	cache.Put(3, 3) // Should evict the item keyed under 2 since it hasn't been accessed...
+
+	assert.Equal(t, -1, cache.Get(2))
+
+	cache.Put(4, 4) // Should evict the item keyed under 1
+
+	assert.Equal(t, -1, cache.Get(1))
+	assert.Equal(t, 3, cache.Get(3))
+	assert.Equal(t, 4, cache.Get(4))
+}
+
+func TestLRUCacheSubmissionCase(t *testing.T) {
+	cache := Constructor(2)
+
+	assert.Equal(t, -1, cache.Get(2))
+
+	cache.Put(2, 6)
+
+	assert.Equal(t, -1, cache.Get(1))
+
+	cache.Put(1, 5)
+	cache.Put(1, 2)
+
+	assert.Equal(t, 2, cache.Get(1))
+	assert.Equal(t, 6, cache.Get(2))
+}
