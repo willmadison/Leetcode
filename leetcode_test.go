@@ -281,4 +281,8 @@ func TestLRUCacheSubmissionCase(t *testing.T) {
 
 	assert.Equal(t, 2, cache.Get(1))
 	assert.Equal(t, 6, cache.Get(2))
+
+	cache.Put(4, 7)
+
+	assert.Equal(t, -1, cache.Get(1))
 }
