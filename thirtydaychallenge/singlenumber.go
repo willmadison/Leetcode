@@ -1,5 +1,7 @@
 package thirtydaychallenge
 
+// https://leetcode.com/explore/featured/card/30-day-leetcoding-challenge/528/week-1/3283/
+
 func singleNumber(numbers []int) int {
 	occurrencesByNumber := map[int]int{}
 
