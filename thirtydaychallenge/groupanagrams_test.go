@@ -15,8 +15,8 @@ func TestGroupAnagrams(t *testing.T) {
 		{
 			[]string{"eat", "tea", "tan", "ate", "nat", "bat"},
 			[][]string{
-				[]string{"ate", "eat", "tea"},
-				[]string{"nat", "tan"},
+				[]string{"eat", "tea", "ate"},
+				[]string{"tan", "nat"},
 				[]string{"bat"},
 			},
 		},
