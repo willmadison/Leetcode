@@ -56,12 +56,12 @@ func checkValidString(s string) bool {
 				// No openers available, try and use a wildcard
 				_, err := wildcards.Peek()
 
-				if err == nil {
-					wildcards.Pop()
-				} else {
+				if err != nil {
 					// No openers or wildcards available this string is invalid.
 					return false
 				}
+
+				wildcards.Pop()
 			} else {
 				openers.Pop()
 			}
