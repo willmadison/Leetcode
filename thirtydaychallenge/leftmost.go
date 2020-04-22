@@ -7,10 +7,6 @@ type BinaryMatrix interface {
 	Dimensions() []int
 }
 
-//type coordinate struct {
-//	row, col int
-//}
-
 func leftMostColumnWithOne(b BinaryMatrix) int {
 	d := b.Dimensions()
 	rows, columns := d[0], d[1]
