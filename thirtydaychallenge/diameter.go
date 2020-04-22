@@ -1,8 +1,8 @@
 package thirtydaychallenge
 
 type TreeNode struct {
-	Left, Right *TreeNode
 	Val         int
+	Left, Right *TreeNode
 }
 
 var maxHeight int
