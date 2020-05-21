@@ -472,8 +472,8 @@ func (p priorityQueue) String() string {
 	return b.String()
 }
 
-func (p *priorityQueue) updateLastAccess(c *cacheEntry, t time.Time) {
-	c.lastAccess = t
+func (p *priorityQueue) updateLastAccess(c *cacheEntry) {
+	c.lastAccess = time.Now()
 	heap.Fix(p, c.index)
 }
 
@@ -495,7 +495,7 @@ func Constructor(capacity int) LRUCache {
 func (c *LRUCache) Get(key int) int {
 	if value, present := c.data[key]; present {
 		entry := c.cacheEntriesByKey[key]
-		c.queue.updateLastAccess(entry, time.Now())
+		c.queue.updateLastAccess(entry)
 		return value
 	}
 
@@ -515,7 +515,7 @@ func (c *LRUCache) Put(key int, value int) {
 	} else {
 		c.data[key] = value
 		entry := c.cacheEntriesByKey[key]
-		c.queue.updateLastAccess(entry, time.Now())
+		c.queue.updateLastAccess(entry)
 	}
 }
 
@@ -527,4 +527,62 @@ func (c *LRUCache) evict() {
 	evictee := heap.Pop(c.queue).(*cacheEntry)
 	delete(c.cacheEntriesByKey, evictee.key)
 	delete(c.data, evictee.key)
+}
+
+// https://leetcode.com/problems/spiral-matrix
+func spiralOrder(m [][]int) []int {
+	type coordinate struct {
+		row, col int
+	}
+
+	visited := map[coordinate]struct{}{}
+
+	values := []int{}
+
+	if len(m) == 0 {
+		return values
+	}
+
+	current := coordinate{0, 0}
+
+	minRow, maxRow, minCol, maxCol := 0, len(m), 0, len(m[0])
+
+start:
+	for len(visited) < len(m)*len(m[0]) {
+		if _, seen := visited[current]; !seen {
+			values = append(values, m[current.row][current.col])
+			visited[current] = struct{}{}
+		}
+
+		canMoveRight := current.row == minRow && current.col < maxCol-1
+		if canMoveRight {
+			current.col++
+			goto start
+		}
+
+		canMoveDown := current.col == maxCol-1 && current.row < maxRow-1
+		if canMoveDown {
+			current.row++
+			goto start
+		}
+
+		canMoveLeft := current.row == maxRow-1 && current.col > minCol
+		if canMoveLeft {
+			current.col--
+			goto start
+		}
+
+		canMoveUp := current.col == minCol && current.row > minRow+1
+		if canMoveUp {
+			current.row--
+			goto start
+		}
+
+		minRow++
+		maxRow--
+		minCol++
+		maxCol--
+	}
+
+	return values
 }

@@ -286,3 +286,48 @@ func TestLRUCacheSubmissionCase(t *testing.T) {
 
 	assert.Equal(t, -1, cache.Get(1))
 }
+
+func TestSpiralMatrix(t *testing.T) {
+	cases := []struct {
+		given    [][]int
+		expected []int
+	}{
+		{
+			[][]int{
+				{1, 2, 3},
+				{4, 5, 6},
+				{7, 8, 9},
+			},
+			[]int{1, 2, 3, 6, 9, 8, 7, 4, 5},
+		},
+		{
+			[][]int{
+				{1, 2, 3, 4},
+				{5, 6, 7, 8},
+				{9, 10, 11, 12},
+			},
+			[]int{1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7},
+		},
+		{
+			[][]int{
+				{1, 2, 3, 4},
+				{5, 6, 7, 8},
+				{9, 10, 11, 12},
+				{13, 14, 15, 16},
+			},
+			[]int{1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10},
+		},
+		{
+			[][]int{},
+			[]int{},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("spiralOrder(%v)", tc.given), func(t *testing.T) {
+			actual := spiralOrder(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+
+}
