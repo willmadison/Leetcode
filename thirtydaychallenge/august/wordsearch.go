@@ -63,9 +63,7 @@ func (w *WordDictionary) find(node *trieNode, word string) bool {
 func (w *WordDictionary) broadSearch(node *trieNode, word string) bool {
 	var found bool
 	for i := 0; i < 26; i++ {
-		if found = w.find(node.children[i], word); !found {
-			continue
-		} else {
+		if found = w.find(node.children[i], word); found {
 			break
 		}
 	}
