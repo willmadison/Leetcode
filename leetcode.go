@@ -586,3 +586,45 @@ start:
 
 	return values
 }
+
+func addTwoNumbers(l1, l2 *ListNode) *ListNode {
+	var result *ListNode
+	var last *ListNode
+
+	var carry int
+
+	for l1 != nil || l2 != nil {
+		sum := carry
+
+		if l1 != nil {
+			sum += l1.Val
+			l1 = l1.Next
+		}
+
+		if l2 != nil {
+			sum += l2.Val
+			l2 = l2.Next
+		}
+
+		digit := sum % 10
+		carry = sum / 10
+
+		node := &ListNode{digit, nil}
+
+		if result == nil {
+			result = node
+			last = node
+			continue
+		}
+
+		last.Next = node
+		last = node
+	}
+
+	if carry > 0 {
+		node := &ListNode{carry, nil}
+		last.Next = node
+	}
+
+	return result
+}
