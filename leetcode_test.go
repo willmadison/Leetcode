@@ -379,3 +379,39 @@ func TestAddTwoNumbers(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxProfit(t *testing.T) {
+	cases := []struct {
+		name  string
+		given struct {
+			prices []int
+		}
+		expected int
+	}{
+		{
+			"max profit possible",
+			struct {
+				prices []int
+			}{
+				prices: []int{7, 1, 5, 3, 6, 4},
+			},
+			5,
+		},
+		{
+			"no max profit possible",
+			struct {
+				prices []int
+			}{
+				prices: []int{7, 6, 4, 3, 1},
+			},
+			0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("[%v] - maxProfit(%v)", tc.name, tc.given.prices), func(t *testing.T) {
+			actual := maxProfit(tc.given.prices)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

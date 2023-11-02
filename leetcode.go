@@ -628,3 +628,24 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 
 	return result
 }
+
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+func maxProfit(prices []int) int {
+	var maximumProfit int
+
+	lowestPrice := math.MaxInt64
+
+	for _, price := range prices {
+		if price < lowestPrice {
+			lowestPrice = price
+		}
+
+		profit := price - lowestPrice
+
+		if profit > maximumProfit {
+			maximumProfit = profit
+		}
+	}
+
+	return maximumProfit
+}
