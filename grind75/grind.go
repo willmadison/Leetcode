@@ -288,3 +288,98 @@ func search(haystack []int, needle int) int {
 
 	return -1
 }
+
+type coordinate struct {
+	row, col int
+}
+
+type queue interface {
+	enqueue(coordinate)
+	dequeue() (coordinate, error)
+	peek() (coordinate, error)
+	empty() bool
+}
+
+type coordinateQueue struct {
+	data []coordinate
+	size int
+}
+
+func (q *coordinateQueue) enqueue(value coordinate) {
+	q.data = append(q.data, value)
+	q.size++
+}
+
+func (q *coordinateQueue) dequeue() (coordinate, error) {
+	if q.size > 0 {
+		value := q.data[0]
+		q.size--
+		q.data = q.data[1:]
+
+		return value, nil
+	}
+
+	return coordinate{}, errors.New("No Such Element")
+}
+
+func (q *coordinateQueue) peek() (coordinate, error) {
+	if q.size > 0 {
+		value := q.data[0]
+		return value, nil
+	}
+
+	return coordinate{}, errors.New("No Such Element")
+}
+
+func (q coordinateQueue) empty() bool {
+	return q.size == 0
+}
+
+func newCoordinateQueue() queue {
+	return &coordinateQueue{data: []coordinate{}}
+}
+
+func floodFill(image [][]int, row, col, color int) [][]int {
+	if image[row][col] == color {
+		return image
+	}
+
+	q := newCoordinateQueue()
+	origin := coordinate{row, col}
+	q.enqueue(origin)
+
+	var toFill []coordinate
+	visited := map[coordinate]struct{}{}
+
+	toFill = append(toFill, origin)
+
+	for !q.empty() {
+		coord, _ := q.dequeue()
+		visited[coord] = struct{}{}
+
+		adjacents := []coordinate{
+			{coord.row - 1, coord.col},
+			{coord.row, coord.col + 1},
+			{coord.row + 1, coord.col},
+			{coord.row, coord.col - 1},
+		}
+
+		for _, c := range adjacents {
+			inbounds := c.col >= 0 && c.row >= 0 && c.col <= len(image[0])-1 && c.row <= len(image)-1
+
+			if inbounds && image[c.row][c.col] == image[origin.row][origin.col] {
+				toFill = append(toFill, c)
+
+				if _, seen := visited[c]; !seen {
+					q.enqueue(c)
+				}
+			}
+		}
+	}
+
+	for _, coord := range toFill {
+		image[coord.row][coord.col] = color
+	}
+
+	return image
+}

@@ -217,3 +217,57 @@ func TestBinarySearch(t *testing.T) {
 		})
 	}
 }
+
+func TestFloodFill(t *testing.T) {
+	cases := []struct {
+		given struct {
+			image           [][]int
+			row, col, color int
+		}
+		expected [][]int
+	}{
+		{
+			struct {
+				image           [][]int
+				row, col, color int
+			}{
+				[][]int{
+					{1, 1, 1},
+					{1, 1, 0},
+					{1, 0, 1},
+				},
+				1, 1, 2,
+			},
+			[][]int{
+				{2, 2, 2},
+				{2, 2, 0},
+				{2, 0, 1},
+			},
+		},
+		{
+			struct {
+				image           [][]int
+				row, col, color int
+			}{
+				[][]int{
+					{0, 0, 0},
+					{0, 0, 0},
+				},
+				0, 0, 0,
+			},
+			[][]int{
+				{0, 0, 0},
+				{0, 0, 0},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("floodFill(%v, %v, %v, %v)", tc.given.image, tc.given.row, tc.given.col, tc.given.color), func(t *testing.T) {
+			actual := floodFill(tc.given.image, tc.given.row, tc.given.col, tc.given.color)
+			assert.ElementsMatch(t, tc.expected, actual)
+		})
+
+	}
+
+}
