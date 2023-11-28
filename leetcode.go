@@ -7,9 +7,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
-	"strings"
 	"time"
-	"unicode"
 )
 
 // https://leetcode.com/problems/median-of-two-sorted-arrays/description/
@@ -556,33 +554,4 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 	}
 
 	return result
-}
-
-// https://leetcode.com/problems/valid-palindrome/description/
-func isPalindrome(s string) bool {
-	scrubbed := scrubNonAlphanumeric(s)
-	left, right := 0, len(scrubbed)-1
-
-	for left <= right {
-		if scrubbed[left] != scrubbed[right] {
-			return false
-		}
-
-		left++
-		right--
-	}
-
-	return true
-}
-
-func scrubNonAlphanumeric(s string) string {
-	var sb strings.Builder
-
-	for _, c := range s {
-		if unicode.IsLetter(c) || unicode.IsDigit(c) {
-			sb.WriteRune(c)
-		}
-	}
-
-	return strings.ToLower(sb.String())
 }

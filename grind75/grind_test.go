@@ -111,6 +111,34 @@ func TestMaxProfit(t *testing.T) {
 
 }
 
+func TestIsPalindrome(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected bool
+	}{
+		{
+			"A man, a plan, a canal: Panama",
+			true,
+		},
+		{
+			"race a car",
+			false,
+		},
+		{
+			" ",
+			true,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("isPalindrome(%v)", tc.given), func(t *testing.T) {
+			actual := isPalindrome(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+
+}
+
 func TestInvertTree(t *testing.T) {
 	one := TreeNode{Val: 1}
 	three := TreeNode{Val: 3}
@@ -126,4 +154,66 @@ func TestInvertTree(t *testing.T) {
 
 	actual := invertTree(&four)
 	assert.Equal(t, &fourPrime, actual)
+}
+
+func TestIsAnagram(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s, t string
+		}
+		expected bool
+	}{
+		{
+			struct {
+				s, t string
+			}{s: "anagram", t: "nagaram"},
+			true,
+		},
+		{
+			struct {
+				s, t string
+			}{s: "car", t: "rat"},
+			false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("isAnagram(%v, %v)", tc.given.s, tc.given.t), func(t *testing.T) {
+			actual := isAnagram(tc.given.s, tc.given.t)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+
+}
+
+func TestBinarySearch(t *testing.T) {
+	cases := []struct {
+		given struct {
+			haystack []int
+			needle   int
+		}
+		expected int
+	}{
+		{
+			struct {
+				haystack []int
+				needle   int
+			}{haystack: []int{-1, 0, 3, 5, 9, 12}, needle: 9},
+			4,
+		},
+		{
+			struct {
+				haystack []int
+				needle   int
+			}{haystack: []int{-1, 0, 3, 5, 9, 12}, needle: 2},
+			-1,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("search(%v, %v)", tc.given.haystack, tc.given.needle), func(t *testing.T) {
+			i := search(tc.given.haystack, tc.given.needle)
+			assert.Equal(t, tc.expected, i)
+		})
+	}
 }

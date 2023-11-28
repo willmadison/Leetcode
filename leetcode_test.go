@@ -344,31 +344,3 @@ func TestAddTwoNumbers(t *testing.T) {
 		})
 	}
 }
-
-func TestIsPalindrome(t *testing.T) {
-	cases := []struct {
-		given    string
-		expected bool
-	}{
-		{
-			"A man, a plan, a canal: Panama",
-			true,
-		},
-		{
-			"race a car",
-			false,
-		},
-		{
-			" ",
-			true,
-		},
-	}
-
-	for _, tc := range cases {
-		t.Run(fmt.Sprintf("isPalindrome(%v)", tc.given), func(t *testing.T) {
-			actual := isPalindrome(tc.given)
-			assert.Equal(t, tc.expected, actual)
-		})
-	}
-
-}

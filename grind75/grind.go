@@ -3,6 +3,9 @@ package grind75
 import (
 	"errors"
 	"math"
+	"sort"
+	"strings"
+	"unicode"
 )
 
 // https://leetcode.com/problems/two-sum
@@ -199,6 +202,35 @@ func maxProfit(prices []int) int {
 	return maximumProfit
 }
 
+// https://leetcode.com/problems/valid-palindrome/description/
+func isPalindrome(s string) bool {
+	scrubbed := scrubNonAlphanumeric(s)
+	left, right := 0, len(scrubbed)-1
+
+	for left <= right {
+		if scrubbed[left] != scrubbed[right] {
+			return false
+		}
+
+		left++
+		right--
+	}
+
+	return true
+}
+
+func scrubNonAlphanumeric(s string) string {
+	var sb strings.Builder
+
+	for _, c := range s {
+		if unicode.IsLetter(c) || unicode.IsDigit(c) {
+			sb.WriteRune(c)
+		}
+	}
+
+	return strings.ToLower(sb.String())
+}
+
 // https://leetcode.com/problems/invert-binary-tree/
 type TreeNode struct {
 	Val         int
@@ -215,4 +247,44 @@ func invertTree(root *TreeNode) *TreeNode {
 	root.Left, root.Right = root.Right, root.Left
 
 	return root
+}
+
+// https://leetcode.com/problems/valid-anagram/
+func isAnagram(s, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+
+	return key(s) == key(t)
+}
+
+func key(value string) string {
+	characters := strings.Split(value, "")
+
+	sort.Slice(characters, func(i, j int) bool {
+		return characters[i] < characters[j]
+	})
+
+	return strings.Join(characters, "")
+}
+
+func search(haystack []int, needle int) int {
+	left := 0
+	right := len(haystack) - 1
+
+	for left <= right {
+		midpoint := (left + right) / 2
+
+		value := haystack[midpoint]
+
+		if value == needle {
+			return midpoint
+		} else if needle < value {
+			right = midpoint - 1
+		} else {
+			left = midpoint + 1
+		}
+	}
+
+	return -1
 }
