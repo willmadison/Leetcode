@@ -271,3 +271,15 @@ func TestFloodFill(t *testing.T) {
 	}
 
 }
+
+func TestLowestCommonAncestor(t *testing.T) {
+	one := TreeNode{Val: 1}
+	four := TreeNode{Val: 4}
+	six := TreeNode{Val: 6}
+	two := TreeNode{Val: 2, Left: &one}
+	three := TreeNode{Val: 3, Left: &two, Right: &four}
+	five := TreeNode{Val: 5, Left: &three, Right: &six}
+
+	actual := lowestCommonAncestor(&five, &one, &four)
+	assert.Equal(t, &three, actual)
+}

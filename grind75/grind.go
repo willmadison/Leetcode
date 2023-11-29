@@ -383,3 +383,64 @@ func floodFill(image [][]int, row, col, color int) [][]int {
 
 	return image
 }
+
+// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+type ancestry []*TreeNode
+
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	pLineage := determineAncestry(root, p)
+	qLineage := determineAncestry(root, q)
+
+	for pLineage[0] != qLineage[0] {
+		switch {
+		case len(pLineage) > len(qLineage):
+			pLineage = pLineage[1:]
+		case len(qLineage) > len(pLineage):
+			qLineage = qLineage[1:]
+		default:
+			pLineage = pLineage[1:]
+			qLineage = qLineage[1:]
+		}
+	}
+
+	return pLineage[0]
+}
+
+func determineAncestry(root, descendant *TreeNode) ancestry {
+	parentsByChild := map[*TreeNode]*TreeNode{}
+
+	parentsByChild[root] = nil
+
+	var found bool
+
+	current := root
+
+	for !found {
+		switch {
+		case current == descendant:
+			found = true
+		case descendant.Val > current.Val:
+			if current.Right != nil {
+				parentsByChild[current.Right] = current
+			}
+			current = current.Right
+		default:
+			if current.Left != nil {
+				parentsByChild[current.Left] = current
+			}
+			current = current.Left
+		}
+	}
+
+	var lineage ancestry
+
+	for current != root {
+		lineage = append(lineage, current)
+		current = parentsByChild[current]
+	}
+
+	lineage = append(lineage, root)
+
+	return lineage
+
+}
