@@ -1,9 +1,11 @@
 package grind75
 
 import (
+	"bytes"
 	"errors"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -293,6 +295,11 @@ type coordinate struct {
 	row, col int
 }
 
+type point struct {
+	x, y int
+	tag  rune
+}
+
 type queue interface {
 	enqueue(coordinate)
 	dequeue() (coordinate, error)
@@ -443,4 +450,153 @@ func determineAncestry(root, descendant *TreeNode) ancestry {
 
 	return lineage
 
+}
+
+func Shuffle(value int) int {
+	digits := getDigits(value)
+
+	var buf bytes.Buffer
+
+	front, back := len(digits)-1, 0
+
+	for back < front {
+		frontDigit := strconv.Itoa(digits[front])
+		backDigit := strconv.Itoa(digits[back])
+
+		buf.WriteString(frontDigit)
+		buf.WriteString(backDigit)
+
+		front--
+		back++
+	}
+
+	if buf.Len() < len(digits) {
+		middleDigit := strconv.Itoa(digits[front])
+		buf.WriteString(middleDigit)
+	}
+
+	shuffled, _ := strconv.Atoi(buf.String())
+	return shuffled
+}
+
+func getDigits(value int) []int {
+	var digits []int
+
+	for value > 0 {
+		digit := value % 10
+		digits = append(digits, digit)
+		value = value / 10
+	}
+
+	return digits
+}
+
+func DetermineTravelFees(starts, dests, limits []int) int {
+	var totalFees int
+
+	largestStationVisited := math.MinInt
+
+	for trip := range starts {
+		start, destination := starts[trip], dests[trip]
+
+		if start > largestStationVisited {
+			largestStationVisited = start
+		}
+		if destination > largestStationVisited {
+			largestStationVisited = destination
+		}
+
+		fee := quoteTrip(start, destination)
+
+		totalFees += fee
+	}
+
+	feeCap := limits[largestStationVisited]
+
+	if totalFees > feeCap {
+		totalFees = feeCap
+	}
+
+	return totalFees
+}
+
+func quoteTrip(start, destination int) int {
+	return 1 + 2*abs(start-destination)
+}
+
+func abs(value int) int {
+	if value < 0 {
+		return -value
+	}
+
+	return value
+}
+
+func MostInclusiveCircle(S string, X, Y []int) int {
+	var points []point
+	var pointsInCircle []point
+
+	for i, tag := range S {
+		points = append(points, point{x: X[i], y: Y[i], tag: tag})
+	}
+
+	// Let's Draw the Most Inclusive (i.e. largest) circle
+	// then shrink it by determining if there are any duplicate tags present
+	radius := distanceToFarthestPoint(points)
+
+	for radius >= 0 {
+		pointsInCircle = findPointsInCircle(points, radius)
+
+		if !containsDuplicateTags(pointsInCircle) {
+			return len(pointsInCircle)
+		}
+
+		radius = radius - .5
+	}
+
+	return len(pointsInCircle)
+}
+
+func distanceToFarthestPoint(points []point) float64 {
+	var maxDistance float64
+
+	for _, point := range points {
+		distance := distanceFromOrigin(point)
+
+		if distance > maxDistance {
+			maxDistance = distance
+		}
+	}
+
+	return maxDistance
+}
+
+func distanceFromOrigin(p point) float64 {
+	return math.Sqrt(float64(p.x*p.x + p.y + p.y))
+}
+
+func findPointsInCircle(points []point, r float64) []point {
+	onCircle := []point{}
+
+	for _, point := range points {
+		if float64(point.x*point.x+point.y*point.y) <= r*r {
+			onCircle = append(onCircle, point)
+		}
+	}
+
+	return onCircle
+}
+
+func containsDuplicateTags(points []point) bool {
+	tags := map[rune]struct{}{}
+
+	for _, point := range points {
+		if _, seen := tags[point.tag]; !seen {
+			tags[point.tag] = struct{}{}
+		} else {
+			return true
+		}
+	}
+
+	return false
 }

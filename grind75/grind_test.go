@@ -283,3 +283,107 @@ func TestLowestCommonAncestor(t *testing.T) {
 	actual := lowestCommonAncestor(&five, &one, &four)
 	assert.Equal(t, &three, actual)
 }
+
+func TestShuffle(t *testing.T) {
+	cases := []struct {
+		given, expected int
+	}{
+		{
+			123456,
+			162534,
+		},
+		{
+			130,
+			103,
+		},
+		{
+			1234,
+			1423,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("Shuffle(%v)", tc.given), func(t *testing.T) {
+			actual := Shuffle(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestDetermineTravelFees(t *testing.T) {
+	cases := []struct {
+		given struct {
+			starts, dests, limits []int
+		}
+		expected int
+	}{
+		{
+			struct {
+				starts, dests, limits []int
+			}{
+				[]int{1, 0, 2, 4},
+				[]int{2, 2, 0, 5},
+				[]int{3, 17, 7, 4, 5, 17},
+			},
+			16,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("DetermineTravelFees(%v, %v, %v)", tc.given.starts, tc.given.dests, tc.given.limits), func(t *testing.T) {
+			actual := DetermineTravelFees(tc.given.starts, tc.given.dests, tc.given.limits)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestMostInclusiveCircle(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s    string
+			x, y []int
+		}
+		expected int
+	}{
+		{
+			struct {
+				s    string
+				x, y []int
+			}{
+				"ABDCA",
+				[]int{2, -1, -4, -3, 3},
+				[]int{2, -2, -4, 1, -3},
+			},
+			3,
+		},
+		{
+			struct {
+				s    string
+				x, y []int
+			}{
+				"ABB",
+				[]int{1, -2, -2},
+				[]int{1, -2, -2},
+			},
+			1,
+		},
+		{
+			struct {
+				s    string
+				x, y []int
+			}{
+				"CCD",
+				[]int{1, -1, 2},
+				[]int{1, -1, -2},
+			},
+			0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("MostInclusiveCircle(%v, %v, %v)", tc.given.s, tc.given.x, tc.given.y), func(t *testing.T) {
+			actual := MostInclusiveCircle(tc.given.s, tc.given.x, tc.given.y)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
