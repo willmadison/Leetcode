@@ -444,3 +444,71 @@ func determineAncestry(root, descendant *TreeNode) ancestry {
 	return lineage
 
 }
+
+// https://leetcode.com/problems/balanced-binary-tree
+func isBalanced(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+
+	leftDepth := maxDepth(root.Left)
+	rightDepth := maxDepth(root.Right)
+
+	if abs(leftDepth-rightDepth) > 1 {
+		return false
+	}
+
+	return isBalanced(root.Left) && isBalanced(root.Right)
+}
+
+func maxDepth(node *TreeNode) int {
+	if node == nil {
+		return 0
+	}
+
+	return 1 + max(maxDepth(node.Left), maxDepth(node.Right))
+}
+
+func max(a, b int) int {
+	if a < b {
+		return b
+	}
+
+	return a
+}
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+
+	return a
+}
+
+// https://leetcode.com/problems/linked-list-cycle/
+func hasCycle(head *ListNode) bool {
+	if head == nil {
+		return false
+	}
+
+	slow := head
+	fast := head.Next
+	if fast != nil {
+		fast = fast.Next
+	}
+
+	for fast != nil && slow != nil {
+		if fast == slow {
+			return true
+		}
+
+		fast = fast.Next
+		if fast != nil {
+			fast = fast.Next
+		}
+
+		slow = slow.Next
+	}
+
+	return false
+}

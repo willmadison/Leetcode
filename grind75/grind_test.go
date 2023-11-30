@@ -283,3 +283,29 @@ func TestLowestCommonAncestor(t *testing.T) {
 	actual := lowestCommonAncestor(&five, &one, &four)
 	assert.Equal(t, &three, actual)
 }
+
+func TestHasCycle(t *testing.T) {
+	negativeFour := ListNode{Val: -4}
+	zero := ListNode{Val: 0, Next: &negativeFour}
+	two := ListNode{Val: 2, Next: &zero}
+	negativeFour.Next = &two
+	three := ListNode{Val: 3, Next: &two}
+	cases := []struct {
+		given    *ListNode
+		scenario string
+		expected bool
+	}{
+		{
+			given:    &three,
+			scenario: "cycle present",
+			expected: true,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.scenario, func(t *testing.T) {
+			actual := hasCycle(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
