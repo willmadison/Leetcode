@@ -37,6 +37,27 @@ class Solution : VersionControl() {
         return true
     }
 
+    // https://leetcode.com/problems/two-sum/
+    fun twoSum(nums: IntArray, target: Int): IntArray {
+        val indiciesByValue = mutableMapOf<Int, MutableList<Int>>()
+
+        for (i in nums.indices) {
+            val indicies = indiciesByValue.getOrDefault(nums[i], mutableListOf<Int>())
+            indicies.add(i)
+            indiciesByValue[nums[i]] = indicies
+        }
+
+        for (i in nums.indices) {
+            val complement = target - nums[i]
+            val indicies = indiciesByValue.getOrDefault(complement, mutableListOf<Int>())
+
+            if (indicies.size > 0 &&  i != indicies[0]) {
+                return intArrayOf(i, indicies[0])
+            }
+        }
+
+        return intArrayOf()
+    }
 }
 
 open class VersionControl {
