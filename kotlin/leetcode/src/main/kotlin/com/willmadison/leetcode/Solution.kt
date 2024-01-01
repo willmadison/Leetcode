@@ -1,6 +1,7 @@
 package com.willmadison.leetcode
 
 import java.lang.Integer.max
+import java.util.*
 import kotlin.math.pow
 
 class Solution : VersionControl() {
@@ -161,12 +162,130 @@ class Solution : VersionControl() {
             val complement = target - nums[i]
             val indicies = indiciesByValue.getOrDefault(complement, mutableListOf<Int>())
 
-            if (indicies.size > 0 &&  i != indicies[0]) {
+            if (indicies.size > 0 && i != indicies[0]) {
                 return intArrayOf(i, indicies[0])
             }
         }
 
         return intArrayOf()
+    }
+
+    // https://leetcode.com/problems/reverse-linked-list/
+    fun reverseList(head: ListNode?): ListNode? {
+        val stack = Stack<ListNode?>()
+
+        if (head?.next == null) {
+            return head
+        }
+
+        var current = head
+
+        while (current != null) {
+            stack.push(current)
+            current = current.next
+        }
+
+        val newHead = stack.pop()
+
+        current = newHead
+
+        while (!stack.isEmpty()) {
+            current?.next = stack.pop()
+            current = current?.next
+        }
+
+        current?.next = null
+
+        return newHead
+    }
+
+    // https://leetcode.com/problems/majority-element/
+    fun majorityElement(nums: IntArray): Int {
+        val occurrencesByValue = nums.asIterable().groupingBy { it }.eachCount()
+
+        return occurrencesByValue.entries.find { it.value > nums.size / 2 }!!.key
+    }
+
+    // https://leetcode.com/problems/add-binary/
+    fun addBinary(a: String, b: String): String {
+        var carry = 0
+
+        val aDigits = ArrayDeque<Char>()
+        val bDigits = ArrayDeque<Char>()
+        val resultDigits = ArrayDeque<Char>()
+
+        for (c in a) {
+            aDigits.add(c)
+        }
+
+        for (c in b) {
+            bDigits.add(c)
+        }
+
+        val ZERO = '0'
+        val ONE = '1'
+
+        while (!aDigits.isEmpty() || !bDigits.isEmpty()) {
+            var aDigit = '0'
+            var bDigit = '0'
+
+            if (!aDigits.isEmpty())  {
+                aDigit = aDigits.removeLast()
+            }
+
+            if (!bDigits.isEmpty())  {
+                bDigit = bDigits.removeLast()
+            }
+
+            var resultDigit: Int
+
+            val addends = Pair(aDigit, bDigit)
+
+            when (addends) {
+                '1' to '1' -> {
+                    resultDigit = 0
+
+                    if (carry == 1) {
+                        resultDigit = 1
+                    }
+
+                    carry = 1
+                }
+                '0' to '0' -> {
+                    resultDigit = 0
+
+                    if (carry == 1) {
+                        resultDigit = 1
+                    }
+
+                    carry = 0
+                }
+                else -> {
+                    resultDigit = 1
+
+                    if (carry == 1) {
+                        resultDigit = 0
+                    }
+                }
+            }
+
+            when (resultDigit) {
+                1 -> resultDigits.addFirst(ONE)
+                0 -> resultDigits.addFirst(ZERO)
+            }
+        }
+
+        if (carry == 1) {
+            resultDigits.addFirst(ONE)
+        }
+
+        val resultSb = StringBuilder()
+
+        for (c in resultDigits) {
+            resultSb.append(c)
+        }
+
+        return resultSb.toString()
     }
 }
 
@@ -177,3 +296,5 @@ open class VersionControl {
         return version >= firstBad
     }
 }
+
+class ListNode(var `val`: Int, var next: ListNode? = null)

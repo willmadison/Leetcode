@@ -69,7 +69,23 @@ class SolutionTests {
         fun addendProvider(): Stream<Arguments> {
             return Stream.of(
                     Arguments.of(intArrayOf(2, 7, 11, 15), 9, intArrayOf(0, 1)),
-                    Arguments.of(intArrayOf(3,2,4), 6, intArrayOf(1, 2)),
+                    Arguments.of(intArrayOf(3, 2, 4), 6, intArrayOf(1, 2)),
+            )
+        }
+
+        @JvmStatic
+        fun elementProvider(): Stream<Arguments> {
+            return Stream.of(
+                    Arguments.of(intArrayOf(3, 2, 3), 3),
+                    Arguments.of(intArrayOf(2, 2, 1, 1, 1, 2, 2), 2),
+            )
+        }
+
+        @JvmStatic
+        fun binaryAddendProvider(): Stream<Arguments> {
+            return Stream.of(
+                    Arguments.of("11", "1", "100"),
+                    Arguments.of("1010", "1011", "10101"),
             )
         }
     }
@@ -139,6 +155,20 @@ class SolutionTests {
     fun twoSum(nums: IntArray, target: Int, expected: IntArray) {
         val actual = solution.twoSum(nums, target)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "majorityElement({0}, {1})")
+    @MethodSource("elementProvider")
+    fun majorityElement(nums: IntArray, expected: Int) {
+        val actual = solution.majorityElement(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "addBinary({0}, {1}) = {2}")
+    @MethodSource("binaryAddendProvider")
+    fun addBinary(a: String, b: String, expected: String) {
+        val actual = solution.addBinary(a, b)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
