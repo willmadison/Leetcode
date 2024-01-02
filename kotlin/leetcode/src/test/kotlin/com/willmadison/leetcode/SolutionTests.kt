@@ -159,6 +159,34 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun pointProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 3),
+                        intArrayOf(-2, 2),
+                    ),
+                    1,
+                    arrayOf(
+                        intArrayOf(-2, 2),
+                    )
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(3, 3),
+                        intArrayOf(5, -1),
+                        intArrayOf(-2, 4),
+                    ),
+                    2,
+                    arrayOf(
+                        intArrayOf(3, 3),
+                        intArrayOf(-2, 4),
+                    )
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -267,6 +295,13 @@ class SolutionTests {
     @MethodSource("matrixProvider")
     fun updateMatrix(matrix: Array<IntArray>, expected: Array<IntArray>) {
         val actual = solution.updateMatrix(matrix)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "kClosest({0}, {1}) = {2}")
+    @MethodSource("pointProvider")
+    fun kClosest(points: Array<IntArray>, k: Int, expected: Array<IntArray>) {
+        val actual = solution.kClosest(points, k)
         assertArrayEquals(expected, actual)
     }
 

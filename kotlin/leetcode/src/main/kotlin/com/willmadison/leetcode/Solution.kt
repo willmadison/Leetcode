@@ -4,6 +4,7 @@ import java.lang.Integer.max
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Solution : VersionControl() {
 
@@ -441,6 +442,18 @@ class Solution : VersionControl() {
         return updated.toTypedArray()
     }
 
+    // https://leetcode.com/problems/k-closest-points-to-origin/
+    fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {
+        points.sortBy {
+            Point(it[0], it[1]).distanceFrom()
+        }
+        return points.take(k).toTypedArray()
+    }
+
+    private data class Point(val x: Int, val y: Int) {
+        fun distanceFrom(other: Point = Point(0, 0)) =
+            sqrt(((other.x - this.x) * (other.x - this.x) + (other.y - this.y) * (other.y - this.y)).toDouble())
+    }
 
     private data class Location(val row: Int, val col: Int) {
         fun neighbors() = setOf(
