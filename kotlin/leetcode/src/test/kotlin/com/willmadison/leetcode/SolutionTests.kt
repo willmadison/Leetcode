@@ -19,73 +19,94 @@ class SolutionTests {
         @JvmStatic
         fun magazineSourceProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of("a", "b", false),
-                    Arguments.of("aa", "ab", false),
-                    Arguments.of("aa", "aab", true),
+                Arguments.of("a", "b", false),
+                Arguments.of("aa", "ab", false),
+                Arguments.of("aa", "aab", true),
             )
         }
 
         @JvmStatic
         fun testedDeviceProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(intArrayOf(1, 1, 2, 1, 3), 3),
-                    Arguments.of(intArrayOf(0, 1, 2), 2),
+                Arguments.of(intArrayOf(1, 1, 2, 1, 3), 3),
+                Arguments.of(intArrayOf(0, 1, 2), 2),
             )
         }
 
         @JvmStatic
         fun variablesProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(arrayOf(intArrayOf(2, 3, 3, 10), intArrayOf(3, 3, 3, 1), intArrayOf(6, 1, 1, 4)), 2, listOf<Int>(0, 2)),
-                    Arguments.of(arrayOf(intArrayOf(39, 3, 1000, 1000)), 17, listOf<Int>()),
+                Arguments.of(
+                    arrayOf(intArrayOf(2, 3, 3, 10), intArrayOf(3, 3, 3, 1), intArrayOf(6, 1, 1, 4)),
+                    2,
+                    listOf<Int>(0, 2)
+                ),
+                Arguments.of(arrayOf(intArrayOf(39, 3, 1000, 1000)), 17, listOf<Int>()),
             )
         }
 
         @JvmStatic
         fun subarraysProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(intArrayOf(1, 3, 2, 3, 3), 2, 6L),
-                    Arguments.of(intArrayOf(1, 4, 2, 1), 3, 0L),
+                Arguments.of(intArrayOf(1, 3, 2, 3, 3), 2, 6L),
+                Arguments.of(intArrayOf(1, 4, 2, 1), 3, 0L),
             )
         }
 
         @JvmStatic
         fun stairProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(2, 2),
-                    Arguments.of(3, 3),
+                Arguments.of(2, 2),
+                Arguments.of(3, 3),
             )
         }
 
         @JvmStatic
         fun palindromeProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of("abccccdd", 7),
-                    Arguments.of("a", 1),
+                Arguments.of("abccccdd", 7),
+                Arguments.of("a", 1),
             )
         }
 
         @JvmStatic
         fun addendProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(intArrayOf(2, 7, 11, 15), 9, intArrayOf(0, 1)),
-                    Arguments.of(intArrayOf(3, 2, 4), 6, intArrayOf(1, 2)),
+                Arguments.of(intArrayOf(2, 7, 11, 15), 9, intArrayOf(0, 1)),
+                Arguments.of(intArrayOf(3, 2, 4), 6, intArrayOf(1, 2)),
             )
         }
 
         @JvmStatic
         fun elementProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(intArrayOf(3, 2, 3), 3),
-                    Arguments.of(intArrayOf(2, 2, 1, 1, 1, 2, 2), 2),
+                Arguments.of(intArrayOf(3, 2, 3), 3),
+                Arguments.of(intArrayOf(2, 2, 1, 1, 1, 2, 2), 2),
             )
         }
 
         @JvmStatic
         fun binaryAddendProvider(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of("11", "1", "100"),
-                    Arguments.of("1010", "1011", "10101"),
+                Arguments.of("11", "1", "100"),
+                Arguments.of("1010", "1011", "10101"),
+            )
+        }
+
+        @JvmStatic
+        fun duplicatesProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(intArrayOf(1, 2, 3, 1), true),
+                Arguments.of(intArrayOf(1, 2, 3, 4), false),
+            )
+        }
+
+        @JvmStatic
+        fun subArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(intArrayOf(-2, 1, -3, 4, -1, 2, 1, -5, 4), 6),
+                Arguments.of(intArrayOf(1), 1),
+                Arguments.of(intArrayOf(5,4,-1,7,8), 23),
             )
         }
     }
@@ -168,6 +189,20 @@ class SolutionTests {
     @MethodSource("binaryAddendProvider")
     fun addBinary(a: String, b: String, expected: String) {
         val actual = solution.addBinary(a, b)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "containsDuplicate({0}) = {1}")
+    @MethodSource("duplicatesProvider")
+    fun containsDuplicate(nums: IntArray, expected: Boolean) {
+        val actual = solution.containsDuplicate(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maxSubArray({0}) = {1}")
+    @MethodSource("subArrayProvider")
+    fun maxSubArray(nums: IntArray, expected: Int) {
+        val actual = solution.maxSubArray(nums)
         assertEquals(expected, actual)
     }
 

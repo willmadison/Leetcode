@@ -287,6 +287,72 @@ class Solution : VersionControl() {
 
         return resultSb.toString()
     }
+
+    // https://leetcode.com/problems/diameter-of-binary-tree/
+    var maxHeight = 0
+    fun diameterOfBinaryTree(root: TreeNode?): Int {
+        maxHeight = 1
+        calculateHeight(root)
+        return maxHeight - 1
+    }
+
+    private fun calculateHeight(node: TreeNode?): Int {
+        if (node == null) {
+            return 0
+        }
+
+        val leftHeight = calculateHeight(node.left)
+        val rightHeight = calculateHeight(node.right)
+        maxHeight = max(maxHeight, leftHeight+rightHeight+1)
+
+        return max(leftHeight, rightHeight) + 1
+    }
+
+    // https://leetcode.com/problems/middle-of-the-linked-list/
+    fun middleNode(head: ListNode?): ListNode? {
+        var slow = head
+        var fast = head
+
+        while (fast?.next != null) {
+            fast = fast.next
+
+            if (fast?.next != null) {
+                fast = fast?.next
+            }
+
+            slow = slow?.next
+        }
+
+        return slow
+    }
+
+    // https://leetcode.com/problems/maximum-depth-of-binary-tree/
+    fun maxDepth(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        }
+
+        return max(maxDepth(root.left), maxDepth(root.right)) + 1
+    }
+
+    // https://leetcode.com/problems/contains-duplicate
+    fun containsDuplicate(nums: IntArray): Boolean {
+        return nums.asIterable().groupingBy { it }.eachCount().any { it.value >= 2}
+    }
+
+    // https://leetcode.com/problems/maximum-subarray/
+    fun maxSubArray(nums: IntArray): Int {
+        var maxSum = Int.MIN_VALUE
+        var sum = Int.MIN_VALUE
+
+        for (v in nums) {
+            sum = max(0, sum)
+            sum += v
+            maxSum = max(sum, maxSum)
+        }
+
+        return maxSum
+    }
 }
 
 open class VersionControl {
@@ -298,3 +364,5 @@ open class VersionControl {
 }
 
 class ListNode(var `val`: Int, var next: ListNode? = null)
+
+class TreeNode(var `val`: Int, var left: TreeNode? = null, var right: TreeNode? = null)
