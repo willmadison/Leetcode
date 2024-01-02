@@ -106,7 +106,27 @@ class SolutionTests {
             return Stream.of(
                 Arguments.of(intArrayOf(-2, 1, -3, 4, -1, 2, 1, -5, 4), 6),
                 Arguments.of(intArrayOf(1), 1),
-                Arguments.of(intArrayOf(5,4,-1,7,8), 23),
+                Arguments.of(intArrayOf(5, 4, -1, 7, 8), 23),
+            )
+        }
+
+        @JvmStatic
+        fun intervalProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(intArrayOf(1, 3), intArrayOf(6, 9)),
+                    intArrayOf(2, 5),
+                    arrayOf(intArrayOf(1, 5), intArrayOf(6, 9))
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2),
+                        intArrayOf(3, 5),
+                        intArrayOf(6, 7),
+                        intArrayOf(8, 10),
+                        intArrayOf(12, 16)
+                    ), intArrayOf(4, 8), arrayOf(intArrayOf(1, 2), intArrayOf(3, 10), intArrayOf(12, 16))
+                ),
             )
         }
     }
@@ -204,6 +224,13 @@ class SolutionTests {
     fun maxSubArray(nums: IntArray, expected: Int) {
         val actual = solution.maxSubArray(nums)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "insert({0}, {1}) = {2}")
+    @MethodSource("intervalProvider")
+    fun insert(intervals: Array<IntArray>, newInterval: IntArray, expected: Array<IntArray>) {
+        val actual = solution.insert(intervals, newInterval)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach

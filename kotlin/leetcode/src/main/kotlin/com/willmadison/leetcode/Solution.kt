@@ -125,7 +125,8 @@ class Solution : VersionControl() {
         var length = 0
         val occurrencesByCharacter = value.groupingBy { it }.eachCount().toMutableMap()
 
-        var mostFrequentCharacterEntry = occurrencesByCharacter.filter { it.value == occurrencesByCharacter.values.max() }
+        var mostFrequentCharacterEntry =
+            occurrencesByCharacter.filter { it.value == occurrencesByCharacter.values.max() }
 
         while (mostFrequentCharacterEntry.all { it.value > 1 }) {
             for (entry in mostFrequentCharacterEntry) {
@@ -137,7 +138,8 @@ class Solution : VersionControl() {
                     occurrencesByCharacter[entry.key] = 1
                 }
 
-                mostFrequentCharacterEntry = occurrencesByCharacter.filter { it.value == occurrencesByCharacter.values.max() }
+                mostFrequentCharacterEntry =
+                    occurrencesByCharacter.filter { it.value == occurrencesByCharacter.values.max() }
             }
         }
 
@@ -229,11 +231,11 @@ class Solution : VersionControl() {
             var aDigit = '0'
             var bDigit = '0'
 
-            if (!aDigits.isEmpty())  {
+            if (!aDigits.isEmpty()) {
                 aDigit = aDigits.removeLast()
             }
 
-            if (!bDigits.isEmpty())  {
+            if (!bDigits.isEmpty()) {
                 bDigit = bDigits.removeLast()
             }
 
@@ -251,6 +253,7 @@ class Solution : VersionControl() {
 
                     carry = 1
                 }
+
                 '0' to '0' -> {
                     resultDigit = 0
 
@@ -260,6 +263,7 @@ class Solution : VersionControl() {
 
                     carry = 0
                 }
+
                 else -> {
                     resultDigit = 1
 
@@ -303,7 +307,7 @@ class Solution : VersionControl() {
 
         val leftHeight = calculateHeight(node.left)
         val rightHeight = calculateHeight(node.right)
-        maxHeight = max(maxHeight, leftHeight+rightHeight+1)
+        maxHeight = max(maxHeight, leftHeight + rightHeight + 1)
 
         return max(leftHeight, rightHeight) + 1
     }
@@ -337,7 +341,7 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/contains-duplicate
     fun containsDuplicate(nums: IntArray): Boolean {
-        return nums.asIterable().groupingBy { it }.eachCount().any { it.value >= 2}
+        return nums.asIterable().groupingBy { it }.eachCount().any { it.value >= 2 }
     }
 
     // https://leetcode.com/problems/maximum-subarray/
@@ -353,6 +357,43 @@ class Solution : VersionControl() {
 
         return maxSum
     }
+
+    // https://leetcode.com/problems/insert-interval/
+    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
+        val overlappingIntervals = intervals.filter { it.overlaps(newInterval) }.toSet()
+
+        val merged = merge(newInterval, overlappingIntervals)
+
+        val fullyMerged = mutableListOf(merged)
+
+        for (interval in intervals) {
+            if (!overlappingIntervals.contains(interval)) {
+                fullyMerged.add(interval)
+            }
+        }
+
+        fullyMerged.sortBy { it[0] }
+
+        return fullyMerged.toTypedArray()
+    }
+
+    private fun merge(interval: IntArray, overlappingIntervals: Collection<IntArray>): IntArray {
+        val starts = mutableListOf<Int>(interval[0])
+        val ends = mutableListOf<Int>(interval[1])
+
+        for (i in overlappingIntervals) {
+            starts.add(i[0])
+            ends.add(i[1])
+        }
+
+        return intArrayOf(starts.min(), ends.max())
+    }
+
+    private fun IntArray.overlaps(other: IntArray) =
+        other[0] <= this[0] && this[0] <= other[1] ||
+        other[0] <= this[1] && this[1] <= other[1] ||
+        this[0] <= other[0] && other[0] <= this[1] ||
+        this[0] <= other[1] && other[1] <= this[1]
 }
 
 open class VersionControl {
