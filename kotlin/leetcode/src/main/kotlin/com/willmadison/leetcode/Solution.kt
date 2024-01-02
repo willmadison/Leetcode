@@ -2,6 +2,7 @@ package com.willmadison.leetcode
 
 import java.lang.Integer.max
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.pow
 
 class Solution : VersionControl() {
@@ -391,9 +392,66 @@ class Solution : VersionControl() {
 
     private fun IntArray.overlaps(other: IntArray) =
         other[0] <= this[0] && this[0] <= other[1] ||
-        other[0] <= this[1] && this[1] <= other[1] ||
-        this[0] <= other[0] && other[0] <= this[1] ||
-        this[0] <= other[1] && other[1] <= this[1]
+                other[0] <= this[1] && this[1] <= other[1] ||
+                this[0] <= other[0] && other[0] <= this[1] ||
+                this[0] <= other[1] && other[1] <= this[1]
+
+    // https://leetcode.com/problems/01-matrix/
+    fun updateMatrix(matrix: Array<IntArray>): Array<IntArray> {
+        val zeroes = mutableSetOf<Location>()
+        val locationsToUpdate = ArrayDeque<Location>()
+
+        val updated = mutableListOf<IntArray>()
+
+        for (row in matrix.indices) {
+            val values = mutableListOf<Int>()
+            for (col in 0..<matrix[0].size) {
+                if (matrix[row][col] == 0) {
+                    values.add(0)
+                    zeroes.add(Location(row, col))
+                } else {
+                    values.add(1)
+                    locationsToUpdate.add(Location(row, col))
+                }
+            }
+
+            updated.add(values.toIntArray())
+        }
+
+        while (locationsToUpdate.isNotEmpty()) {
+            val location = locationsToUpdate.pop()
+            val validNeighbors = location.neighbors()
+                .filter { it.row >= 0 && it.row < matrix.size && it.col >= 0 && it.col < matrix[0].size }
+
+            var locationUpdated = false
+
+            for (neighbor in validNeighbors) {
+                if (zeroes.contains(neighbor)) {
+                    updated[location.row][location.col] = 1
+                    locationUpdated = true
+                }
+            }
+
+            if (!locationUpdated) {
+                val nearest = zeroes.minBy { it.manhattanDistance(location) }
+                updated[location.row][location.col] = location.manhattanDistance(nearest)
+            }
+        }
+
+        return updated.toTypedArray()
+    }
+
+
+    private data class Location(val row: Int, val col: Int) {
+        fun neighbors() = setOf(
+            Location(this.row - 1, this.col),
+            Location(this.row, this.col + 1),
+            Location(this.row + 1, this.col),
+            Location(this.row, this.col - 1),
+        )
+
+        fun manhattanDistance(other: Location) = abs(this.row - other.row) + abs(this.col - other.col)
+    }
 }
 
 open class VersionControl {

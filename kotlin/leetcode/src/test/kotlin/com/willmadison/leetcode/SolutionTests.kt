@@ -129,6 +129,36 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun matrixProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0, 0),
+                        intArrayOf(0, 1, 0),
+                        intArrayOf(0, 0, 0),
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 0, 0),
+                        intArrayOf(0, 1, 0),
+                        intArrayOf(0, 0, 0),
+                    )
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0, 0),
+                        intArrayOf(0, 1, 0),
+                        intArrayOf(1, 1, 1),
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 0, 0),
+                        intArrayOf(0, 1, 0),
+                        intArrayOf(1, 2, 1),
+                    )
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -230,6 +260,13 @@ class SolutionTests {
     @MethodSource("intervalProvider")
     fun insert(intervals: Array<IntArray>, newInterval: IntArray, expected: Array<IntArray>) {
         val actual = solution.insert(intervals, newInterval)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "updateMatrix({0}) = {1}")
+    @MethodSource("matrixProvider")
+    fun updateMatrix(matrix: Array<IntArray>, expected: Array<IntArray>) {
+        val actual = solution.updateMatrix(matrix)
         assertArrayEquals(expected, actual)
     }
 
