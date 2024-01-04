@@ -450,6 +450,27 @@ class Solution : VersionControl() {
         return points.take(k).toTypedArray()
     }
 
+    // https://leetcode.com/problems/longest-substring-without-repeating-characters/
+    fun lengthOfLongestSubstring(s: String): Int {
+        var maxLength = 0
+
+        val charactersSeen = mutableSetOf<Char>()
+        var start = 0
+
+        for ((end, character) in s.withIndex()) {
+            while (charactersSeen.contains(character) && start < s.length) {
+                charactersSeen.remove(s[start])
+                start++
+            }
+
+            charactersSeen.add(character)
+
+            maxLength = max(maxLength, end-start+1)
+        }
+
+        return maxLength
+    }
+
     private data class Point(val x: Int, val y: Int) {
         fun distanceFrom(other: Point = Point(0, 0)) =
             sqrt(((other.x - this.x) * (other.x - this.x) + (other.y - this.y) * (other.y - this.y)).toDouble())

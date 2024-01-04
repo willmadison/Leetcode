@@ -187,6 +187,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun substringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcabcbb",
+                    3,
+                ),
+                Arguments.of(
+                    "bbbbb",
+                    1,
+                ),
+                Arguments.of(
+                    "pwwkew",
+                    3,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -303,6 +321,13 @@ class SolutionTests {
     fun kClosest(points: Array<IntArray>, k: Int, expected: Array<IntArray>) {
         val actual = solution.kClosest(points, k)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "lengthOfLongestSubstring({0}) = {1}")
+    @MethodSource("substringProvider")
+    fun lengthOfLongestSubstring(s: String, expected: Int) {
+        val actual = solution.lengthOfLongestSubstring(s)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
