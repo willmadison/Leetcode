@@ -465,7 +465,7 @@ class Solution : VersionControl() {
 
             charactersSeen.add(character)
 
-            maxLength = max(maxLength, end-start+1)
+            maxLength = max(maxLength, end - start + 1)
         }
 
         return maxLength
@@ -486,6 +486,73 @@ class Solution : VersionControl() {
 
         fun manhattanDistance(other: Location) = abs(this.row - other.row) + abs(this.col - other.col)
     }
+
+    data class NodeLevel(val node: TreeNode, val level: Int)
+
+    // https://leetcode.com/problems/binary-tree-level-order-traversal/description/
+    fun levelOrder(root: TreeNode?): List<List<Int>> {
+        val nodesByLevel = mutableMapOf<Int, MutableList<TreeNode>>()
+
+        val queue = ArrayDeque<NodeLevel>();
+
+        if (root != null) {
+            queue.offer(NodeLevel(root, 0));
+        }
+
+        while (!queue.isEmpty()) {
+            val current = queue.poll();
+
+            val nodesAtLevel = nodesByLevel.getOrDefault(current.level, mutableListOf())
+
+            nodesAtLevel.add(current.node)
+
+            nodesByLevel[current.level] = nodesAtLevel
+
+            if (current.node.left != null) {
+                queue.offer(NodeLevel(current.node.left!!, current.level + 1));
+            }
+            if (current.node.right != null) {
+                queue.offer(NodeLevel(current.node.right!!, current.level + 1));
+            }
+        }
+
+        val valuesByLevel = mutableListOf<List<Int>>()
+
+        for (nodes in nodesByLevel.values) {
+            val values = mutableListOf<Int>()
+
+            for (node in nodes) {
+                values.add(node.`val`)
+            }
+
+            valuesByLevel.add(values)
+        }
+
+        return valuesByLevel
+    }
+
+
+    // https://leetcode.com/problems/clone-graph
+    private val cache = mutableMapOf<Int, Node?>()
+
+    fun cloneGraph(node: Node?): Node? {
+        if (node == null) {
+            return null
+        }
+
+        if (cache.containsKey(node.`val`)) {
+            return cache[node.`val`]
+        }
+
+        val copy = Node(node.`val`)
+        cache[node.`val`] = copy
+
+        for (neighbor in node.neighbors) {
+            copy.neighbors.add(cloneGraph(neighbor))
+        }
+
+        return copy
+    }
 }
 
 open class VersionControl {
@@ -499,3 +566,5 @@ open class VersionControl {
 class ListNode(var `val`: Int, var next: ListNode? = null)
 
 class TreeNode(var `val`: Int, var left: TreeNode? = null, var right: TreeNode? = null)
+
+class Node(var `val`: Int, var neighbors: ArrayList<Node?> = ArrayList<Node?>())
