@@ -553,6 +553,115 @@ class Solution : VersionControl() {
 
         return copy
     }
+
+    // https://leetcode.com/problems/evaluate-reverse-polish-notation/
+    fun evalRPN(tokens: Array<String>): Int {
+        val stack = Stack<Int>()
+
+        for (token in tokens) {
+            when (token) {
+                "+" -> {
+                    val a = stack.pop()
+                    val b = stack.pop()
+                    stack.push(a + b)
+                }
+
+                "-" -> {
+                    val a = stack.pop()
+                    val b = stack.pop()
+                    stack.push(b - a)
+                }
+
+                "*" -> {
+                    val a = stack.pop()
+                    val b = stack.pop()
+                    stack.push(a * b)
+                }
+
+                "/" -> {
+                    val a = stack.pop()
+                    val b = stack.pop()
+                    stack.push(b / a)
+                }
+
+                else -> stack.push(token.toInt())
+            }
+        }
+
+        return stack.pop()
+    }
+
+    // https://leetcode.com/problems/longest-increasing-subsequence/
+    fun lengthOfLIS(nums: IntArray): Int {
+        val sequence = mutableListOf<Int>()
+
+        for (num in nums) {
+            var insertionPoint = sequence.binarySearch(num)
+            if (insertionPoint < 0) insertionPoint = -insertionPoint - 1
+            if (insertionPoint == sequence.size) sequence.add(num) else sequence[insertionPoint] = num
+        }
+
+        return sequence.size
+    }
+
+    // https://leetcode.com/problems/palindrome-number/
+    fun isPalindrome(x: Int): Boolean {
+        if (x < 0) {
+            return false
+        }
+
+        var value = x
+
+        val digits = mutableListOf<Int>()
+
+        while (value > 0) {
+            val digit = value % 10
+            digits.add(digit)
+            value /= 10
+        }
+
+        var start = 0
+        var end = digits.size-1
+
+        while (start <= end) {
+            if (digits[start] != digits[end]) {
+                return false
+            }
+
+            start++
+            end--
+        }
+
+        return true
+    }
+
+    // https://leetcode.com/problems/longest-common-prefix
+    fun longestCommonPrefix(words: Array<String>): String {
+        var end = 0
+
+        var sameCharacter = true
+
+        do {
+            if (words[0].isEmpty()) {
+                break
+            }
+
+            val c = words[0][end]
+
+            for (word in words) {
+                if (end >= word.length || word[end] != c) {
+                    sameCharacter = false
+                    break
+                }
+            }
+
+            if (sameCharacter) {
+                end++
+            }
+        } while (sameCharacter && end < words[0].length)
+
+        return words[0].substring(0..<end)
+    }
 }
 
 open class VersionControl {

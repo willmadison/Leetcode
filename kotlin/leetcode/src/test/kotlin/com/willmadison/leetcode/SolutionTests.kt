@@ -205,6 +205,78 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun tokenProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("2", "1", "+", "3", "*"),
+                    9,
+                ),
+                Arguments.of(
+                    arrayOf("4", "13", "5", "/", "+"),
+                    6,
+                ),
+                Arguments.of(
+                    arrayOf("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"),
+                    22,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subsequenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10, 9, 2, 5, 3, 7, 101, 18),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(0, 1, 0, 3, 2, 3),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(7, 7, 7, 7, 7, 7, 7),
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun palindromeNumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    121,
+                    true,
+                ),
+                Arguments.of(
+                    -121,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun prefixProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        "flower",
+                        "flow",
+                        "flight"
+                    ),
+                    "fl",
+                ),
+                Arguments.of(
+                    arrayOf(
+                        "dog",
+                        "racecar",
+                        "car"
+                    ),
+                    "",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -327,6 +399,34 @@ class SolutionTests {
     @MethodSource("substringProvider")
     fun lengthOfLongestSubstring(s: String, expected: Int) {
         val actual = solution.lengthOfLongestSubstring(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "evalRPN({0}) = {1}")
+    @MethodSource("tokenProvider")
+    fun evalRPN(tokens: Array<String>, expected: Int) {
+        val actual = solution.evalRPN(tokens)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "lengthOfLIS({0}) = {1}")
+    @MethodSource("subsequenceProvider")
+    fun lengthOfLIS(nums: IntArray, expected: Int) {
+        val actual = solution.lengthOfLIS(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "isPalindrome({0}) = {1}")
+    @MethodSource("palindromeNumProvider")
+    fun isPalindrome(x: Int, expected: Boolean) {
+        val actual = solution.isPalindrome(x)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "longestCommonPrefix({0}) = {1}")
+    @MethodSource("prefixProvider")
+    fun longestCommonPrefix(words: Array<String>, expected: String) {
+        val actual = solution.longestCommonPrefix(words)
         assertEquals(expected, actual)
     }
 
