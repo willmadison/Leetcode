@@ -277,6 +277,46 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun jobProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3,3),
+                    intArrayOf(3,4,5,6),
+                    intArrayOf(50,10,40,70),
+                    120
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,3,4,6),
+                    intArrayOf(3,5,10,6,9),
+                    intArrayOf(20,20,100,70,60),
+                    150
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1),
+                    intArrayOf(2,3,4),
+                    intArrayOf(5,6,4),
+                    6
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun keyboardProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcdefghijklmnopqrstuvwxyz",
+                    "cba",
+                    4,
+                ),
+                Arguments.of(
+                    "pqrstuvwxyzabcdefghijklmno",
+                    "leetcode",
+                    73,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -285,7 +325,7 @@ class SolutionTests {
     }
 
     @Test
-    @Disabled("disabled for now")
+    @Disabled
     fun firstBadVersion() {
         System.setProperty("FIRST_BAD_VERSION", "4")
 
@@ -319,7 +359,7 @@ class SolutionTests {
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
     @MethodSource("subarraysProvider")
-    @Disabled("disabled for now")
+    @Disabled
     fun countSubarrays(nums: IntArray, k: Int, expected: Long) {
         val actual = solution.countSubarrays(nums, k)
         assertEquals(expected, actual)
@@ -427,6 +467,21 @@ class SolutionTests {
     @MethodSource("prefixProvider")
     fun longestCommonPrefix(words: Array<String>, expected: String) {
         val actual = solution.longestCommonPrefix(words)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "jobScheduling({0}, {1}, {2}) = {3}")
+    @MethodSource("jobProvider")
+    @Disabled
+    fun jobScheduling(startTimes: IntArray, endTimes: IntArray, profits: IntArray, expected: Int) {
+        val actual = solution.jobScheduling(startTimes, endTimes, profits)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "calculateTime({0}, {1}) = {2}")
+    @MethodSource("keyboardProvider")
+    fun calculateTime(keyboard: String, word: String, expected: Int) {
+        val actual = solution.calculateTime(keyboard, word)
         assertEquals(expected, actual)
     }
 

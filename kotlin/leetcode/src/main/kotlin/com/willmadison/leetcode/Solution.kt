@@ -621,7 +621,7 @@ class Solution : VersionControl() {
         }
 
         var start = 0
-        var end = digits.size-1
+        var end = digits.size - 1
 
         while (start <= end) {
             if (digits[start] != digits[end]) {
@@ -661,6 +661,92 @@ class Solution : VersionControl() {
         } while (sameCharacter && end < words[0].length)
 
         return words[0].substring(0..<end)
+    }
+
+    // https://leetcode.com/problems/maximum-profit-in-job-scheduling/
+
+    private data class Job(val duration: IntRange, val profit: Int)
+
+    fun jobScheduling(startTimes: IntArray, endTimes: IntArray, profits: IntArray): Int {
+        var maxProfit = 0
+
+        val jobs = mutableListOf<Job>()
+
+        for ((i, startTime) in startTimes.withIndex()) {
+            val endTime = endTimes[i]
+            val profit = profits[i]
+
+            jobs.add(Job(IntRange(startTime, endTime), profit))
+        }
+
+        val batches = batchNonConcurrentJobs(jobs)
+
+        for (batch in batches.values) {
+            val totalProfit = batch.sumOf { it.profit }
+            maxProfit = max(totalProfit, maxProfit)
+        }
+
+        return maxProfit
+    }
+
+    private fun batchNonConcurrentJobs(jobs: MutableList<Job>): Map<UUID, Collection<Job>> {
+        val batchedNonConcurrentJobs = mutableMapOf<UUID, Collection<Job>>()
+
+        while (jobs.isNotEmpty()) {
+            val batchId = UUID.randomUUID()
+            val job = jobs.removeFirst()
+            val batch = mutableSetOf(job)
+
+            val nonConcurrentJobs = jobs.filter {
+                val intersection = job.duration.intersect(it.duration)
+                intersection.size <= 1
+            }
+
+            batch.addAll(nonConcurrentJobs)
+            jobs.removeAll(batch)
+
+            // Prune the least profitable job from this batch that is concurrent
+            // with another job in the batch and add it back to the job pool
+            var hasOverlap = batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null } != null
+
+            while (hasOverlap) {
+                val pruneCandidates = batch.filter { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null}.toMutableList()
+                pruneCandidates.sortBy { it.profit }
+
+                if (pruneCandidates.isNotEmpty()) {
+                    val leastProfitable = pruneCandidates.removeFirst()
+                    batch.remove(leastProfitable)
+                    jobs.add(leastProfitable)
+                }
+
+                 hasOverlap = batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null } != null
+            }
+
+            batchedNonConcurrentJobs[batchId] = batch
+        }
+
+        return batchedNonConcurrentJobs
+    }
+
+    // https://leetcode.com/problems/single-row-keyboard/
+    fun calculateTime(keyboard: String, word: String): Int {
+        var cost = 0
+
+        val locationByKey = mutableMapOf<Char, Int>()
+
+        for ((i, key) in keyboard.withIndex()) {
+            locationByKey[key] = i
+        }
+
+        var lastLocation = 0
+
+        for (char in word) {
+            val location = locationByKey[char]
+            cost += abs(lastLocation-location!!)
+            lastLocation = location
+        }
+
+        return cost
     }
 }
 
