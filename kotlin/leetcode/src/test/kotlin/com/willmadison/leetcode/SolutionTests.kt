@@ -317,6 +317,42 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun jumpProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,3,1,1,4),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(3,2,1,0,4),
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun parenthesisProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "()",
+                    true,
+                ),
+                Arguments.of(
+                    "()[]{}",
+                    true,
+                ),
+                Arguments.of(
+                    "(]",
+                    false,
+                ),
+                Arguments.of(
+                    "]",
+                    false,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -482,6 +518,20 @@ class SolutionTests {
     @MethodSource("keyboardProvider")
     fun calculateTime(keyboard: String, word: String, expected: Int) {
         val actual = solution.calculateTime(keyboard, word)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "canJump({0}) = {1}")
+    @MethodSource("jumpProvider")
+    fun canJump(nums: IntArray, expected: Boolean) {
+        val actual = solution.canJump(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "isValid({0}) = {1}")
+    @MethodSource("parenthesisProvider")
+    fun isValid(given: String, expected: Boolean) {
+        val actual = solution.isValid(given)
         assertEquals(expected, actual)
     }
 

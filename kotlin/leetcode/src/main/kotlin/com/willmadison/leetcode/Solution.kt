@@ -707,10 +707,13 @@ class Solution : VersionControl() {
 
             // Prune the least profitable job from this batch that is concurrent
             // with another job in the batch and add it back to the job pool
-            var hasOverlap = batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null } != null
+            var hasOverlap =
+                batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j } != null } != null
 
             while (hasOverlap) {
-                val pruneCandidates = batch.filter { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null}.toMutableList()
+                val pruneCandidates =
+                    batch.filter { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j } != null }
+                        .toMutableList()
                 pruneCandidates.sortBy { it.profit }
 
                 if (pruneCandidates.isNotEmpty()) {
@@ -719,7 +722,8 @@ class Solution : VersionControl() {
                     jobs.add(leastProfitable)
                 }
 
-                 hasOverlap = batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j} != null } != null
+                hasOverlap =
+                    batch.find { j -> batch.find { j.duration.intersect(it.duration).size > 1 && it != j } != null } != null
             }
 
             batchedNonConcurrentJobs[batchId] = batch
@@ -742,11 +746,57 @@ class Solution : VersionControl() {
 
         for (char in word) {
             val location = locationByKey[char]
-            cost += abs(lastLocation-location!!)
+            cost += abs(lastLocation - location!!)
             lastLocation = location
         }
 
         return cost
+    }
+
+    // https://leetcode.com/problems/jump-game/description/
+    fun canJump(nums: IntArray): Boolean {
+        var goal = nums.size - 1
+
+        for (i in nums.size - 2 downTo 0) {
+            if (i + nums[i] >= goal) {
+                goal = i
+            }
+        }
+
+        return goal == 0
+    }
+
+    fun isValid(s: String): Boolean {
+        val openingParenByClosingParen = mapOf(
+            ')' to '(',
+            ']' to '[',
+            '}' to '{',
+        )
+
+        val stack = Stack<Char>()
+
+        for (c in s) {
+            when (c) {
+                '(', '[', '{' -> stack.push(c)
+                else -> {
+                    if (stack.isEmpty()) {
+                        return false
+                    }
+
+                    val opening = openingParenByClosingParen[c]
+
+                    val top = stack.peek()
+
+                    if (top != opening) {
+                        return false
+                    }
+
+                    stack.pop()
+                }
+            }
+        }
+
+        return stack.isEmpty()
     }
 }
 
