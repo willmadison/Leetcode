@@ -353,6 +353,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun duplicateProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,1,2),
+                    2,
+                    intArrayOf(1,2),
+                ),
+                Arguments.of(
+                    intArrayOf(0,0,1,1,1,2,2,3,3,4),
+                    5,
+                    intArrayOf(0,1,2,3,4),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -533,6 +549,14 @@ class SolutionTests {
     fun isValid(given: String, expected: Boolean) {
         val actual = solution.isValid(given)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "removeDuplicates({0}) = ({1}, {2})")
+    @MethodSource("duplicateProvider")
+    fun removeDuplicates(nums: IntArray, expectedLength: Int, expectedArray: IntArray) {
+        val actual = solution.removeDuplicates(nums)
+        assertEquals(expectedLength, actual)
+        assertArrayEquals(expectedArray, nums.take(expectedLength).toIntArray())
     }
 
     @AfterEach

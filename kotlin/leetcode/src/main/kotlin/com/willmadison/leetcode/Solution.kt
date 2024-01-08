@@ -2,6 +2,7 @@ package com.willmadison.leetcode
 
 import java.lang.Integer.max
 import java.util.*
+import kotlin.collections.LinkedHashSet
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -766,6 +767,7 @@ class Solution : VersionControl() {
         return goal == 0
     }
 
+    // https://leetcode.com/problems/valid-parentheses/
     fun isValid(s: String): Boolean {
         val openingParenByClosingParen = mapOf(
             ')' to '(',
@@ -779,19 +781,11 @@ class Solution : VersionControl() {
             when (c) {
                 '(', '[', '{' -> stack.push(c)
                 else -> {
-                    if (stack.isEmpty()) {
-                        return false
-                    }
-
                     val opening = openingParenByClosingParen[c]
 
-                    val top = stack.peek()
-
-                    if (top != opening) {
+                    if (stack.isEmpty() || opening != stack.pop()) {
                         return false
                     }
-
-                    stack.pop()
                 }
             }
         }
@@ -812,6 +806,24 @@ class Solution : VersionControl() {
         }
 
         return rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high)
+    }
+
+    // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+    fun removeDuplicates(nums: IntArray): Int {
+        val uniques = LinkedHashSet<Int>()
+
+        for (num in nums) {
+            uniques.add(num)
+        }
+
+        val answer = uniques.size
+
+        for (i in 0 until uniques.size) {
+            nums[i] = uniques.first()
+            uniques.remove(nums[i])
+        }
+
+        return answer
     }
 }
 
