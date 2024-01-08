@@ -798,6 +798,21 @@ class Solution : VersionControl() {
 
         return stack.isEmpty()
     }
+
+    // https://leetcode.com/problems/range-sum-of-bst
+    fun rangeSumBST(root: TreeNode?, low: Int, high: Int): Int {
+        if (root == null) {
+            return 0
+        }
+
+        val range = IntRange(low, high)
+
+        if (range.contains(root.`val`)) {
+            return root.`val` + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high)
+        }
+
+        return rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high)
+    }
 }
 
 open class VersionControl {
