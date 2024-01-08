@@ -282,21 +282,21 @@ class SolutionTests {
         fun jobProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3,3),
-                    intArrayOf(3,4,5,6),
-                    intArrayOf(50,10,40,70),
+                    intArrayOf(1, 2, 3, 3),
+                    intArrayOf(3, 4, 5, 6),
+                    intArrayOf(50, 10, 40, 70),
                     120
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,3,4,6),
-                    intArrayOf(3,5,10,6,9),
-                    intArrayOf(20,20,100,70,60),
+                    intArrayOf(1, 2, 3, 4, 6),
+                    intArrayOf(3, 5, 10, 6, 9),
+                    intArrayOf(20, 20, 100, 70, 60),
                     150
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1),
-                    intArrayOf(2,3,4),
-                    intArrayOf(5,6,4),
+                    intArrayOf(1, 1, 1),
+                    intArrayOf(2, 3, 4),
+                    intArrayOf(5, 6, 4),
                     6
                 ),
             )
@@ -322,11 +322,11 @@ class SolutionTests {
         fun jumpProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,1,1,4),
+                    intArrayOf(2, 3, 1, 1, 4),
                     true,
                 ),
                 Arguments.of(
-                    intArrayOf(3,2,1,0,4),
+                    intArrayOf(3, 2, 1, 0, 4),
                     false,
                 ),
             )
@@ -358,14 +358,95 @@ class SolutionTests {
         fun duplicateProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,1,2),
+                    intArrayOf(1, 1, 2),
                     2,
-                    intArrayOf(1,2),
+                    intArrayOf(1, 2),
                 ),
                 Arguments.of(
-                    intArrayOf(0,0,1,1,1,2,2,3,3,4),
+                    intArrayOf(0, 0, 1, 1, 1, 2, 2, 3, 3, 4),
                     5,
-                    intArrayOf(0,1,2,3,4),
+                    intArrayOf(0, 1, 2, 3, 4),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun childrenProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(1, 1),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(1, 2),
+                    2,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun valueProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 3, 4, 1, 2, 3, 1),
+                    listOf(
+                        listOf(1, 2, 3, 4),
+                        listOf(1, 3),
+                        listOf(1),
+                    )
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4),
+                    listOf(
+                        listOf(1, 2, 3, 4),
+                    )
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun beamProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        "011001",
+                        "000000",
+                        "010100",
+                        "001000"
+                    ),
+                    8,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        "000",
+                        "111",
+                        "000"
+                    ),
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun operandProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,3,3,2,2,4,2,3,4),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(2,1,2,2,3,3),
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(3,3),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(14,12,14,14,12,14,14,12,12,12,12,14,14,12,14,14,14,12,12),
+                    7,
                 ),
             )
         }
@@ -557,6 +638,34 @@ class SolutionTests {
         val actual = solution.removeDuplicates(nums)
         assertEquals(expectedLength, actual)
         assertArrayEquals(expectedArray, nums.take(expectedLength).toIntArray())
+    }
+
+    @ParameterizedTest(name = "findContentChildren({0}, {1}) = {2}")
+    @MethodSource("childrenProvider")
+    fun findContentChildren(greeds: IntArray, cookies: IntArray, expected: Int) {
+        val actual = solution.findContentChildren(greeds, cookies)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findMatrix({0}) = {1}")
+    @MethodSource("valueProvider")
+    fun findMatrix(nums: IntArray, expected: List<List<Int>>) {
+        val actual = solution.findMatrix(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "numberOfBeams({0}) = {1}")
+    @MethodSource("beamProvider")
+    fun numberOfBeams(bank: Array<String>, expected: Int) {
+        val actual = solution.numberOfBeams(bank)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "minOperations({0}) = {1}")
+    @MethodSource("operandProvider")
+    fun minOperations(nums: IntArray, expected: Int) {
+        val actual = solution.minOperations(nums)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

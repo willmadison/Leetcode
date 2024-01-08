@@ -1,5 +1,6 @@
 package com.willmadison.leetcode
 
+import jakarta.annotation.Priority
 import java.lang.Integer.max
 import java.util.*
 import kotlin.collections.LinkedHashSet
@@ -824,6 +825,137 @@ class Solution : VersionControl() {
         }
 
         return answer
+    }
+
+    // https://leetcode.com/problems/assign-cookies
+    fun findContentChildren(greeds: IntArray, rawCookies: IntArray): Int {
+        var contents = 0
+
+        greeds.sort()
+        val cookies = rawCookies.toMutableList()
+        cookies.sort()
+
+        for (greediness in greeds) {
+            if (cookies.isEmpty()) {
+                break
+            }
+
+            try {
+                val cookie = cookies.first { it >= greediness }
+                cookies.remove(cookie)
+                contents++
+            } catch (ignore: NoSuchElementException) {
+            }
+
+        }
+
+        return contents
+    }
+
+    // https://leetcode.com/problems/convert-an-array-into-a-2d-array-with-conditions/
+    fun findMatrix(nums: IntArray): List<List<Int>> {
+        val matrix = mutableListOf<List<Int>>()
+        val minHeap = PriorityQueue(nums.toList())
+
+        val distribution = mutableListOf<LinkedHashSet<Int>>()
+
+        while (minHeap.isNotEmpty()) {
+            val min = minHeap.remove()
+
+            if (distribution.isEmpty()) {
+                distribution.add(LinkedHashSet())
+            }
+
+            var row: MutableSet<Int>? = null
+
+            for (r in distribution) {
+                if (!r.contains(min)) {
+                    row = r
+                    break
+                }
+            }
+
+            if (row == null) {
+                row = LinkedHashSet()
+                distribution.add(row)
+            }
+
+            row.add(min)
+        }
+
+        for (row in distribution) {
+            matrix.add(row.toList())
+        }
+
+        return matrix
+    }
+
+    // https://leetcode.com/problems/number-of-laser-beams-in-a-bank/
+    fun numberOfBeams(bank: Array<String>): Int {
+        var beams = 0
+
+        val securityDevicesByRow = mutableMapOf<Int, MutableCollection<Location>>()
+
+        for ((row, value) in bank.withIndex()) {
+            for ((col, character) in value.withIndex()) {
+                if (character == '1') {
+                    val devicesInRow = securityDevicesByRow.getOrDefault(row, mutableListOf())
+                    devicesInRow.add(Location(row, col))
+                    securityDevicesByRow[row] = devicesInRow
+                }
+            }
+        }
+
+        for (row in 0 until bank.size - 1) {
+            var nearestDevices: Collection<Location>? = null
+
+            for (i in row + 1 until bank.size) {
+                if (securityDevicesByRow.containsKey(i)) {
+                    nearestDevices = securityDevicesByRow[i]
+                    break
+                }
+            }
+
+            if (nearestDevices != null) {
+                beams += securityDevicesByRow.getOrDefault(row, emptySet<Location>()).size * nearestDevices.size
+            }
+        }
+
+        return beams
+    }
+
+    // https://leetcode.com/problems/minimum-number-of-operations-to-make-array-empty/
+    fun minOperations(nums: IntArray): Int {
+        val countsByNumber = nums.asIterable().groupingBy { it }.eachCount().toMutableMap()
+
+        var operations = 0
+
+        for ((value, initialOccurrences) in countsByNumber) {
+            var ocurrences = initialOccurrences
+
+            if (ocurrences % 3 == 0) {
+                operations += ocurrences / 3
+                ocurrences = 0
+            } else if (ocurrences > 3) {
+                while (ocurrences >= 3 && ocurrences > 4) {
+                    ocurrences -= 3
+                    operations++
+                }
+            }
+
+            if (ocurrences > 0) {
+                operations += ocurrences / 2
+                ocurrences %= 2
+            }
+
+            countsByNumber[value] = ocurrences
+        }
+
+        if (countsByNumber.any { it.value > 0}) {
+            return -1
+        }
+
+        return operations
     }
 }
 
