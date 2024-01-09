@@ -1099,7 +1099,7 @@ class Solution : VersionControl() {
 
         var rightProduct = 1
 
-        for (i in nums.size-1 downTo 0) {
+        for (i in nums.size - 1 downTo 0) {
             answer[i] = answer[i] * rightProduct
             rightProduct *= nums[i]
         }
@@ -1126,6 +1126,38 @@ class Solution : VersionControl() {
         }
 
         return answer
+    }
+
+    // https://leetcode.com/problems/sort-the-students-by-their-kth-score/
+    fun sortTheStudents(scores: Array<IntArray>, k: Int): Array<IntArray> {
+        return scores.sortedByDescending { it[k] }.toTypedArray()
+    }
+
+    fun coinChange(coins: IntArray, change: Int): Int {
+        var coinsUsed = 0
+        var changeDue = change
+
+        val maxHeap = PriorityQueue { x: Int, y: Int -> y.compareTo(x) }
+
+        for (coin in coins) {
+             maxHeap.add(coin)
+        }
+
+        while (changeDue > 0) {
+            if (maxHeap.isEmpty()) {
+                return -1
+            }
+
+            val largestCoin = maxHeap.remove()
+            val quotient = changeDue / largestCoin
+
+            if (quotient > 0) {
+                coinsUsed += quotient
+                changeDue %= largestCoin
+            }
+        }
+
+        return coinsUsed
     }
 }
 

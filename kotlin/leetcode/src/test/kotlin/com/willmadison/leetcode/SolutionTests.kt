@@ -508,12 +508,12 @@ class SolutionTests {
         fun factorProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3,4),
-                    intArrayOf(24,12,8,6),
+                    intArrayOf(1, 2, 3, 4),
+                    intArrayOf(24, 12, 8, 6),
                 ),
                 Arguments.of(
-                    intArrayOf(-1,1,0,-3,3),
-                    intArrayOf(0,0,9,0,0),
+                    intArrayOf(-1, 1, 0, -3, 3),
+                    intArrayOf(0, 0, 9, 0, 0),
                 ),
             )
         }
@@ -532,6 +532,51 @@ class SolutionTests {
                 Arguments.of(
                     "ZY",
                     701,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun studentProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(10, 6, 9, 1),
+                        intArrayOf(7, 5, 11, 2),
+                        intArrayOf(4, 8, 3, 15),
+                    ),
+                    2,
+                    arrayOf(
+                        intArrayOf(7, 5, 11, 2),
+                        intArrayOf(10, 6, 9, 1),
+                        intArrayOf(4, 8, 3, 15),
+                    ),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun coinProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 5),
+                    11,
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(2),
+                    3,
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    0,
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(186, 419, 83, 408),
+                    6249,
+                    20,
                 ),
             )
         }
@@ -785,6 +830,21 @@ class SolutionTests {
     @MethodSource("titleProvider")
     fun titleToNumber(columnTitle: String, expected: Int) {
         val actual = solution.titleToNumber(columnTitle)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "sortTheStudents({0}, {1}) = {2}")
+    @MethodSource("studentProvider")
+    fun sortTheStudents(scores: Array<IntArray>, k: Int, expected: Array<IntArray>) {
+        val actual = solution.sortTheStudents(scores, k)
+        assertArrayEquals(expected, actual)
+    }
+
+    @Disabled
+    @ParameterizedTest(name = "coinChange({0}, {1}) = {2}")
+    @MethodSource("coinProvider")
+    fun coinChange(coins: IntArray, changeDue: Int, expected: Int) {
+        val actual = solution.coinChange(coins, changeDue)
         assertEquals(expected, actual)
     }
 
