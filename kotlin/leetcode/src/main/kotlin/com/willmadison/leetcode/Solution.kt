@@ -1105,6 +1105,27 @@ class Solution : VersionControl() {
 
         return answer
     }
+
+    // https://leetcode.com/problems/excel-sheet-column-number/
+    fun titleToNumber(columnTitle: String): Int {
+        var answer = 0
+
+        val deque = ArrayDeque<Char>()
+
+        for (c in columnTitle) {
+            deque.add(c)
+        }
+
+        var exponent = 0
+
+        while (deque.isNotEmpty()) {
+            val character = deque.removeLast()
+            answer += (character - 'A' + 1) * 26.toDouble().pow(exponent).toInt()
+            exponent++
+        }
+
+        return answer
+    }
 }
 
 open class VersionControl {

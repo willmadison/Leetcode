@@ -517,6 +517,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun titleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "A",
+                    1,
+                ),
+                Arguments.of(
+                    "AB",
+                    28,
+                ),
+                Arguments.of(
+                    "ZY",
+                    701,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -761,6 +779,13 @@ class SolutionTests {
     fun productExceptSelf(nums: IntArray, expected: IntArray) {
         val actual = solution.productExceptSelf(nums)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "titleToNumber({0}) = {1}")
+    @MethodSource("titleProvider")
+    fun titleToNumber(columnTitle: String, expected: Int) {
+        val actual = solution.titleToNumber(columnTitle)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
