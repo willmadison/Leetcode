@@ -7,6 +7,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+@Suppress("unused")
 class Solution : VersionControl() {
 
     // https://leetcode.com/problems/first-bad-version
@@ -158,14 +159,14 @@ class Solution : VersionControl() {
         val indiciesByValue = mutableMapOf<Int, MutableList<Int>>()
 
         for (i in nums.indices) {
-            val indicies = indiciesByValue.getOrDefault(nums[i], mutableListOf<Int>())
+            val indicies = indiciesByValue.getOrDefault(nums[i], mutableListOf())
             indicies.add(i)
             indiciesByValue[nums[i]] = indicies
         }
 
         for (i in nums.indices) {
             val complement = target - nums[i]
-            val indicies = indiciesByValue.getOrDefault(complement, mutableListOf<Int>())
+            val indicies = indiciesByValue.getOrDefault(complement, mutableListOf())
 
             if (indicies.size > 0 && i != indicies[0]) {
                 return intArrayOf(i, indicies[0])
@@ -227,8 +228,8 @@ class Solution : VersionControl() {
             bDigits.add(c)
         }
 
-        val ZERO = '0'
-        val ONE = '1'
+        val zero = '0'
+        val one = '1'
 
         while (!aDigits.isEmpty() || !bDigits.isEmpty()) {
             var aDigit = '0'
@@ -277,13 +278,13 @@ class Solution : VersionControl() {
             }
 
             when (resultDigit) {
-                1 -> resultDigits.addFirst(ONE)
-                0 -> resultDigits.addFirst(ZERO)
+                1 -> resultDigits.addFirst(one)
+                0 -> resultDigits.addFirst(zero)
             }
         }
 
         if (carry == 1) {
-            resultDigits.addFirst(ONE)
+            resultDigits.addFirst(one)
         }
 
         val resultSb = StringBuilder()
@@ -296,7 +297,7 @@ class Solution : VersionControl() {
     }
 
     // https://leetcode.com/problems/diameter-of-binary-tree/
-    var maxHeight = 0
+    private var maxHeight = 0
     fun diameterOfBinaryTree(root: TreeNode?): Int {
         maxHeight = 1
         calculateHeight(root)
@@ -334,7 +335,7 @@ class Solution : VersionControl() {
     }
 
     // https://leetcode.com/problems/maximum-depth-of-binary-tree/
-    fun maxDepth(root: TreeNode?): Int {
+    private fun maxDepth(root: TreeNode?): Int {
         if (root == null) {
             return 0
         }
@@ -381,8 +382,8 @@ class Solution : VersionControl() {
     }
 
     private fun merge(interval: IntArray, overlappingIntervals: Collection<IntArray>): IntArray {
-        val starts = mutableListOf<Int>(interval[0])
-        val ends = mutableListOf<Int>(interval[1])
+        val starts = mutableListOf(interval[0])
+        val ends = mutableListOf(interval[1])
 
         for (i in overlappingIntervals) {
             starts.add(i[0])
@@ -494,14 +495,14 @@ class Solution : VersionControl() {
     fun levelOrder(root: TreeNode?): List<List<Int>> {
         val nodesByLevel = mutableMapOf<Int, MutableList<TreeNode>>()
 
-        val queue = ArrayDeque<NodeLevel>();
+        val queue = ArrayDeque<NodeLevel>()
 
         if (root != null) {
-            queue.offer(NodeLevel(root, 0));
+            queue.offer(NodeLevel(root, 0))
         }
 
         while (!queue.isEmpty()) {
-            val current = queue.poll();
+            val current = queue.poll()
 
             val nodesAtLevel = nodesByLevel.getOrDefault(current.level, mutableListOf())
 
@@ -510,10 +511,10 @@ class Solution : VersionControl() {
             nodesByLevel[current.level] = nodesAtLevel
 
             if (current.node.left != null) {
-                queue.offer(NodeLevel(current.node.left!!, current.level + 1));
+                queue.offer(NodeLevel(current.node.left!!, current.level + 1))
             }
             if (current.node.right != null) {
-                queue.offer(NodeLevel(current.node.right!!, current.level + 1));
+                queue.offer(NodeLevel(current.node.right!!, current.level + 1))
             }
         }
 
@@ -536,7 +537,7 @@ class Solution : VersionControl() {
     // https://leetcode.com/problems/clone-graph
     private val cache = mutableMapOf<Int, Node?>()
 
-    fun cloneGraph(node: Node?): Node? {
+    private fun cloneGraph(node: Node?): Node? {
         if (node == null) {
             return null
         }
@@ -794,7 +795,7 @@ class Solution : VersionControl() {
     }
 
     // https://leetcode.com/problems/range-sum-of-bst
-    fun rangeSumBST(root: TreeNode?, low: Int, high: Int): Int {
+    private fun rangeSumBST(root: TreeNode?, low: Int, high: Int): Int {
         if (root == null) {
             return 0
         }
@@ -916,7 +917,7 @@ class Solution : VersionControl() {
             }
 
             if (nearestDevices != null) {
-                beams += securityDevicesByRow.getOrDefault(row, emptySet<Location>()).size * nearestDevices.size
+                beams += securityDevicesByRow.getOrDefault(row, emptySet()).size * nearestDevices.size
             }
         }
 
@@ -993,7 +994,7 @@ class Solution : VersionControl() {
     }
 
     // https://leetcode.com/problems/path-sum/description/
-    fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
+    private fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
         if (root == null) {
             return false
         }
@@ -1051,7 +1052,7 @@ class Solution : VersionControl() {
             ?.isEmpty() == true
     }
 
-    fun TreeNode?.leaves(): Collection<TreeNode> {
+    private fun TreeNode?.leaves(): Collection<TreeNode> {
         val leaves = mutableListOf<TreeNode>()
 
         fun doFindLeaves(node: TreeNode) {
@@ -1075,7 +1076,7 @@ class Solution : VersionControl() {
         return leaves
     }
 
-    fun TreeNode?.isLeaf() = this != null && this.left == null && this.right == null
+    private fun TreeNode?.isLeaf() = this != null && this.left == null && this.right == null
 
     // https://leetcode.com/problems/valid-anagram
     fun isAnagram(s: String, t: String) = s.length == t.length && key(s) == key(t)
@@ -1136,6 +1137,7 @@ open class VersionControl {
     }
 }
 
+@Suppress("unused")
 class ListNode(var `val`: Int, var next: ListNode? = null)
 
 class TreeNode(var `val`: Int, var left: TreeNode? = null, var right: TreeNode? = null)
