@@ -1085,6 +1085,26 @@ class Solution : VersionControl() {
         characters.sort()
         return characters.joinToString("")
     }
+
+    // https://leetcode.com/problems/product-of-array-except-self/
+    fun productExceptSelf(nums: IntArray): IntArray {
+        val answer = IntArray(nums.size)
+
+        answer[0] = 1
+
+        for (i in 1 until nums.size) {
+            answer[i] = nums[i - 1] * answer[i - 1]
+        }
+
+        var rightProduct = 1
+
+        for (i in nums.size-1 downTo 0) {
+            answer[i] = answer[i] * rightProduct
+            rightProduct *= nums[i]
+        }
+
+        return answer
+    }
 }
 
 open class VersionControl {

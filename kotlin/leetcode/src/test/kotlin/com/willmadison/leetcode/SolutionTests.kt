@@ -503,6 +503,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun factorProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3,4),
+                    intArrayOf(24,12,8,6),
+                ),
+                Arguments.of(
+                    intArrayOf(-1,1,0,-3,3),
+                    intArrayOf(0,0,9,0,0),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -740,6 +754,13 @@ class SolutionTests {
     fun isAnagram(s: String, t: String, expected: Boolean) {
         val actual = solution.isAnagram(s, t)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "productExceptSelf({0}) = {1}")
+    @MethodSource("factorProvider")
+    fun productExceptSelf(nums: IntArray, expected: IntArray) {
+        val actual = solution.productExceptSelf(nums)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach
