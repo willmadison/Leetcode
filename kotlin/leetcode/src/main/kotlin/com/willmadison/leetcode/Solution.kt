@@ -957,6 +957,7 @@ class Solution : VersionControl() {
         return operations
     }
 
+    // https://leetcode.com/problems/3sum/
     fun threeSum(nums: IntArray): List<List<Int>> {
         nums.sort()
 
@@ -1015,6 +1016,7 @@ class Solution : VersionControl() {
         return leftHasPathSum || rightHasPathSum
     }
 
+    // https://leetcode.com/problems/longest-palindromic-substring/
     fun longestPalindromicSubstring(s: String): String {
         var start = 0
         var end = 0
@@ -1074,6 +1076,15 @@ class Solution : VersionControl() {
     }
 
     fun TreeNode?.isLeaf() = this != null && this.left == null && this.right == null
+
+    // https://leetcode.com/problems/valid-anagram
+    fun isAnagram(s: String, t: String) = s.length == t.length && key(s) == key(t)
+
+    private fun key(s: String): String {
+        val characters = s.toCharArray()
+        characters.sort()
+        return characters.joinToString("")
+    }
 }
 
 open class VersionControl {

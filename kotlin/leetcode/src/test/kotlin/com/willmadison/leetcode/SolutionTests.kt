@@ -468,7 +468,7 @@ class SolutionTests {
                 Arguments.of(
                     intArrayOf(0, 0, 0),
                     listOf(
-                        listOf(0,0,0),
+                        listOf(0, 0, 0),
                     ),
                 ),
             )
@@ -484,6 +484,22 @@ class SolutionTests {
                 Arguments.of(
                     "",
                     "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun anagramProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "anagram",
+                    "nagaram",
+                    true,
+                ),
+                Arguments.of(
+                    "rat",
+                    "car",
+                    false,
                 ),
             )
         }
@@ -716,6 +732,13 @@ class SolutionTests {
     @MethodSource("palindromicSubstringProvider")
     fun longestPalindromicSubstring(s: String, expected: String) {
         val actual = solution.longestPalindromicSubstring(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "isAnagram({0}, {1}) = {2}")
+    @MethodSource("anagramProvider")
+    fun isAnagram(s: String, t: String, expected: Boolean) {
+        val actual = solution.isAnagram(s, t)
         assertEquals(expected, actual)
     }
 
