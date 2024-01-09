@@ -1010,7 +1010,7 @@ class Solution : VersionControl() {
             leftHasPathSum = hasPathSum(root.left, targetSum - root.`val`)
         }
 
-        if (root.right != null) {
+        if (!leftHasPathSum && root.right != null) {
             rightHasPathSum = hasPathSum(root.right, targetSum - root.`val`)
         }
 
