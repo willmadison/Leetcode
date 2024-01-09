@@ -433,20 +433,57 @@ class SolutionTests {
         fun operandProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,3,2,2,4,2,3,4),
+                    intArrayOf(2, 3, 3, 2, 2, 4, 2, 3, 4),
                     4,
                 ),
                 Arguments.of(
-                    intArrayOf(2,1,2,2,3,3),
+                    intArrayOf(2, 1, 2, 2, 3, 3),
                     -1,
                 ),
                 Arguments.of(
-                    intArrayOf(3,3),
+                    intArrayOf(3, 3),
                     1,
                 ),
                 Arguments.of(
-                    intArrayOf(14,12,14,14,12,14,14,12,12,12,12,14,14,12,14,14,14,12,12),
+                    intArrayOf(14, 12, 14, 14, 12, 14, 14, 12, 12, 12, 12, 14, 14, 12, 14, 14, 14, 12, 12),
                     7,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun threeSumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(-1, 0, 1, 2, -1, -4),
+                    listOf(
+                        listOf(-1, -1, 2),
+                        listOf(-1, 0, 1),
+                    ),
+                ),
+                Arguments.of(
+                    intArrayOf(0, 1, 1),
+                    emptyList<List<Int>>(),
+                ),
+                Arguments.of(
+                    intArrayOf(0, 0, 0),
+                    listOf(
+                        listOf(0,0,0),
+                    ),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun palindromicSubstringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "babad",
+                    "aba",
+                ),
+                Arguments.of(
+                    "",
+                    "",
                 ),
             )
         }
@@ -665,6 +702,20 @@ class SolutionTests {
     @MethodSource("operandProvider")
     fun minOperations(nums: IntArray, expected: Int) {
         val actual = solution.minOperations(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "threeSum({0}) = {1}")
+    @MethodSource("threeSumProvider")
+    fun threeSum(nums: IntArray, expected: List<List<Int>>) {
+        val actual = solution.threeSum(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "longestPalindromicSubstring({0}) = {1}")
+    @MethodSource("palindromicSubstringProvider")
+    fun longestPalindromicSubstring(s: String, expected: String) {
+        val actual = solution.longestPalindromicSubstring(s)
         assertEquals(expected, actual)
     }
 

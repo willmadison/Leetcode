@@ -1,6 +1,5 @@
 package com.willmadison.leetcode
 
-import jakarta.annotation.Priority
 import java.lang.Integer.max
 import java.util.*
 import kotlin.collections.LinkedHashSet
@@ -951,12 +950,130 @@ class Solution : VersionControl() {
             countsByNumber[value] = ocurrences
         }
 
-        if (countsByNumber.any { it.value > 0}) {
+        if (countsByNumber.any { it.value > 0 }) {
             return -1
         }
 
         return operations
     }
+
+    fun threeSum(nums: IntArray): List<List<Int>> {
+        nums.sort()
+
+        val n = nums.size
+
+        val result = arrayListOf<List<Int>>()
+
+        for (i in 0 until n - 2) {
+            if (i == 0 || (nums[i] != nums[i - 1])) {
+                var low = i + 1
+                var high = nums.size - 1
+                val sum = 0 - nums[i]
+
+                while (low < high) {
+                    if (nums[i] + nums[low] + nums[high] == 0) {
+                        result.add(listOf(nums[i], nums[low], nums[high]))
+
+                        while (low < high && nums[low] == nums[low + 1]) low++
+                        while (low < high && nums[high] == nums[high - 1]) high--
+
+                        low++
+                        high--
+                    } else if (nums[low] + nums[high] > sum) {
+                        high--
+                    } else {
+                        low++
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    // https://leetcode.com/problems/path-sum/description/
+    fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
+        if (root == null) {
+            return false
+        }
+
+        if (root.left == null && root.right == null) {
+            return targetSum == root.`val`
+        }
+
+        var leftHasPathSum = false
+        var rightHasPathSum = false
+
+        if (root.left != null) {
+            leftHasPathSum = hasPathSum(root.left, targetSum - root.`val`)
+        }
+
+        if (root.right != null) {
+            rightHasPathSum = hasPathSum(root.right, targetSum - root.`val`)
+        }
+
+        return leftHasPathSum || rightHasPathSum
+    }
+
+    fun longestPalindromicSubstring(s: String): String {
+        var start = 0
+        var end = 0
+
+        fun growPalindromicStringInRange(q: Int, p: Int) {
+            var i = q
+            var j = p
+            while (i >= 0 && j < s.length && s[i] == s[j]) {
+                i--
+                j++
+            }
+            if (j - i > end - start) {
+                end = j
+                start = i + 1
+            }
+        }
+
+        for (i in s.indices) {
+            if (i != 0) growPalindromicStringInRange(i - 1, i)
+            growPalindromicStringInRange(i, i)
+        }
+
+        return s.substring(start, end)
+    }
+
+    // https://leetcode.com/problems/leaf-similar-trees/
+    fun leafSimilar(root1: TreeNode?, root2: TreeNode?): Boolean {
+        val leftLeaves = root1?.leaves()
+        val rightLeaves = root2?.leaves()
+
+        return leftLeaves?.size == rightLeaves?.size && leftLeaves?.filterIndexed { i, n -> rightLeaves?.elementAt(i)?.`val` != n.`val` }
+            ?.isEmpty() == true
+    }
+
+    fun TreeNode?.leaves(): Collection<TreeNode> {
+        val leaves = mutableListOf<TreeNode>()
+
+        fun doFindLeaves(node: TreeNode) {
+            if (node.isLeaf()) {
+                leaves.add(node)
+            } else {
+                if (node.left != null) {
+                    doFindLeaves(node.left!!)
+                }
+
+                if (node.right != null) {
+                    doFindLeaves(node.right!!)
+                }
+            }
+        }
+
+        if (this != null) {
+            doFindLeaves(this)
+        }
+
+        return leaves
+    }
+
+    fun TreeNode?.isLeaf() = this != null && this.left == null && this.right == null
 }
 
 open class VersionControl {
