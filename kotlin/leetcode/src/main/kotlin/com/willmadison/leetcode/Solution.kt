@@ -1239,6 +1239,96 @@ class Solution : VersionControl() {
 
         return minutesTranspired
     }
+
+    // https://leetcode.com/problems/minimum-window-substring/
+    fun minWindow(source: String, target: String): String {
+        val countsByCharacterInTarget = target.groupingBy { it }.eachCount().toMutableMap()
+
+        var substringStart = 0
+        var substringEnd = Int.MAX_VALUE
+
+        var satisfiedCharacters = 0
+
+        var start = 0
+
+        for (end in source.indices) {
+            val letter = source[end]
+
+            if (countsByCharacterInTarget.containsKey(letter)) {
+                val count = countsByCharacterInTarget[letter]!!
+                countsByCharacterInTarget[letter] = count - 1
+
+                if (countsByCharacterInTarget[letter] == 0) {
+                    satisfiedCharacters++
+                }
+            }
+
+            while (satisfiedCharacters == countsByCharacterInTarget.size) {
+                val startLetter = source[start]
+
+                if (countsByCharacterInTarget.containsKey(startLetter)) {
+                    val count = countsByCharacterInTarget[startLetter]!!
+                    countsByCharacterInTarget[startLetter] = count + 1
+
+                    if (countsByCharacterInTarget[startLetter] == 1) {
+                        satisfiedCharacters--
+                    }
+                }
+
+                if (end - start < substringEnd - substringStart) {
+                    substringEnd = end
+                    substringStart = start
+                }
+
+                start++
+            }
+        }
+
+        if (substringEnd == Int.MAX_VALUE) {
+            return ""
+        }
+
+        return source.substring(substringStart..substringEnd)
+    }
+
+    // https://leetcode.com/problems/difference-between-ones-and-zeros-in-row-and-column
+    fun onesMinusZeros(grid: Array<IntArray>): Array<IntArray> {
+        val onesByRow = mutableMapOf<Int, Int>()
+        val onesByColumn = mutableMapOf<Int, Int>()
+        val zeroesByRow = mutableMapOf<Int, Int>()
+        val zeroesByColumn = mutableMapOf<Int, Int>()
+
+        for ((row, values) in grid.withIndex()) {
+            for ((col, value) in values.withIndex()) {
+                if (value == 1) {
+                    onesByRow[row] = onesByRow.getOrDefault(row, 0) + 1
+                    onesByColumn[col] = onesByColumn.getOrDefault(col, 0) + 1
+                } else {
+                    zeroesByRow[row] = zeroesByRow.getOrDefault(row, 0) + 1
+                    zeroesByColumn[col] = zeroesByColumn.getOrDefault(col, 0) + 1
+                }
+            }
+        }
+
+        val result = mutableListOf<IntArray>()
+
+        for ((row, values) in grid.withIndex()) {
+            val diffs = mutableListOf<Int>()
+
+            for (col in values.indices) {
+                val onesInRow = onesByRow.getOrDefault(row, 0)
+                val onesInColumn = onesByColumn.getOrDefault(col, 0)
+                val zeroesInRow = zeroesByRow.getOrDefault(row, 0)
+                val zeroesInColumn = zeroesByColumn.getOrDefault(col, 0)
+
+                diffs.add(onesInRow+onesInColumn-zeroesInRow-zeroesInColumn)
+            }
+
+            result.add(diffs.toIntArray())
+        }
+
+        return result.toTypedArray()
+    }
 }
 
 open class VersionControl {

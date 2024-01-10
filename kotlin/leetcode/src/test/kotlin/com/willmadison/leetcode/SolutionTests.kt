@@ -580,6 +580,45 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun windowProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "ADOBECODEBANC",
+                    "ABC",
+                    "BANC",
+                ),
+                Arguments.of(
+                    "a",
+                    "a",
+                    "a",
+                ),
+                Arguments.of(
+                    "a",
+                    "aa",
+                    "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun binaryMatrixProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 1, 1),
+                        intArrayOf(1, 0, 1),
+                        intArrayOf(0, 0, 1),
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 0, 4),
+                        intArrayOf(0, 0, 4),
+                        intArrayOf(-2, -2, 2),
+                    ),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -867,6 +906,20 @@ class SolutionTests {
         actual = solution.amountOfTime(root, 3)
 
         assertEquals(2, actual)
+    }
+
+    @ParameterizedTest(name = "minWindow({0}, {1}) = {2}")
+    @MethodSource("windowProvider")
+    fun minWindow(source: String, target: String, expected: String) {
+        val actual = solution.minWindow(source, target)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "onesMinusZeros({0}) = {1}")
+    @MethodSource("binaryMatrixProvider")
+    fun onesMinusZeros(grid: Array<IntArray>, expected: Array<IntArray>) {
+        val actual = solution.onesMinusZeros(grid)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach
