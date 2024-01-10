@@ -848,6 +848,27 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun amountOfTime() {
+        var root = TreeNode(
+            1,
+            TreeNode(5, right = TreeNode(4, TreeNode(9), TreeNode(2))), TreeNode(3, TreeNode(10), TreeNode(6))
+        )
+
+        var actual = solution.amountOfTime(root, 3)
+
+        assertEquals(4, actual)
+
+        root = TreeNode(
+            1,
+            left = TreeNode(2, left = TreeNode(3, left = TreeNode(4, left = TreeNode(5))))
+        )
+
+        actual = solution.amountOfTime(root, 3)
+
+        assertEquals(2, actual)
+    }
+
     @AfterEach
     fun tearDown() {
         System.clearProperty("FIRST_BAD_VERSION")

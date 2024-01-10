@@ -1140,7 +1140,7 @@ class Solution : VersionControl() {
         val maxHeap = PriorityQueue { x: Int, y: Int -> y.compareTo(x) }
 
         for (coin in coins) {
-             maxHeap.add(coin)
+            maxHeap.add(coin)
         }
 
         while (changeDue > 0) {
@@ -1158,6 +1158,86 @@ class Solution : VersionControl() {
         }
 
         return coinsUsed
+    }
+
+    // https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected
+    @Suppress("DuplicatedCode")
+    fun amountOfTime(root: TreeNode?, start: Int): Int {
+        var initialInfectedNode: TreeNode? = null
+
+        val adjacentNodesByNode = mutableMapOf<TreeNode, MutableCollection<TreeNode>>()
+
+        val queue = ArrayDeque<TreeNode>()
+
+        if (root != null) {
+            queue.add(root)
+        }
+
+        var totalNumberOfNodes = 0
+
+        while (queue.isNotEmpty()) {
+            val node = queue.pop()
+
+            totalNumberOfNodes++
+
+            if (node.`val` == start) {
+                initialInfectedNode = node
+            }
+
+            val adjacents = adjacentNodesByNode.getOrDefault(node, mutableListOf())
+
+            if (node.left != null) {
+                queue.add(node.left!!)
+                adjacents.add(node.left!!)
+
+                val leftAdjacents = adjacentNodesByNode.getOrDefault(node.left, mutableListOf())
+                leftAdjacents.add(node)
+                adjacentNodesByNode[node.left!!] = leftAdjacents
+            }
+
+            if (node.right != null) {
+                queue.add(node.right!!)
+                adjacents.add(node.right!!)
+
+                val rightAdjacents = adjacentNodesByNode.getOrDefault(node.right, mutableListOf())
+                rightAdjacents.add(node)
+                adjacentNodesByNode[node.right!!] = rightAdjacents
+            }
+
+            adjacentNodesByNode[node] = adjacents
+        }
+
+        val infectedNodes = mutableSetOf(initialInfectedNode!!)
+
+        val toProcess = mutableListOf(initialInfectedNode)
+
+        var minutesTranspired = 0
+
+        while (infectedNodes.size != totalNumberOfNodes) {
+            val nodes = toProcess.take(toProcess.size)
+            toProcess.removeAll(nodes)
+
+            for (infectedNode in nodes) {
+                val adjacents = adjacentNodesByNode[infectedNode]!!
+
+                for (adjacent in adjacents) {
+                    if (!infectedNodes.contains(adjacent)) {
+                        infectedNodes.add(adjacent)
+
+                        val hasNonInfectedAdjacents =
+                            adjacentNodesByNode[adjacent]!!.any { !infectedNodes.contains(it) }
+
+                        if (hasNonInfectedAdjacents) {
+                            toProcess.add(adjacent)
+                        }
+                    }
+                }
+            }
+
+            minutesTranspired++
+        }
+
+        return minutesTranspired
     }
 }
 
