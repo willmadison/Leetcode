@@ -1133,31 +1133,19 @@ class Solution : VersionControl() {
         return scores.sortedByDescending { it[k] }.toTypedArray()
     }
 
-    fun coinChange(coins: IntArray, change: Int): Int {
-        var coinsUsed = 0
-        var changeDue = change
+    fun coinChange(coins: IntArray, changeDue: Int): Int {
+        val cache = IntArray(changeDue + 1) { changeDue + 1 }
+        cache[0] = 0
 
-        val maxHeap = PriorityQueue { x: Int, y: Int -> y.compareTo(x) }
-
-        for (coin in coins) {
-            maxHeap.add(coin)
-        }
-
-        while (changeDue > 0) {
-            if (maxHeap.isEmpty()) {
-                return -1
-            }
-
-            val largestCoin = maxHeap.remove()
-            val quotient = changeDue / largestCoin
-
-            if (quotient > 0) {
-                coinsUsed += quotient
-                changeDue %= largestCoin
+        for (amount in 1..changeDue) {
+            for (coin in coins) {
+                if (amount - coin >= 0) {
+                    cache[amount] = minOf(cache[amount], 1 + cache[amount - coin])
+                }
             }
         }
 
-        return coinsUsed
+        return if (cache[changeDue] != changeDue + 1) cache[changeDue] else -1
     }
 
     // https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected

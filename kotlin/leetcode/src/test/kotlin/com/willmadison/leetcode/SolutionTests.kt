@@ -879,7 +879,6 @@ class SolutionTests {
         assertArrayEquals(expected, actual)
     }
 
-    @Disabled
     @ParameterizedTest(name = "coinChange({0}, {1}) = {2}")
     @MethodSource("coinProvider")
     fun coinChange(coins: IntArray, changeDue: Int, expected: Int) {
