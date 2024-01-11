@@ -1148,6 +1148,8 @@ class Solution : VersionControl() {
         return if (cache[changeDue] != changeDue + 1) cache[changeDue] else -1
     }
 
+
+
     // https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected
     @Suppress("DuplicatedCode")
     fun amountOfTime(root: TreeNode?, start: Int): Int {
@@ -1317,6 +1319,12 @@ class Solution : VersionControl() {
 
         return result.toTypedArray()
     }
+
+    fun maxAncestorDiff(root: TreeNode?, min: Int = root!!.`val`, max: Int = root!!.`val`): Int =
+        if (root == null) max - min
+        else listOf(root.left, root.right).maxOf {
+            maxAncestorDiff(it, minOf(root.`val`, min), maxOf(root.`val`, max))
+        }
 }
 
 open class VersionControl {

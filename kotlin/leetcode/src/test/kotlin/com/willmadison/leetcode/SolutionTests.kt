@@ -907,6 +907,28 @@ class SolutionTests {
         assertEquals(2, actual)
     }
 
+    @Test
+    fun maxAncestorDiff() {
+        var root = TreeNode(
+            8,
+            left = TreeNode(3, left = TreeNode(1), right = TreeNode(6, left = TreeNode(4), right = TreeNode(7))),
+            right = TreeNode(10, right = TreeNode(14, left = TreeNode(13)))
+        )
+
+        var actual = solution.maxAncestorDiff(root)
+
+        assertEquals(7, actual)
+
+        root = TreeNode(
+            1,
+            right = TreeNode(2, right = TreeNode(0, left = TreeNode(3)))
+        )
+
+        actual = solution.maxAncestorDiff(root)
+
+        assertEquals(3, actual)
+    }
+
     @ParameterizedTest(name = "minWindow({0}, {1}) = {2}")
     @MethodSource("windowProvider")
     fun minWindow(source: String, target: String, expected: String) {
