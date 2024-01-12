@@ -1149,7 +1149,6 @@ class Solution : VersionControl() {
     }
 
 
-
     // https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected
     @Suppress("DuplicatedCode")
     fun amountOfTime(root: TreeNode?, start: Int): Int {
@@ -1311,7 +1310,7 @@ class Solution : VersionControl() {
                 val zeroesInRow = zeroesByRow.getOrDefault(row, 0)
                 val zeroesInColumn = zeroesByColumn.getOrDefault(col, 0)
 
-                diffs.add(onesInRow+onesInColumn-zeroesInRow-zeroesInColumn)
+                diffs.add(onesInRow + onesInColumn - zeroesInRow - zeroesInColumn)
             }
 
             result.add(diffs.toIntArray())
@@ -1328,15 +1327,15 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/determine-if-string-halves-are-alike/description/
     fun halvesAreAlike(s: String): Boolean {
-        val frontHalf = s.substring(0..<s.length/2)
-        val backHalf = s.substring(s.length/2)
+        val frontHalf = s.substring(0..<s.length / 2)
+        val backHalf = s.substring(s.length / 2)
 
         return frontHalf.vowelCount() == backHalf.vowelCount()
     }
 
+    private val vowels = setOf('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
     private fun String.vowelCount(): Int {
-        val vowels = setOf('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
-        return this.toCharArray().count { vowels.contains(it) }
+        return count { it in vowels }
     }
 }
 
