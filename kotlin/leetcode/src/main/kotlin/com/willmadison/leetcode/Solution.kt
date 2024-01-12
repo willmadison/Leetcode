@@ -1325,6 +1325,19 @@ class Solution : VersionControl() {
         else listOf(root.left, root.right).maxOf {
             maxAncestorDiff(it, minOf(root.`val`, min), maxOf(root.`val`, max))
         }
+
+    // https://leetcode.com/problems/determine-if-string-halves-are-alike/description/
+    fun halvesAreAlike(s: String): Boolean {
+        val frontHalf = s.substring(0..<s.length/2)
+        val backHalf = s.substring(s.length/2)
+
+        return frontHalf.vowelCount() == backHalf.vowelCount()
+    }
+
+    private fun String.vowelCount(): Int {
+        val vowels = setOf('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
+        return this.toCharArray().count { vowels.contains(it) }
+    }
 }
 
 open class VersionControl {

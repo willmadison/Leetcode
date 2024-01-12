@@ -619,6 +619,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun halveProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "book",
+                    true,
+                ),
+                Arguments.of(
+                    "textbook",
+                    false,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -941,6 +955,13 @@ class SolutionTests {
     fun onesMinusZeros(grid: Array<IntArray>, expected: Array<IntArray>) {
         val actual = solution.onesMinusZeros(grid)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "havlesAreAlike({0}) = {1}")
+    @MethodSource("halveProvider")
+    fun halvesAreAlike(s: String, expected: Boolean) {
+        val actual = solution.halvesAreAlike(s)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
