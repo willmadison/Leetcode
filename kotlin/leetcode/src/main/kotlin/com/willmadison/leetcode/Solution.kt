@@ -1337,6 +1337,18 @@ class Solution : VersionControl() {
     private fun String.vowelCount(): Int {
         return count { it in vowels }
     }
+
+    // https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/
+    fun minSteps(s: String, t: String): Int {
+        val counts = IntArray(26)
+
+        for (i in s.indices) {
+            counts[s[i] - 'a']++
+            counts[t[i] - 'a']--
+        }
+
+        return counts.sumOf { it.coerceAtLeast(0) }
+    }
 }
 
 open class VersionControl {

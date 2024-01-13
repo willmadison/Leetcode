@@ -633,6 +633,27 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun stepProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "bab",
+                    "aba",
+                    1,
+                ),
+                Arguments.of(
+                    "leetcode",
+                    "practice",
+                    5,
+                ),
+                Arguments.of(
+                    "anagram",
+                    "mangaar",
+                    0,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -961,6 +982,13 @@ class SolutionTests {
     @MethodSource("halveProvider")
     fun halvesAreAlike(s: String, expected: Boolean) {
         val actual = solution.halvesAreAlike(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "minSteps({0}, {1}) = {2}")
+    @MethodSource("stepProvider")
+    fun minSteps(s: String, t: String, expected: Int) {
+        val actual = solution.minSteps(s, t)
         assertEquals(expected, actual)
     }
 
