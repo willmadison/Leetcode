@@ -654,6 +654,63 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun elementsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 3, 1, 4),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4, 5),
+                    5,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun beautyProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "isawsquirrelnearmysquirrelhouseohmy",
+                    "my",
+                    "squirrel",
+                    15,
+                    listOf(16, 33),
+                ),
+                Arguments.of(
+                    "abcd",
+                    "a",
+                    "a",
+                    4,
+                    listOf(0),
+                ),
+                Arguments.of(
+                    "eueuau",
+                    "u",
+                    "e",
+                    3,
+                    listOf(1, 3, 5),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun sumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    9,
+                    1,
+                    10,
+                ),
+                Arguments.of(
+                    7,
+                    2,
+                    9,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -989,6 +1046,27 @@ class SolutionTests {
     @MethodSource("stepProvider")
     fun minSteps(s: String, t: String, expected: Int) {
         val actual = solution.minSteps(s, t)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maxFrequencyElements({0}) = {1}")
+    @MethodSource("elementsProvider")
+    fun maxFrequencyElements(nums: IntArray, expected: Int) {
+        val actual = solution.maxFrequencyElements(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "beautifulIndices({0}, {1}, {2}, {3}) = {4}")
+    @MethodSource("beautyProvider")
+    fun beautifulIndices(s: String, a: String, b: String, k: Int, expected: List<Int>) {
+        val actual = solution.beautifulIndices(s, a, b, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "sum({0}, {1}) = {2}")
+    @MethodSource("sumProvider")
+    fun sum(num1: Int, num2: Int, expected: Int) {
+        val actual = solution.sum(num1, num2)
         assertEquals(expected, actual)
     }
 

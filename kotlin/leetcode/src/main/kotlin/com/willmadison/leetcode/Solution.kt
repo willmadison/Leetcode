@@ -1349,6 +1349,56 @@ class Solution : VersionControl() {
 
         return counts.sumOf { it.coerceAtLeast(0) }
     }
+
+    fun maxFrequencyElements(nums: IntArray): Int {
+        val frequencyByNumber = nums.asIterable().groupingBy { it }.eachCount()
+        val maxFrequency = frequencyByNumber.values.max()
+
+        return frequencyByNumber.values.filter { it == maxFrequency }.sum()
+    }
+
+    fun beautifulIndices(s: String, a: String, b: String, k: Int): List<Int> {
+        val indices = mutableListOf<Int>()
+
+        val jRange = IntRange(0, s.length-b.length)
+        val iRange = IntRange(0, s.length-a.length)
+        val jsMeetingCriteria = mutableSetOf<Int>()
+
+        var found: Boolean
+        var startIndex = 0
+
+        do {
+            val index = s.indexOf(b, startIndex)  // O(m*n)
+            found = index >= 0
+            startIndex = index+1
+
+            if (jRange.contains(index)) { // O(1)
+                jsMeetingCriteria.add(index)
+            }
+        } while (found)
+
+        startIndex = 0
+
+        do {
+            val index = s.indexOf(a, startIndex) // O(m*n)
+            found = index >= 0
+            startIndex = index+1
+
+            val hasJ = jsMeetingCriteria.any { abs(it-index) <= k} // O(n)
+
+            if (iRange.contains(index) && hasJ) { // O(1)
+                indices.add(index)
+            }
+        } while (found)
+
+        indices.sort() // O(log(n))
+
+        // O(n*M) + O(log(n)) + O(n)
+
+        return indices
+    }
+
+    fun sum(num1: Int, num2: Int) = num1 + num2
 }
 
 open class VersionControl {
