@@ -1433,6 +1433,17 @@ class Solution : VersionControl() {
 
         return listOf(undefeated, singleLoss)
     }
+
+    // https://leetcode.com/problems/find-the-difference/
+    fun findTheDifference(s: String, t: String): Char {
+        val tCountsByCharacter = t.groupingBy { it }.eachCount()
+        val sCountsByCharacter = s.groupingBy { it }.eachCount()
+
+        return tCountsByCharacter.keys.first { sCountsByCharacter[it] != tCountsByCharacter[it] }
+    }
+
+    // https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+    fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
 }
 
 open class VersionControl {

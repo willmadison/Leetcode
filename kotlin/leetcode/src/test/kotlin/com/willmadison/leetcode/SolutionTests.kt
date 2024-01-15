@@ -735,6 +735,43 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun differenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcd",
+                    "abcde",
+                    'e'
+                ),
+                Arguments.of(
+                    "",
+                    "y",
+                    'y'
+                ),
+                Arguments.of(
+                    "a",
+                    "aa",
+                    'a'
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun needleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "sadbutsad",
+                    "sad",
+                    0,
+                ),
+                Arguments.of(
+                    "leetcode",
+                    "leeto",
+                    -1,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1098,6 +1135,20 @@ class SolutionTests {
     @MethodSource("winnerProvider")
     fun findWinners(matches: Array<IntArray>, expected: List<List<Int>>) {
         val actual = solution.findWinners(matches)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findTheDifference({0}, {1}) = {2}")
+    @MethodSource("differenceProvider")
+    fun findTheDifference(s: String, t: String, expected: Char) {
+        val actual = solution.findTheDifference(s, t)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "strStr({0}, {1}) = {2}")
+    @MethodSource("needleProvider")
+    fun strStr(haystack: String, needle: String, expected: Int) {
+        val actual = solution.strStr(haystack, needle)
         assertEquals(expected, actual)
     }
 
