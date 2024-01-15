@@ -711,6 +711,30 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun winnerProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1,3),
+                        intArrayOf(2,3),
+                        intArrayOf(3,6),
+                        intArrayOf(5,6),
+                        intArrayOf(5,7),
+                        intArrayOf(4,5),
+                        intArrayOf(4,8),
+                        intArrayOf(4,9),
+                        intArrayOf(10,4),
+                        intArrayOf(10,9),
+                    ),
+                    listOf(
+                        listOf(1,2,10),
+                        listOf(4,5,7,8),
+                    ),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1067,6 +1091,13 @@ class SolutionTests {
     @MethodSource("sumProvider")
     fun sum(num1: Int, num2: Int, expected: Int) {
         val actual = solution.sum(num1, num2)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findWinners({0}) = {1}")
+    @MethodSource("winnerProvider")
+    fun findWinners(matches: Array<IntArray>, expected: List<List<Int>>) {
+        val actual = solution.findWinners(matches)
         assertEquals(expected, actual)
     }
 

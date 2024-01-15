@@ -1399,6 +1399,40 @@ class Solution : VersionControl() {
     }
 
     fun sum(num1: Int, num2: Int) = num1 + num2
+
+    // https://leetcode.com/problems/find-players-with-zero-or-one-losses/
+    fun findWinners(matches: Array<IntArray>): List<List<Int>> {
+        val lossesByPlayer = mutableMapOf<Int, Int>()
+
+        val allPlayers = mutableSetOf<Int>()
+
+        for (match in matches) {
+            val winner = match[0]
+            val loser = match[1]
+
+            allPlayers.addAll(listOf(winner, loser))
+
+            val losses = lossesByPlayer.getOrDefault(loser, 0)
+            lossesByPlayer[loser] = losses+1
+        }
+
+        val undefeated = mutableListOf<Int>()
+        val singleLoss = mutableListOf<Int>()
+
+        for (player in allPlayers) {
+            val losses = lossesByPlayer.getOrDefault(player, 0)
+
+            when (losses) {
+                0 -> undefeated.add(player)
+                1 -> singleLoss.add(player)
+            }
+        }
+
+        undefeated.sort()
+        singleLoss.sort()
+
+        return listOf(undefeated, singleLoss)
+    }
 }
 
 open class VersionControl {
