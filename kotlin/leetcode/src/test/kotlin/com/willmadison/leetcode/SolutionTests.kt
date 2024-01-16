@@ -794,8 +794,41 @@ class SolutionTests {
             )
         }
 
+        @JvmStatic
+        fun repeatedSubstringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abab",
+                    true,
+                ),
+                Arguments.of(
+                    "aba",
+                    false,
+                ),
+                Arguments.of(
+                    "abcabcabcabc",
+                    true,
+                ),
+                Arguments.of(
+                    "bb",
+                    true,
+                ),
+            )
+        }
 
-
+        @JvmStatic
+        fun zeroProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0,1,0,3,12),
+                    intArrayOf(1,3,12,0,0),
+                ),
+                Arguments.of(
+                    intArrayOf(0),
+                    intArrayOf(0),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1181,6 +1214,20 @@ class SolutionTests {
     fun mergeAlternately(word1: String, word2: String, expected: String) {
         val actual = solution.mergeAlternately(word1, word2)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "repeatedSubstringPattern({0}) = {1}")
+    @MethodSource("repeatedSubstringProvider")
+    fun repeatedSubstringPattern(s: String, expected: Boolean) {
+        val actual = solution.repeatedSubstringPattern(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "moveZeroes({0}) = {1}")
+    @MethodSource("zeroProvider")
+    fun moveZeroes(nums: IntArray, expected: IntArray) {
+        solution.moveZeroes(nums)
+        assertArrayEquals(expected, nums)
     }
 
     @AfterEach

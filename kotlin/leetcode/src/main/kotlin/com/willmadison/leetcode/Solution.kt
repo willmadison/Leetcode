@@ -1444,6 +1444,8 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
     fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
+
+    // https://leetcode.com/problems/merge-strings-alternately/
     fun mergeAlternately(word1: String, word2: String): String {
         val queue = ArrayDeque<String>()
 
@@ -1472,6 +1474,26 @@ class Solution : VersionControl() {
         }
 
         return merged.toString()
+    }
+
+    // https://leetcode.com/problems/repeated-substring-pattern/
+    fun repeatedSubstringPattern(s: String): Boolean {
+        val key = s+s
+        return key.substring(1, key.length-1).contains(s)
+    }
+
+    // https://leetcode.com/problems/move-zeroes/
+    fun moveZeroes(nums: IntArray) {
+        var lastNonZeroIndex = 0
+        for (i in nums.indices) {
+            if (nums[i] != 0) {
+                nums[lastNonZeroIndex++] = nums[i]
+            }
+        }
+
+        for (i in lastNonZeroIndex until nums.size) {
+            nums[i] = 0
+        }
     }
 }
 
