@@ -772,6 +772,30 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun mergeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abc",
+                    "pqr",
+                    "apbqcr",
+                ),
+                Arguments.of(
+                    "ab",
+                    "pqrs",
+                    "apbqrs",
+                ),
+                Arguments.of(
+                    "abcd",
+                    "pq",
+                    "apbqcd",
+                ),
+            )
+        }
+
+
+
     }
 
     @BeforeEach
@@ -1149,6 +1173,13 @@ class SolutionTests {
     @MethodSource("needleProvider")
     fun strStr(haystack: String, needle: String, expected: Int) {
         val actual = solution.strStr(haystack, needle)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "mergeAlternately({0}, {1}) = {2}")
+    @MethodSource("mergeProvider")
+    fun mergeAlternately(word1: String, word2: String, expected: String) {
+        val actual = solution.mergeAlternately(word1, word2)
         assertEquals(expected, actual)
     }
 

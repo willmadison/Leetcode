@@ -1360,8 +1360,8 @@ class Solution : VersionControl() {
     fun beautifulIndices(s: String, a: String, b: String, k: Int): List<Int> {
         val indices = mutableListOf<Int>()
 
-        val jRange = IntRange(0, s.length-b.length)
-        val iRange = IntRange(0, s.length-a.length)
+        val jRange = IntRange(0, s.length - b.length)
+        val iRange = IntRange(0, s.length - a.length)
         val jsMeetingCriteria = mutableSetOf<Int>()
 
         var found: Boolean
@@ -1370,7 +1370,7 @@ class Solution : VersionControl() {
         do {
             val index = s.indexOf(b, startIndex)  // O(m*n)
             found = index >= 0
-            startIndex = index+1
+            startIndex = index + 1
 
             if (jRange.contains(index)) { // O(1)
                 jsMeetingCriteria.add(index)
@@ -1382,9 +1382,9 @@ class Solution : VersionControl() {
         do {
             val index = s.indexOf(a, startIndex) // O(m*n)
             found = index >= 0
-            startIndex = index+1
+            startIndex = index + 1
 
-            val hasJ = jsMeetingCriteria.any { abs(it-index) <= k} // O(n)
+            val hasJ = jsMeetingCriteria.any { abs(it - index) <= k } // O(n)
 
             if (iRange.contains(index) && hasJ) { // O(1)
                 indices.add(index)
@@ -1413,7 +1413,7 @@ class Solution : VersionControl() {
             allPlayers.addAll(listOf(winner, loser))
 
             val losses = lossesByPlayer.getOrDefault(loser, 0)
-            lossesByPlayer[loser] = losses+1
+            lossesByPlayer[loser] = losses + 1
         }
 
         val undefeated = mutableListOf<Int>()
@@ -1444,6 +1444,35 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
     fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
+    fun mergeAlternately(word1: String, word2: String): String {
+        val queue = ArrayDeque<String>()
+
+        queue.add(word1)
+        queue.add(word2)
+
+        val merged = StringBuilder()
+
+        while (queue.isNotEmpty()) {
+            if (queue.size == 1) {
+                merged.append(queue.pop())
+                break
+            }
+
+            val word = queue.pop()
+
+            val c = word.take(1)
+
+            merged.append(c)
+
+            val remaining = word.substring(1)
+
+            if (remaining.isNotEmpty()) {
+                queue.add(remaining)
+            }
+        }
+
+        return merged.toString()
+    }
 }
 
 open class VersionControl {
