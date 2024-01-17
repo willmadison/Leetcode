@@ -987,6 +987,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun romanProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "III",
+                    3,
+                ),
+                Arguments.of(
+                    "LVIII",
+                    58,
+                ),
+                Arguments.of(
+                    "MCMXCIV",
+                    1994,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1434,6 +1452,13 @@ class SolutionTests {
     @MethodSource("monotonicProvider")
     fun isMonotonic(nums: IntArray, expected: Boolean) {
         val actual = solution.isMonotonic(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "romanToInt({0}) = {1}")
+    @MethodSource("romanProvider")
+    fun romanToInt(s: String, expected: Int) {
+        val actual = solution.romanToInt(s)
         assertEquals(expected, actual)
     }
 

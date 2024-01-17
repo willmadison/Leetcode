@@ -1578,8 +1578,8 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/sign-of-the-product-of-an-array/
     fun arraySign(nums: IntArray): Int {
-        val numNegatives = nums.count { it < 0}
-        val numZeros = nums.count { it == 0}
+        val numNegatives = nums.count { it < 0 }
+        val numZeros = nums.count { it == 0 }
 
         return when {
             numZeros > 0 -> 0
@@ -1594,8 +1594,8 @@ class Solution : VersionControl() {
 
         val difference = abs(nums[0] - nums[1])
 
-        for (i in 0..nums.size-2) {
-            if (abs(nums[i]-nums[i+1]) != difference) {
+        for (i in 0..nums.size - 2) {
+            if (abs(nums[i] - nums[i + 1]) != difference) {
                 return false
             }
         }
@@ -1608,16 +1608,16 @@ class Solution : VersionControl() {
         var isIncreasingMonotonic = true
         var isDecreasingMonotonic = true
 
-        for (i in 0..nums.size-2) {
-            if (nums[i] > nums[i+1]) {
+        for (i in 0..nums.size - 2) {
+            if (nums[i] > nums[i + 1]) {
                 isIncreasingMonotonic = false
                 break
             }
         }
 
         if (!isIncreasingMonotonic) {
-            for (i in 0..nums.size-2) {
-                if (nums[i] < nums[i+1]) {
+            for (i in 0..nums.size - 2) {
+                if (nums[i] < nums[i + 1]) {
                     isDecreasingMonotonic = false
                     break
                 }
@@ -1625,6 +1625,53 @@ class Solution : VersionControl() {
         }
 
         return isIncreasingMonotonic || isDecreasingMonotonic
+    }
+
+    fun romanToInt(s: String): Int {
+        val prefixedNumerals = mapOf(
+            "IV" to 4,
+            "IX" to 9,
+            "XL" to 40,
+            "XC" to 90,
+            "CD" to 400,
+            "CM" to 900,
+        )
+
+        val valuesByCharacter = mapOf(
+            'I' to 1,
+            'V' to 5,
+            'X' to 10,
+            'L' to 50,
+            'C' to 100,
+            'D' to 500,
+            'M' to 1000,
+        )
+
+        var value = 0
+
+        var romanRepresentation = s
+
+        while (romanRepresentation.isNotEmpty()) {
+            if (romanRepresentation.length >= 2) {
+                val characters = romanRepresentation.take(2)
+
+                if (prefixedNumerals.containsKey(characters)) {
+                    value += prefixedNumerals[characters]!!
+                    romanRepresentation = romanRepresentation.substring(2)
+                } else {
+                    value += valuesByCharacter[characters[0]]!!
+                    romanRepresentation = romanRepresentation.substring(1)
+                }
+            } else {
+                val characters = romanRepresentation.take(1)
+
+                value += valuesByCharacter[characters[0]]!!
+
+                romanRepresentation = romanRepresentation.substring(1)
+            }
+        }
+
+        return value
     }
 }
 
