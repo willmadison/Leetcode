@@ -1478,8 +1478,8 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/repeated-substring-pattern/
     fun repeatedSubstringPattern(s: String): Boolean {
-        val key = s+s
-        return key.substring(1, key.length-1).contains(s)
+        val key = s + s
+        return key.substring(1, key.length - 1).contains(s)
     }
 
     // https://leetcode.com/problems/move-zeroes/
@@ -1500,6 +1500,131 @@ class Solution : VersionControl() {
     fun uniqueOccurrences(nums: IntArray): Boolean {
         val countsByValue = nums.asIterable().groupingBy { it }.eachCount()
         return countsByValue.size == countsByValue.values.toSet().size
+    }
+
+    // https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+    fun findMin(nums: IntArray): Int {
+        var left = 0
+        var right = nums.size - 1
+        var r = nums[right]
+
+        while (left + 1 < right) {
+            val middle = (left + right) / 2
+            when {
+                nums[middle] > r -> left = middle
+                else -> {
+                    right = middle
+                    r = nums[right]
+                }
+            }
+        }
+
+        return minOf(nums[left], nums[right])
+    }
+
+    // https://leetcode.com/problems/count-vowel-strings-in-ranges/description/
+
+    private val lowerCasedVowels = setOf('a', 'e', 'i', 'o', 'u')
+    fun vowelStrings(words: Array<String>, queries: Array<IntArray>): IntArray {
+        val answers = IntArray(queries.size)
+
+        val vowelPrefixAndSuffix = mutableSetOf<Int>()
+
+        for ((i, word) in words.withIndex()) {
+            if (lowerCasedVowels.contains(word[0]) && lowerCasedVowels.contains(word[word.length - 1])) {
+                vowelPrefixAndSuffix.add(i)
+            }
+        }
+
+        for ((i, query) in queries.withIndex()) {
+            val range = IntRange(query[0], query[1])
+            answers[i] = vowelPrefixAndSuffix.count { range.contains(it) }
+        }
+
+        return answers
+    }
+
+    // https://leetcode.com/problems/smallest-even-multiple/
+    fun smallestEvenMultiple(n: Int) = if (n % 2 == 0) n else 2 * n
+
+    // https://leetcode.com/problems/plus-one/
+    fun plusOne(digits: IntArray): IntArray {
+        val sumDigits = mutableListOf<Int>()
+
+        var carry = 0
+
+        for (i in digits.size - 1 downTo 0) {
+            var digit: Int
+            val sum = if (i == digits.size - 1) digits[i] + 1 else digits[i] + carry
+
+            if (sum >= 10) {
+                carry = 1
+                digit = sum % 10
+            } else {
+                carry = 0
+                digit = sum
+            }
+
+            sumDigits.add(digit)
+        }
+
+        if (carry == 1) {
+            sumDigits.add(1)
+        }
+
+        sumDigits.reverse()
+        return sumDigits.toIntArray()
+    }
+
+    // https://leetcode.com/problems/sign-of-the-product-of-an-array/
+    fun arraySign(nums: IntArray): Int {
+        val numNegatives = nums.count { it < 0}
+        val numZeros = nums.count { it == 0}
+
+        return when {
+            numZeros > 0 -> 0
+            numNegatives % 2 > 0 -> -1
+            else -> 1
+        }
+    }
+
+    // https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/
+    fun canMakeArithmeticProgression(nums: IntArray): Boolean {
+        nums.sort()
+
+        val difference = abs(nums[0] - nums[1])
+
+        for (i in 0..nums.size-2) {
+            if (abs(nums[i]-nums[i+1]) != difference) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // https://leetcode.com/problems/monotonic-array
+    fun isMonotonic(nums: IntArray): Boolean {
+        var isIncreasingMonotonic = true
+        var isDecreasingMonotonic = true
+
+        for (i in 0..nums.size-2) {
+            if (nums[i] > nums[i+1]) {
+                isIncreasingMonotonic = false
+                break
+            }
+        }
+
+        if (!isIncreasingMonotonic) {
+            for (i in 0..nums.size-2) {
+                if (nums[i] < nums[i+1]) {
+                    isDecreasingMonotonic = false
+                    break
+                }
+            }
+        }
+
+        return isIncreasingMonotonic || isDecreasingMonotonic
     }
 }
 

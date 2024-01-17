@@ -847,6 +847,146 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun minProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 4, 5, 1, 2),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 5, 6, 7, 0, 1, 2),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(11, 13, 15, 17),
+                    11,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun vowelStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        "aba",
+                        "bcb",
+                        "ece",
+                        "aa",
+                        "e"
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 2),
+                        intArrayOf(1, 4),
+                        intArrayOf(1, 1),
+                    ),
+                    intArrayOf(2, 3, 0),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun plusOneProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(1, 2, 4),
+                ),
+                Arguments.of(
+                    intArrayOf(4, 3, 2, 1),
+                    intArrayOf(4, 3, 2, 2),
+                ),
+                Arguments.of(
+                    intArrayOf(9),
+                    intArrayOf(1, 0),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun arrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(-1, -2, -3, -4, 3, 2, 1),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 5, 0, 2, -3),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(-1, 1, -1, 1, -1),
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(
+                        41,
+                        65,
+                        14,
+                        80,
+                        20,
+                        10,
+                        55,
+                        58,
+                        24,
+                        56,
+                        28,
+                        86,
+                        96,
+                        10,
+                        3,
+                        84,
+                        4,
+                        41,
+                        13,
+                        32,
+                        42,
+                        43,
+                        83,
+                        78,
+                        82,
+                        70,
+                        15,
+                        -41
+                    ),
+                    -1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun progressionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 5, 1),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 4),
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun monotonicProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 3),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(6, 5, 4, 4),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 2),
+                    false,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1252,6 +1392,48 @@ class SolutionTests {
     @MethodSource("occurrenceProvider")
     fun uniqueOccurrences(nums: IntArray, expected: Boolean) {
         val actual = solution.uniqueOccurrences(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findMin({0}) = {1}")
+    @MethodSource("minProvider")
+    fun findMin(nums: IntArray, expected: Int) {
+        val actual = solution.findMin(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findMin({0}, {1}) = {2}")
+    @MethodSource("vowelStringProvider")
+    fun vowelStrings(words: Array<String>, queries: Array<IntArray>, expected: IntArray) {
+        val actual = solution.vowelStrings(words, queries)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "plusOne({0}) = {1}")
+    @MethodSource("plusOneProvider")
+    fun plusOne(digits: IntArray, expected: IntArray) {
+        val actual = solution.plusOne(digits)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "arraySign({0}) = {1}")
+    @MethodSource("arrayProvider")
+    fun arraySign(nums: IntArray, expected: Int) {
+        val actual = solution.arraySign(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "canMakeArithmeticProgression({0}) = {1}")
+    @MethodSource("progressionProvider")
+    fun canMakeArithmeticProgression(nums: IntArray, expected: Boolean) {
+        val actual = solution.canMakeArithmeticProgression(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "isMonotonic({0}) = {1}")
+    @MethodSource("monotonicProvider")
+    fun isMonotonic(nums: IntArray, expected: Boolean) {
+        val actual = solution.isMonotonic(nums)
         assertEquals(expected, actual)
     }
 
