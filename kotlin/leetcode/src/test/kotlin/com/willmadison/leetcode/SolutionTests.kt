@@ -717,20 +717,20 @@ class SolutionTests {
             return Stream.of(
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(1,3),
-                        intArrayOf(2,3),
-                        intArrayOf(3,6),
-                        intArrayOf(5,6),
-                        intArrayOf(5,7),
-                        intArrayOf(4,5),
-                        intArrayOf(4,8),
-                        intArrayOf(4,9),
-                        intArrayOf(10,4),
-                        intArrayOf(10,9),
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 3),
+                        intArrayOf(3, 6),
+                        intArrayOf(5, 6),
+                        intArrayOf(5, 7),
+                        intArrayOf(4, 5),
+                        intArrayOf(4, 8),
+                        intArrayOf(4, 9),
+                        intArrayOf(10, 4),
+                        intArrayOf(10, 9),
                     ),
                     listOf(
-                        listOf(1,2,10),
-                        listOf(4,5,7,8),
+                        listOf(1, 2, 10),
+                        listOf(4, 5, 7, 8),
                     ),
                 ),
             )
@@ -820,12 +820,30 @@ class SolutionTests {
         fun zeroProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(0,1,0,3,12),
-                    intArrayOf(1,3,12,0,0),
+                    intArrayOf(0, 1, 0, 3, 12),
+                    intArrayOf(1, 3, 12, 0, 0),
                 ),
                 Arguments.of(
                     intArrayOf(0),
                     intArrayOf(0),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun occurrenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 1, 1, 3),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2),
+                    false,
+                ),
+                Arguments.of(
+                    intArrayOf(-3, 0, 1, -3, 1, 1, 1, -3, 10, 0),
+                    true,
                 ),
             )
         }
@@ -1228,6 +1246,13 @@ class SolutionTests {
     fun moveZeroes(nums: IntArray, expected: IntArray) {
         solution.moveZeroes(nums)
         assertArrayEquals(expected, nums)
+    }
+
+    @ParameterizedTest(name = "uniqueOccurrences({0}) = {1}")
+    @MethodSource("occurrenceProvider")
+    fun uniqueOccurrences(nums: IntArray, expected: Boolean) {
+        val actual = solution.uniqueOccurrences(nums)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

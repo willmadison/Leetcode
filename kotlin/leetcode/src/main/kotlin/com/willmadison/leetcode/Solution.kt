@@ -1495,6 +1495,12 @@ class Solution : VersionControl() {
             nums[i] = 0
         }
     }
+
+    // https://leetcode.com/problems/unique-number-of-occurrences/
+    fun uniqueOccurrences(nums: IntArray): Boolean {
+        val countsByValue = nums.asIterable().groupingBy { it }.eachCount()
+        return countsByValue.size == countsByValue.values.toSet().size
+    }
 }
 
 open class VersionControl {
