@@ -1005,6 +1005,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun fallingPathProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(2, 1, 3),
+                        intArrayOf(6, 5, 4),
+                        intArrayOf(7, 8, 9),
+                    ),
+                    13,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1459,6 +1473,13 @@ class SolutionTests {
     @MethodSource("romanProvider")
     fun romanToInt(s: String, expected: Int) {
         val actual = solution.romanToInt(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "minFallingPathSum({0}) = {1}")
+    @MethodSource("fallingPathProvider")
+    fun minFallingPathSum(matrix: Array<IntArray>, expected: Int) {
+        val actual = solution.minFallingPathSum(matrix)
         assertEquals(expected, actual)
     }
 

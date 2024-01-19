@@ -1,6 +1,7 @@
 package com.willmadison.leetcode
 
 import java.lang.Integer.max
+import java.lang.Integer.min
 import java.util.*
 import kotlin.collections.LinkedHashSet
 import kotlin.math.abs
@@ -1672,6 +1673,42 @@ class Solution : VersionControl() {
         }
 
         return value
+    }
+
+    // https://leetcode.com/problems/minimum-falling-path-sum
+    fun minFallingPathSum(matrix: Array<IntArray>): Int {
+        var minFallingSum = Int.MAX_VALUE
+
+        val cache = mutableMapOf<Location, Int>()
+
+        for (col in matrix.indices) {
+            minFallingSum = min(minFallingSum,
+                doMinFallingPathSum(matrix, Location(0, col), cache))
+        }
+
+        return minFallingSum
+    }
+
+    private fun doMinFallingPathSum(matrix: Array<IntArray>, location: Location, cache: MutableMap<Location, Int>): Int {
+        if (location.col < 0 || location.col == matrix.size) {
+            return Int.MAX_VALUE
+        }
+
+        if (location.row == matrix.size - 1) {
+            return matrix[location.row][location.col]
+        }
+
+        if (cache.contains(location)) {
+            return cache[location]!!
+        }
+
+        val left = doMinFallingPathSum(matrix, Location(location.row+1, location.col - 1), cache)
+        val middle = doMinFallingPathSum(matrix, Location(location.row+1, location.col), cache)
+        val right = doMinFallingPathSum(matrix, Location(location.row+1, location.col+1), cache)
+
+        cache[location] = min(left, min(middle, right)) + matrix[location.row][location.col]
+
+        return cache[location]!!
     }
 }
 
