@@ -1019,6 +1019,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun errorNumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 4),
+                    intArrayOf(2, 3),
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1),
+                    intArrayOf(1, 2),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1481,6 +1495,13 @@ class SolutionTests {
     fun minFallingPathSum(matrix: Array<IntArray>, expected: Int) {
         val actual = solution.minFallingPathSum(matrix)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findErrorNums({0}) = {1}")
+    @MethodSource("errorNumProvider")
+    fun findErrorNums(nums: IntArray, expected: IntArray) {
+        val actual = solution.findErrorNums(nums)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach

@@ -1682,14 +1682,20 @@ class Solution : VersionControl() {
         val cache = mutableMapOf<Location, Int>()
 
         for (col in matrix.indices) {
-            minFallingSum = min(minFallingSum,
-                doMinFallingPathSum(matrix, Location(0, col), cache))
+            minFallingSum = min(
+                minFallingSum,
+                doMinFallingPathSum(matrix, Location(0, col), cache)
+            )
         }
 
         return minFallingSum
     }
 
-    private fun doMinFallingPathSum(matrix: Array<IntArray>, location: Location, cache: MutableMap<Location, Int>): Int {
+    private fun doMinFallingPathSum(
+        matrix: Array<IntArray>,
+        location: Location,
+        cache: MutableMap<Location, Int>
+    ): Int {
         if (location.col < 0 || location.col == matrix.size) {
             return Int.MAX_VALUE
         }
@@ -1702,13 +1708,51 @@ class Solution : VersionControl() {
             return cache[location]!!
         }
 
-        val left = doMinFallingPathSum(matrix, Location(location.row+1, location.col - 1), cache)
-        val middle = doMinFallingPathSum(matrix, Location(location.row+1, location.col), cache)
-        val right = doMinFallingPathSum(matrix, Location(location.row+1, location.col+1), cache)
+        val left = doMinFallingPathSum(matrix, Location(location.row + 1, location.col - 1), cache)
+        val middle = doMinFallingPathSum(matrix, Location(location.row + 1, location.col), cache)
+        val right = doMinFallingPathSum(matrix, Location(location.row + 1, location.col + 1), cache)
 
         cache[location] = min(left, min(middle, right)) + matrix[location.row][location.col]
 
         return cache[location]!!
+    }
+
+    fun sumSubarrayMins(arr: IntArray): Int {
+        val divisor = 1000000007
+
+        val stack = ArrayDeque<Int>()
+
+        var sumOfMinimums: Long = 0
+
+        for (i in 0..arr.size) {
+
+            while (stack.isNotEmpty()  && (i == arr.size || arr[stack.peek()] >= arr[i])) {
+                val mid = stack.pop()
+                val leftBoundary = if (stack.isEmpty()) -1 else stack.peek()
+                val rightBoundary = i
+
+                val count = (mid -leftBoundary) * (rightBoundary - mid) % divisor
+
+                sumOfMinimums += (count * arr[mid]) % divisor
+                sumOfMinimums %= divisor
+            }
+        }
+
+        return sumOfMinimums.toInt()
+    }
+
+    // https://leetcode.com/problems/set-mismatch/description/
+    fun findErrorNums(nums: IntArray): IntArray {
+        val n = nums.size
+        val expectedSum = n*(n+1)/2
+
+        val countsByNumber = nums.asIterable().groupingBy { it }.eachCount()
+
+        val duplicate = countsByNumber.entries.find { it.value > 1}?.key
+
+        val missing = expectedSum - countsByNumber.keys.sum()
+
+        return intArrayOf(duplicate!!, missing)
     }
 }
 
