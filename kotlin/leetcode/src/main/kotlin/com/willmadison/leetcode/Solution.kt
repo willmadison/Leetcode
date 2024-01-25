@@ -1726,12 +1726,12 @@ class Solution : VersionControl() {
 
         for (i in 0..arr.size) {
 
-            while (stack.isNotEmpty()  && (i == arr.size || arr[stack.peek()] >= arr[i])) {
+            while (stack.isNotEmpty() && (i == arr.size || arr[stack.peek()] >= arr[i])) {
                 val mid = stack.pop()
                 val leftBoundary = if (stack.isEmpty()) -1 else stack.peek()
                 val rightBoundary = i
 
-                val count = (mid -leftBoundary) * (rightBoundary - mid) % divisor
+                val count = (mid - leftBoundary) * (rightBoundary - mid) % divisor
 
                 sumOfMinimums += (count * arr[mid]) % divisor
                 sumOfMinimums %= divisor
@@ -1744,16 +1744,43 @@ class Solution : VersionControl() {
     // https://leetcode.com/problems/set-mismatch/description/
     fun findErrorNums(nums: IntArray): IntArray {
         val n = nums.size
-        val expectedSum = n*(n+1)/2
+        val expectedSum = n * (n + 1) / 2
 
         val countsByNumber = nums.asIterable().groupingBy { it }.eachCount()
 
-        val duplicate = countsByNumber.entries.find { it.value > 1}?.key
+        val duplicate = countsByNumber.entries.find { it.value > 1 }?.key
 
         val missing = expectedSum - countsByNumber.keys.sum()
 
         return intArrayOf(duplicate!!, missing)
     }
+
+    // https://leetcode.com/problems/search-insert-position/description/
+    fun searchInsert(nums: IntArray, target: Int): Int {
+        var (left, right) = 0 to nums.size - 1
+
+        var insertionPoint: Int = -1
+
+        while (left <= right) {
+            val midpoint = (left+right)/2
+
+            when {
+                nums[midpoint] == target || (midpoint-1 >= 0 && midpoint+1 <= nums.size-1 && nums[midpoint-1] < target && nums[midpoint+1] > target) -> {
+                    insertionPoint = if (target > nums[midpoint]) midpoint+1 else midpoint
+                    break
+                }
+                target > nums[midpoint] -> left = midpoint + 1
+                else -> right = midpoint - 1
+            }
+        }
+
+        if (insertionPoint == -1) {
+            insertionPoint = left
+        }
+
+        return insertionPoint
+    }
+
 }
 
 open class VersionControl {

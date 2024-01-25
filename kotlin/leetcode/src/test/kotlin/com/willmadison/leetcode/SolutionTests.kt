@@ -1033,6 +1033,37 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun insertProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    5,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    2,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    7,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    0,
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5),
+                    4,
+                    2,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1502,6 +1533,13 @@ class SolutionTests {
     fun findErrorNums(nums: IntArray, expected: IntArray) {
         val actual = solution.findErrorNums(nums)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "searchInsert({0}, {1}) = {2}")
+    @MethodSource("insertProvider")
+    fun searchInsert(nums: IntArray, target: Int, expected: Int) {
+        val actual = solution.searchInsert(nums, target)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
