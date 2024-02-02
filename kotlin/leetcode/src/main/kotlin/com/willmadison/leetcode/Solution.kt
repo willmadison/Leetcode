@@ -1840,6 +1840,50 @@ class Solution : VersionControl() {
         return null
     }
 
+    // https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+    fun removeNthFromEnd(head: ListNode?, n: Int): ListNode? {
+        val length = head.length()
+
+        if (length == 0) {
+            return null
+        }
+
+        val removalIndex = length - n
+
+        if (removalIndex == 0) {
+            return head?.next
+        }
+
+        val previousNode = head.getNodeAt(removalIndex - 1)
+        previousNode?.next = previousNode?.next?.next
+
+        return head
+    }
+
+    private fun ListNode?.length(): Int {
+        if (this == null) {
+            return 0
+        }
+
+        var length = 0
+
+        var current = this
+
+        while (current != null) {
+            current = current.next
+            length++
+        }
+
+        return length
+    }
+    private fun ListNode?.getNodeAt(index: Int): ListNode? {
+        if (index == 0) {
+            return this
+        }
+
+        return this?.next.getNodeAt(index-1)
+    }
+
 
 }
 
