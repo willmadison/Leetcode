@@ -1542,6 +1542,26 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun divideArray() {
+        val actual = solution.divideArray(intArrayOf(1,3,4,8,7,9,3,5,1), 2)
+        val expected = arrayOf(intArrayOf(1,1,3), intArrayOf(3,4,5), intArrayOf(7,8,9))
+        assertArrayEquals(expected, actual)
+    }
+
+    @Test
+    fun detectCycle() {
+        val negativeFour = ListNode(-4, null)
+        val two = ListNode(2, ListNode(0, negativeFour))
+        negativeFour.next = two
+
+        val head = ListNode(3, two)
+
+        val actual = solution.detectCycle(head)
+
+        assertEquals(two, actual)
+    }
+
     @AfterEach
     fun tearDown() {
         System.clearProperty("FIRST_BAD_VERSION")

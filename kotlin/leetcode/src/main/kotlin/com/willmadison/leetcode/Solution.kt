@@ -1781,6 +1781,66 @@ class Solution : VersionControl() {
         return insertionPoint
     }
 
+    fun divideArray(nums: IntArray, k: Int): Array<IntArray> {
+        nums.sort()
+
+        return Array<IntArray>(nums.size / 3) {
+            println(it)
+            val i = it * 3
+            if (nums[i + 2] - nums[i] > k) return emptyArray()
+            intArrayOf(nums[i], nums[i + 1], nums[i + 2])
+        }
+    }
+
+    // https://leetcode.com/problems/linked-list-cycle/description/
+    fun hasCycle(head: ListNode?): Boolean {
+        var slow = head
+        var fast = head
+
+        while (fast?.next != null) {
+            fast = fast.next?.next
+            slow = slow?.next
+
+            if (fast == slow) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    // https://leetcode.com/problems/linked-list-cycle-ii
+    fun detectCycle(head: ListNode?): ListNode? {
+        val cycleNode = findCycleNode(head) ?: return null
+
+        var slow = head
+        var other = cycleNode
+
+        while (slow != other) {
+            slow = slow!!.next
+            other = other.next!!
+        }
+
+        return slow
+    }
+
+    private fun findCycleNode(head: ListNode?): ListNode? {
+        var slow = head
+        var fast = head
+
+        while (fast?.next != null) {
+            fast = fast.next?.next
+            slow = slow?.next
+
+            if (fast == slow) {
+                return fast
+            }
+        }
+
+        return null
+    }
+
+
 }
 
 open class VersionControl {
