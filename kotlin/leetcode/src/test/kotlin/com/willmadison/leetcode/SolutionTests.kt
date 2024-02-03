@@ -1064,6 +1064,27 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun partitionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,15,7,9,2,5,10),
+                    3,
+                    84,
+                ),
+                Arguments.of(
+                    intArrayOf(1,4,1,5,7,3,6,1,9,9,3),
+                    4,
+                    83,
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    1,
+                    1,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1560,6 +1581,13 @@ class SolutionTests {
         val actual = solution.detectCycle(head)
 
         assertEquals(two, actual)
+    }
+
+    @ParameterizedTest(name = "maxSumAfterPartitioning({0}, {1}) = {2}")
+    @MethodSource("partitionProvider")
+    fun maxSumAfterPartitioning(nums: IntArray, k: Int, expected: Int) {
+        val actual = solution.maxSumAfterPartitioning(nums, k)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

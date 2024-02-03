@@ -3,7 +3,6 @@ package com.willmadison.leetcode
 import java.lang.Integer.max
 import java.lang.Integer.min
 import java.util.*
-import kotlin.collections.LinkedHashSet
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -1884,6 +1883,36 @@ class Solution : VersionControl() {
         return this?.next.getNodeAt(index-1)
     }
 
+    // https://leetcode.com/problems/partition-array-for-maximum-sum
+    fun maxSumAfterPartitioning(nums: IntArray, k: Int): Int {
+        val memo = IntArray(nums.size) { -1 }
+        return doMaxSum(nums, k, memo, 0)
+    }
+
+    private fun doMaxSum(nums: IntArray, k: Int, memo: IntArray, start: Int): Int {
+        val n = nums.size
+
+        if (start >= n) {
+            return 0
+        }
+
+        if (memo[start] != -1) {
+            return memo[start]
+        }
+
+        var (currentMax, answer) = 0 to 0
+
+        val end = min(n, start+k)
+
+        for (i in start until end) {
+            currentMax = max(currentMax, nums[i])
+            answer = max(answer, currentMax * (i - start + 1) + doMaxSum(nums, k, memo, i+1))
+        }
+
+        memo[start] = answer
+
+        return memo[start]
+    }
 
 }
 
