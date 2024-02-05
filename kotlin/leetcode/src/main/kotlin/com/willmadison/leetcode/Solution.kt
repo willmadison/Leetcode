@@ -473,7 +473,7 @@ class Solution : VersionControl() {
         return maxLength
     }
 
-    private data class Point(val x: Int, val y: Int) {
+    private data class Point(var x: Int, var y: Int) {
         fun distanceFrom(other: Point = Point(0, 0)) =
             sqrt(((other.x - this.x) * (other.x - this.x) + (other.y - this.y) * (other.y - this.y)).toDouble())
     }
@@ -1912,6 +1912,135 @@ class Solution : VersionControl() {
         memo[start] = answer
 
         return memo[start]
+    }
+
+    fun returnToBoundaryCount(nums: IntArray): Int {
+        var position = 0
+
+        var boundaryTouches = 0
+
+        for (move in nums) {
+            position += move
+
+            if (position == 0) {
+                boundaryTouches++
+            }
+        }
+
+        return boundaryTouches
+    }
+
+    // https://leetcode.com/problems/length-of-last-word/description/
+    fun lengthOfLastWord(word: String): Int = word.trim().split(" ").last().length
+
+    // https://leetcode.com/problems/baseball-game/description/
+    fun calPoints(operations: Array<String>): Int {
+        val record = mutableListOf<Int>()
+
+        for (operation in operations) {
+            when (operation) {
+                "+" -> record.add(record[record.size-1] + record[record.size-2])
+                "D" -> record.add(record[record.size-1]*2)
+                "C" -> record.removeLast()
+                else -> record.add(operation.toInt())
+            }
+        }
+
+        return record.sum()
+    }
+
+    // https://leetcode.com/problems/robot-return-to-origin/
+    fun judgeCircle(moves: String): Boolean {
+        val position = Point(0, 0)
+
+        for (move in moves) {
+           when (move) {
+               'U' -> position.y += 1
+               'D' -> position.y -= 1
+               'L' -> position.x -= 1
+               'R' -> position.x += 1
+           }
+        }
+
+        return position.x == 0 && position.y == 0
+    }
+
+    fun tictactoe(moves: Array<IntArray>): String {
+        val symbolsByLocation = mutableMapOf<Location, String>()
+
+        for ((i, move) in moves.withIndex()) {
+            val character = if (i % 2 == 0) "X" else "Y"
+            symbolsByLocation[Location(move[0], move[1])] = character
+        }
+
+        for (row in 0..2) {
+            val characters = mutableSetOf<String>()
+
+            characters.add(symbolsByLocation.getOrDefault(Location(row, 0), ""))
+            characters.add(symbolsByLocation.getOrDefault(Location(row, 1), ""))
+            characters.add(symbolsByLocation.getOrDefault(Location(row, 2), ""))
+
+            if (characters.size == 1 && !characters.contains("")) {
+                return if (characters.first() == "X") "A" else "B"
+            }
+        }
+
+        for (col in 0..2) {
+            val characters = mutableSetOf<String>()
+
+            characters.add(symbolsByLocation.getOrDefault(Location(0, col), ""))
+            characters.add(symbolsByLocation.getOrDefault(Location(1, col), ""))
+            characters.add(symbolsByLocation.getOrDefault(Location(2, col), ""))
+
+            if (characters.size == 1 && !characters.contains("")) {
+                return if (characters.first() == "X") "A" else "B"
+            }
+        }
+
+        var characters = mutableSetOf<String>()
+
+        characters.add(symbolsByLocation.getOrDefault(Location(0, 0), ""))
+        characters.add(symbolsByLocation.getOrDefault(Location(1, 1), ""))
+        characters.add(symbolsByLocation.getOrDefault(Location(2, 2), ""))
+
+        if (characters.size == 1 && !characters.contains("")) {
+            return if (characters.first() == "X") "A" else "B"
+        }
+
+        characters = mutableSetOf<String>()
+
+        characters.add(symbolsByLocation.getOrDefault(Location(2, 0), ""))
+        characters.add(symbolsByLocation.getOrDefault(Location(1, 1), ""))
+        characters.add(symbolsByLocation.getOrDefault(Location(0, 2), ""))
+
+        if (characters.size == 1 && !characters.contains("")) {
+            return if (characters.first() == "X") "A" else "B"
+        }
+
+        return if (moves.size == 9) "Draw" else "Pending"
+    }
+
+    fun maximumWealth(accounts: Array<IntArray>): Int {
+        val wealthByCustomer = mutableMapOf<Int, Int>()
+
+        for ((customer, customerAccounts) in accounts.withIndex()) {
+            wealthByCustomer[customer] = customerAccounts.sum()
+        }
+
+        return wealthByCustomer.values.max()
+    }
+
+    // https://leetcode.com/problems/first-unique-character-in-a-string/
+    fun firstUniqChar(word: String): Int {
+        val countsByCharacter = word.groupingBy { it }.eachCount()
+
+        for ((index, char) in word.withIndex()) {
+            if (countsByCharacter[char] == 1) {
+                return index
+            }
+        }
+
+        return -1
     }
 
 }

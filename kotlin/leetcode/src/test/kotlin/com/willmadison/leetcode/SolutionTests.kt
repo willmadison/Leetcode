@@ -1069,12 +1069,12 @@ class SolutionTests {
         fun partitionProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,15,7,9,2,5,10),
+                    intArrayOf(1, 15, 7, 9, 2, 5, 10),
                     3,
                     84,
                 ),
                 Arguments.of(
-                    intArrayOf(1,4,1,5,7,3,6,1,9,9,3),
+                    intArrayOf(1, 4, 1, 5, 7, 3, 6, 1, 9, 9, 3),
                     4,
                     83,
                 ),
@@ -1082,6 +1082,136 @@ class SolutionTests {
                     intArrayOf(1),
                     1,
                     1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun boundaryProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 3, -5),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 2, -3, -4),
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "Hello World",
+                    5,
+                ),
+                Arguments.of(
+                    "   fly me   to   the moon  ",
+                    4,
+                ),
+                Arguments.of(
+                    "luffy is still joyboy",
+                    6,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun operationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("5", "2", "C", "D", "+"),
+                    30,
+                ),
+                Arguments.of(
+                    arrayOf("5", "-2", "4", "C", "D", "9", "+", "+"),
+                    27,
+                ),
+                Arguments.of(
+                    arrayOf("1", "C"),
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun moveProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "UD",
+                    true,
+                ),
+                Arguments.of(
+                    "LL",
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun ticTacToeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0),
+                        intArrayOf(2, 0),
+                        intArrayOf(1, 1),
+                        intArrayOf(2, 1),
+                        intArrayOf(2, 2)
+                    ),
+                    "A"
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0),
+                        intArrayOf(1, 1),
+                        intArrayOf(0, 1),
+                        intArrayOf(0, 2),
+                        intArrayOf(1, 0),
+                        intArrayOf(2, 0)
+                    ),
+                    "B"
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wealthProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1,2,3),
+                        intArrayOf(3,2,1),
+                    ),
+                    6
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1,5),
+                        intArrayOf(7,3),
+                        intArrayOf(3,5),
+                    ),
+                    10
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun uniqueCharProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                   "leetcode",
+                    0,
+                ),
+                Arguments.of(
+                   "loveleetcode",
+                    2,
+                ),
+                Arguments.of(
+                   "aabb",
+                    -1,
                 ),
             )
         }
@@ -1565,8 +1695,8 @@ class SolutionTests {
 
     @Test
     fun divideArray() {
-        val actual = solution.divideArray(intArrayOf(1,3,4,8,7,9,3,5,1), 2)
-        val expected = arrayOf(intArrayOf(1,1,3), intArrayOf(3,4,5), intArrayOf(7,8,9))
+        val actual = solution.divideArray(intArrayOf(1, 3, 4, 8, 7, 9, 3, 5, 1), 2)
+        val expected = arrayOf(intArrayOf(1, 1, 3), intArrayOf(3, 4, 5), intArrayOf(7, 8, 9))
         assertArrayEquals(expected, actual)
     }
 
@@ -1587,6 +1717,55 @@ class SolutionTests {
     @MethodSource("partitionProvider")
     fun maxSumAfterPartitioning(nums: IntArray, k: Int, expected: Int) {
         val actual = solution.maxSumAfterPartitioning(nums, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "returnToBoundaryCount({0}) = {1}")
+    @MethodSource("boundaryProvider")
+    fun returnToBoundaryCount(nums: IntArray, expected: Int) {
+        val actual = solution.returnToBoundaryCount(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "lengthOfLastWord({0}) = {1}")
+    @MethodSource("wordProvider")
+    fun lengthOfLastWord(word: String, expected: Int) {
+        val actual = solution.lengthOfLastWord(word)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "calPoints({0}) = {1}")
+    @MethodSource("operationProvider")
+    fun calPoints(operations: Array<String>, expected: Int) {
+        val actual = solution.calPoints(operations)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "judgeCircle({0}) = {1}")
+    @MethodSource("moveProvider")
+    fun judgeCircle(moves: String, expected: Boolean) {
+        val actual = solution.judgeCircle(moves)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "tictactoe({0}) = {1}")
+    @MethodSource("ticTacToeProvider")
+    fun tictactoe(moves: Array<IntArray>, expected: String) {
+        val actual = solution.tictactoe(moves)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maximumWealth({0}) = {1}")
+    @MethodSource("wealthProvider")
+    fun maximumWealth(accounts: Array<IntArray>, expected: Int) {
+        val actual = solution.maximumWealth(accounts)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "firstUniqChr({0}) = {1}")
+    @MethodSource("uniqueCharProvider")
+    fun firstUniqChar(word: String, expected: Int) {
+        val actual = solution.firstUniqChar(word)
         assertEquals(expected, actual)
     }
 
