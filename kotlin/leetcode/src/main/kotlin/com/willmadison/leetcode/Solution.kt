@@ -2043,6 +2043,19 @@ class Solution : VersionControl() {
         return -1
     }
 
+    fun groupAnagrams(words: Array<String>): List<List<String>> {
+        val anagramsByKey = mutableMapOf<String, MutableList<String>>()
+
+        for (word in words) {
+            val k = key(word)
+            val anagrams = anagramsByKey.getOrDefault(k, mutableListOf())
+            anagrams.add(word)
+            anagramsByKey[k] = anagrams
+        }
+
+        return anagramsByKey.values.toList()
+    }
+
 }
 
 open class VersionControl {

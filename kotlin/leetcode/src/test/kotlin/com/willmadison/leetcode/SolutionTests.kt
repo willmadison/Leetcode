@@ -1,5 +1,6 @@
 package com.willmadison.leetcode
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -1182,16 +1183,16 @@ class SolutionTests {
             return Stream.of(
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(1,2,3),
-                        intArrayOf(3,2,1),
+                        intArrayOf(1, 2, 3),
+                        intArrayOf(3, 2, 1),
                     ),
                     6
                 ),
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(1,5),
-                        intArrayOf(7,3),
-                        intArrayOf(3,5),
+                        intArrayOf(1, 5),
+                        intArrayOf(7, 3),
+                        intArrayOf(3, 5),
                     ),
                     10
                 ),
@@ -1202,16 +1203,36 @@ class SolutionTests {
         fun uniqueCharProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                   "leetcode",
+                    "leetcode",
                     0,
                 ),
                 Arguments.of(
-                   "loveleetcode",
+                    "loveleetcode",
                     2,
                 ),
                 Arguments.of(
-                   "aabb",
+                    "aabb",
                     -1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun anagramGroupProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("eat", "tea", "tan", "ate", "nat", "bat"),
+                    listOf(
+                        listOf("bat"),
+                        listOf("tan", "nat"),
+                        listOf("eat", "tea", "ate"),
+                    )
+                ),
+                Arguments.of(
+                    arrayOf(""),
+                    listOf(
+                        listOf(""),
+                    )
                 ),
             )
         }
@@ -1767,6 +1788,13 @@ class SolutionTests {
     fun firstUniqChar(word: String, expected: Int) {
         val actual = solution.firstUniqChar(word)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "groupAnagrams({0}) = {1}")
+    @MethodSource("anagramGroupProvider")
+    fun groupAnagrams(words: Array<String>, expected: List<List<String>>) {
+        val actual = solution.groupAnagrams(words)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @AfterEach
