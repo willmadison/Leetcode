@@ -1236,6 +1236,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun frequencySortProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leetcode",
+                    "eeeltcod",
+                ),
+                Arguments.of(
+                    "tree",
+                    "eetr",
+                ),
+                Arguments.of(
+                    "aaaccc",
+                    "aaaccc",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1795,6 +1813,14 @@ class SolutionTests {
     fun groupAnagrams(words: Array<String>, expected: List<List<String>>) {
         val actual = solution.groupAnagrams(words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "frequencySort({0}) = {1}")
+    @MethodSource("frequencySortProvider")
+    @Disabled
+    fun frequencySort(string: String, expected: String) {
+        val actual = solution.frequencySort(string)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

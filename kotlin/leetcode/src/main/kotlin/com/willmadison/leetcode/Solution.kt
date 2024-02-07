@@ -2056,6 +2056,22 @@ class Solution : VersionControl() {
         return anagramsByKey.values.toList()
     }
 
+    fun frequencySort(string: String): String {
+        val countsByCharacter = string.groupingBy { it }.eachCount()
+
+        val descendingCounts = countsByCharacter.entries.sortedBy { it.value }.reversed()
+
+        val result = StringBuilder()
+
+        for ((character, count) in descendingCounts) {
+            for (i in 1..count) {
+                result.append(character)
+            }
+        }
+
+        return result.toString()
+    }
+
 }
 
 open class VersionControl {
