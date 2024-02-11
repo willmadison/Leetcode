@@ -1761,13 +1761,14 @@ class Solution : VersionControl() {
         var insertionPoint: Int = -1
 
         while (left <= right) {
-            val midpoint = (left+right)/2
+            val midpoint = (left + right) / 2
 
             when {
-                nums[midpoint] == target || (midpoint-1 >= 0 && midpoint+1 <= nums.size-1 && nums[midpoint-1] < target && nums[midpoint+1] > target) -> {
-                    insertionPoint = if (target > nums[midpoint]) midpoint+1 else midpoint
+                nums[midpoint] == target || (midpoint - 1 >= 0 && midpoint + 1 <= nums.size - 1 && nums[midpoint - 1] < target && nums[midpoint + 1] > target) -> {
+                    insertionPoint = if (target > nums[midpoint]) midpoint + 1 else midpoint
                     break
                 }
+
                 target > nums[midpoint] -> left = midpoint + 1
                 else -> right = midpoint - 1
             }
@@ -1875,12 +1876,13 @@ class Solution : VersionControl() {
 
         return length
     }
+
     private fun ListNode?.getNodeAt(index: Int): ListNode? {
         if (index == 0) {
             return this
         }
 
-        return this?.next.getNodeAt(index-1)
+        return this?.next.getNodeAt(index - 1)
     }
 
     // https://leetcode.com/problems/partition-array-for-maximum-sum
@@ -1902,11 +1904,11 @@ class Solution : VersionControl() {
 
         var (currentMax, answer) = 0 to 0
 
-        val end = min(n, start+k)
+        val end = min(n, start + k)
 
         for (i in start until end) {
             currentMax = max(currentMax, nums[i])
-            answer = max(answer, currentMax * (i - start + 1) + doMaxSum(nums, k, memo, i+1))
+            answer = max(answer, currentMax * (i - start + 1) + doMaxSum(nums, k, memo, i + 1))
         }
 
         memo[start] = answer
@@ -1939,8 +1941,8 @@ class Solution : VersionControl() {
 
         for (operation in operations) {
             when (operation) {
-                "+" -> record.add(record[record.size-1] + record[record.size-2])
-                "D" -> record.add(record[record.size-1]*2)
+                "+" -> record.add(record[record.size - 1] + record[record.size - 2])
+                "D" -> record.add(record[record.size - 1] * 2)
                 "C" -> record.removeLast()
                 else -> record.add(operation.toInt())
             }
@@ -1954,12 +1956,12 @@ class Solution : VersionControl() {
         val position = Point(0, 0)
 
         for (move in moves) {
-           when (move) {
-               'U' -> position.y += 1
-               'D' -> position.y -= 1
-               'L' -> position.x -= 1
-               'R' -> position.x += 1
-           }
+            when (move) {
+                'U' -> position.y += 1
+                'D' -> position.y -= 1
+                'L' -> position.x -= 1
+                'R' -> position.x += 1
+            }
         }
 
         return position.x == 0 && position.y == 0
@@ -2054,6 +2056,105 @@ class Solution : VersionControl() {
         }
 
         return anagramsByKey.values.toList()
+    }
+
+    fun getIntersectionNode(headA: ListNode?, headB: ListNode?): ListNode? {
+        val aNodes = ArrayDeque<ListNode?>()
+        val bNodes = ArrayDeque<ListNode?>()
+
+        var aHead = headA
+        var bHead = headB
+
+        while (aHead != null) {
+            aNodes.add(aHead)
+            aHead = aHead.next
+        }
+
+        while (bHead != null) {
+            bNodes.add(bHead)
+            bHead = bHead.next
+        }
+
+        var intersection: ListNode? = null
+
+        while (aNodes.peekLast() == bNodes.peekLast()) {
+            intersection = aNodes.pollLast()
+            bNodes.pollLast()
+        }
+
+        return intersection
+    }
+
+    fun modifiedMatrix(matrix: Array<IntArray>): Array<IntArray> {
+        val answer = mutableListOf<IntArray>()
+        val maximumsByColumn = mutableMapOf<Int, Int>()
+
+        for (col in 0 until matrix[0].size) {
+            var max = Int.MIN_VALUE
+
+            for (row in matrix.indices) {
+                if (matrix[row][col] > max) {
+                    max = matrix[row][col]
+                }
+            }
+
+            maximumsByColumn[col] = max
+        }
+
+        for (row in matrix) {
+            val values = mutableListOf<Int>()
+
+            for ((col, value) in row.withIndex()) {
+                if (value == -1) {
+                    values.add(maximumsByColumn[col]!!)
+                } else {
+                    values.add(value)
+                }
+            }
+
+            answer.add(values.toIntArray())
+        }
+
+        return answer.toTypedArray()
+    }
+
+    fun countMatchingSubarrays(nums: IntArray, pattern: IntArray): Int {
+        val subArraySize = pattern.size+1
+
+        var matches = 0
+
+        for (i in 0..nums.size-subArraySize) {
+            if (matchesPattern(nums.slice(i..<i+subArraySize).toIntArray(), pattern)) {
+                matches++
+            }
+        }
+
+        return matches
+    }
+
+    private fun matchesPattern(subArray: IntArray, pattern: IntArray): Boolean {
+        for ((i, value) in pattern.withIndex()) {
+            when (value) {
+                -1 -> {
+                    if (subArray[i] <= subArray[i + 1]) {
+                        return false
+                    }
+                }
+                0 -> {
+                    if (subArray[i] != subArray[i+1]) {
+                        return false
+                    }
+                }
+                1 -> {
+                    if (subArray[i] >= subArray[i + 1]) {
+                        return false
+                    }
+                }
+            }
+
+        }
+
+        return true
     }
 
 }
