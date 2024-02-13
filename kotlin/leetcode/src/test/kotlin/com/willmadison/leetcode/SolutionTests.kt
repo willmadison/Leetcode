@@ -1236,6 +1236,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun palindromeListProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("abc", "car", "ada", "racecar", "cool"),
+                    "ada",
+                ),
+                Arguments.of(
+                    arrayOf("def","ghi"),
+                    "",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1795,6 +1809,13 @@ class SolutionTests {
     fun groupAnagrams(words: Array<String>, expected: List<List<String>>) {
         val actual = solution.groupAnagrams(words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "firstPalindrome({0}) = {1}")
+    @MethodSource("palindromeListProvider")
+    fun firstPalindrome(words: Array<String>, expected: String) {
+        val actual = solution.firstPalindrome(words)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

@@ -207,9 +207,23 @@ class Solution : VersionControl() {
 
     // https://leetcode.com/problems/majority-element/
     fun majorityElement(nums: IntArray): Int {
-        val occurrencesByValue = nums.asIterable().groupingBy { it }.eachCount()
+        var majorityElement = nums[0]
+        var counter = 0
 
-        return occurrencesByValue.entries.find { it.value > nums.size / 2 }!!.key
+        for (num in nums) {
+            if (num == majorityElement) {
+                counter++
+            } else {
+                counter--
+            }
+
+            if (counter == 0) {
+                majorityElement = num
+                counter = 1
+            }
+        }
+
+        return majorityElement
     }
 
     // https://leetcode.com/problems/add-binary/
@@ -549,8 +563,8 @@ class Solution : VersionControl() {
         val copy = Node(node.`val`)
         cache[node.`val`] = copy
 
-        for (neighbor in node.neighbors) {
-            copy.neighbors.add(cloneGraph(neighbor))
+        for (neighbor in node.children) {
+            copy.children.add(cloneGraph(neighbor))
         }
 
         return copy
@@ -2119,12 +2133,12 @@ class Solution : VersionControl() {
     }
 
     fun countMatchingSubarrays(nums: IntArray, pattern: IntArray): Int {
-        val subArraySize = pattern.size+1
+        val subArraySize = pattern.size + 1
 
         var matches = 0
 
-        for (i in 0..nums.size-subArraySize) {
-            if (matchesPattern(nums.slice(i..<i+subArraySize).toIntArray(), pattern)) {
+        for (i in 0..nums.size - subArraySize) {
+            if (matchesPattern(nums.slice(i..<i + subArraySize).toIntArray(), pattern)) {
                 matches++
             }
         }
@@ -2140,11 +2154,13 @@ class Solution : VersionControl() {
                         return false
                     }
                 }
+
                 0 -> {
-                    if (subArray[i] != subArray[i+1]) {
+                    if (subArray[i] != subArray[i + 1]) {
                         return false
                     }
                 }
+
                 1 -> {
                     if (subArray[i] >= subArray[i + 1]) {
                         return false
@@ -2157,6 +2173,41 @@ class Solution : VersionControl() {
         return true
     }
 
+    fun preorder(root: Node?): List<Int> {
+        if (root == null) {
+            return emptyList()
+        }
+
+        val values = mutableListOf<Int>()
+
+        values.add(root.`val`)
+
+        for (child in root.children) {
+            values.addAll(preorder(child))
+        }
+
+        return values
+    }
+
+    // https://leetcode.com/problems/find-first-palindromic-string-in-the-array/description/?envType=daily-question&envId=2024-02-13
+    fun firstPalindrome(words: Array<String>): String {
+        return words.find { it.isPalindrome() } ?: ""
+    }
+
+    private fun String.isPalindrome(): Boolean {
+        var (start, end) = 0 to this.length-1
+
+        while (start < end) {
+            if (this[start] != this[end]) {
+                return false
+            }
+
+            start++
+            end--
+        }
+
+        return true
+    }
 }
 
 open class VersionControl {
@@ -2172,4 +2223,4 @@ class ListNode(var `val`: Int, var next: ListNode? = null)
 
 class TreeNode(var `val`: Int, var left: TreeNode? = null, var right: TreeNode? = null)
 
-class Node(var `val`: Int, var neighbors: ArrayList<Node?> = ArrayList<Node?>())
+class Node(var `val`: Int, var children: MutableList<Node?> = ArrayList<Node?>())
