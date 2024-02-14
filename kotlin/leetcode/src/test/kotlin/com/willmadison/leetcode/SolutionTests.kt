@@ -1264,6 +1264,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun frequencySortProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leetcode",
+                    "eeeltcod",
+                ),
+                Arguments.of(
+                    "tree",
+                    "eetr",
+                ),
+                Arguments.of(
+                    "aaaccc",
+                    "aaaccc",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1837,6 +1855,14 @@ class SolutionTests {
     fun rearrangeArray(nums: IntArray, expected: IntArray) {
         val actual = solution.rearrangeArray(nums)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "frequencySort({0}) = {1}")
+    @MethodSource("frequencySortProvider")
+    @Disabled
+    fun frequencySort(string: String, expected: String) {
+        val actual = solution.frequencySort(string)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
