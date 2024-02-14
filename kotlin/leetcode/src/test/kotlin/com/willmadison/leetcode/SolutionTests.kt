@@ -1245,8 +1245,22 @@ class SolutionTests {
                     "ada",
                 ),
                 Arguments.of(
-                    arrayOf("def","ghi"),
+                    arrayOf("def", "ghi"),
                     "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun arrangeableArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 1, -2, -5, 2, -4),
+                    intArrayOf(3, -2, 1, -5, 2, -4),
+                ),
+                Arguments.of(
+                    intArrayOf(-1, 1),
+                    intArrayOf(1, -1),
                 ),
             )
         }
@@ -1816,6 +1830,13 @@ class SolutionTests {
     fun firstPalindrome(words: Array<String>, expected: String) {
         val actual = solution.firstPalindrome(words)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "rearrangeArray({0}) = {1}")
+    @MethodSource("arrangeableArrayProvider")
+    fun rearrangeArray(nums: IntArray, expected: IntArray) {
+        val actual = solution.rearrangeArray(nums)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach

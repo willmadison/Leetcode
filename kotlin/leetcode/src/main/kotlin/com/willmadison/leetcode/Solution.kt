@@ -2208,6 +2208,24 @@ class Solution : VersionControl() {
 
         return true
     }
+
+    // https://leetcode.com/problems/rearrange-array-elements-by-sign/description/
+    fun rearrangeArray(nums: IntArray): IntArray {
+        val positives = nums.filter { it > 0 }
+        val negatives = nums.filter { it < 0 }
+
+        var valuesAdded = 0
+        var i = 0
+
+        while (valuesAdded < nums.size) {
+            nums[valuesAdded++] = positives[i]
+            nums[valuesAdded++] = negatives[i]
+            i++
+        }
+
+        return nums
+    }
+
 }
 
 open class VersionControl {
