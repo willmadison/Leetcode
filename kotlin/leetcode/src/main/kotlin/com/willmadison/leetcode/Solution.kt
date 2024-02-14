@@ -503,8 +503,6 @@ class Solution : VersionControl() {
         fun manhattanDistance(other: Location) = abs(this.row - other.row) + abs(this.col - other.col)
     }
 
-    data class NodeLevel(val node: TreeNode, val level: Int)
-
     // https://leetcode.com/problems/binary-tree-level-order-traversal/description/
     fun levelOrder(root: TreeNode?): List<List<Int>> {
         val result = mutableListOf<List<Int>>()
@@ -518,7 +516,6 @@ class Solution : VersionControl() {
 
         return result
     }
-
 
     // https://leetcode.com/problems/clone-graph
     private val cache = mutableMapOf<Int, Node?>()
