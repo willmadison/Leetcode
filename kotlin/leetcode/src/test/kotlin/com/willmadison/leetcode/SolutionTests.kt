@@ -1282,6 +1282,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun intArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 5, 4),
+                    1,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 3, 1, 1, 3, 3, 2),
+                    3,
+                    2,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1862,6 +1878,13 @@ class SolutionTests {
     @Disabled
     fun frequencySort(string: String, expected: String) {
         val actual = solution.frequencySort(string)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findLeastNumOfUniqueInts({0}, {1}) = {2}")
+    @MethodSource("intArrayProvider")
+    fun findLeastNumOfUniqueInts(array: IntArray, k: Int, expected: Int) {
+        val actual = solution.findLeastNumOfUniqueInts(array, k)
         assertEquals(expected, actual)
     }
 

@@ -2211,6 +2211,32 @@ class Solution : VersionControl() {
         return result.toString()
     }
 
+    // https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16
+    fun findLeastNumOfUniqueInts(array: IntArray, k: Int): Int {
+        val countsByNumber = array.asIterable().groupingBy { it }.eachCount()
+
+        val compareByCount: Comparator<Map.Entry<Int, Int>> = compareBy { it.value }
+
+        val minHeap = PriorityQueue(compareByCount)
+        minHeap.addAll(countsByNumber.entries)
+
+        var numbersRemoved = 0
+
+        while (numbersRemoved < k && minHeap.isNotEmpty()) {
+            val leastUnique = minHeap.remove()
+            val amountRemoved = min(leastUnique.value, k-numbersRemoved)
+
+            if (amountRemoved < leastUnique.value) {
+                val amountRemaining = leastUnique.value - amountRemoved
+                minHeap.add(AbstractMap.SimpleEntry(leastUnique.key, amountRemaining))
+            }
+
+            numbersRemoved += amountRemoved
+        }
+
+        return minHeap.size
+    }
+
 }
 
 open class VersionControl {
