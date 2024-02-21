@@ -2288,11 +2288,10 @@ class Solution : VersionControl() {
         val pq = PriorityQueue<Int>()
 
         for (num in nums) {
-            if (pq.size < 2) {
-                pq.add(num)
-            } else if (num > pq.peek()) {
+            pq.add(num)
+
+            if (pq.size > 2) {
                 pq.remove()
-                pq.add(num)
             }
         }
 
