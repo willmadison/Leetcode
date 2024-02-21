@@ -1298,6 +1298,85 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun buildingProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(4, 2, 7, 6, 9, 14, 12),
+                    5,
+                    1,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(4,12,2,7,3,18,20,3,19),
+                    10,
+                    2,
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(14,3,19,3),
+                    17,
+                    0,
+                    3,
+                ),
+
+            )
+        }
+
+        @JvmStatic
+        fun powerOfTwoProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    1,
+                    true,
+                ),
+                Arguments.of(
+                    16,
+                    true,
+                ),
+                Arguments.of(
+                    3,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun missingNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0,1,3),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(0,1),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(9,6,4,2,3,5,7,0,1),
+                    8,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxProductProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3,4,5,2),
+                    12,
+                ),
+                Arguments.of(
+                    intArrayOf(1,5,4,5),
+                    16,
+                ),
+                Arguments.of(
+                    intArrayOf(3,7),
+                    12,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1885,6 +1964,34 @@ class SolutionTests {
     @MethodSource("intArrayProvider")
     fun findLeastNumOfUniqueInts(array: IntArray, k: Int, expected: Int) {
         val actual = solution.findLeastNumOfUniqueInts(array, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "furthestBuilding({0}, {1}, {2}) = {3}")
+    @MethodSource("buildingProvider")
+    fun furthestBuilding(heights: IntArray, bricks: Int, ladders: Int, expected: Int) {
+        val actual = solution.furthestBuilding(heights, bricks, ladders)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "isPowerOfTwo({0}) = {1}")
+    @MethodSource("powerOfTwoProvider")
+    fun isPowerOfTwo(n: Int, expected: Boolean) {
+        val actual = solution.isPowerOfTwo(n)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "missingNumber({0}) = {1}")
+    @MethodSource("missingNumberProvider")
+    fun missingNumber(nums: IntArray, expected: Int) {
+        val actual = solution.missingNumber(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maxProduct({0}) = {1}")
+    @MethodSource("maxProductProvider")
+    fun maxProduct(nums: IntArray, expected: Int) {
+        val actual = solution.maxProduct(nums)
         assertEquals(expected, actual)
     }
 

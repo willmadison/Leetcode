@@ -2164,7 +2164,7 @@ class Solution : VersionControl() {
     }
 
     private fun String.isPalindrome(): Boolean {
-        var (start, end) = 0 to this.length-1
+        var (start, end) = 0 to this.length - 1
 
         while (start < end) {
             if (this[start] != this[end]) {
@@ -2224,7 +2224,7 @@ class Solution : VersionControl() {
 
         while (numbersRemoved < k && minHeap.isNotEmpty()) {
             val leastUnique = minHeap.remove()
-            val amountRemoved = min(leastUnique.value, k-numbersRemoved)
+            val amountRemoved = min(leastUnique.value, k - numbersRemoved)
 
             if (amountRemoved < leastUnique.value) {
                 val amountRemaining = leastUnique.value - amountRemoved
@@ -2235,6 +2235,68 @@ class Solution : VersionControl() {
         }
 
         return minHeap.size
+    }
+
+    fun furthestBuilding(heights: IntArray, bricks: Int, ladders: Int): Int {
+        val ladderAllocations = PriorityQueue<Int>(max(1, ladders))
+
+        var bricksUsed = 0
+
+        for (i in 0..heights.size - 2) {
+            val currentHeight = heights[i]
+            val nextHeight = heights[i + 1]
+
+            val climb = nextHeight - currentHeight
+
+            if (climb <= 0) {
+                continue
+            }
+
+            ladderAllocations.add(climb)
+
+            if (ladderAllocations.size <= ladders) {
+                continue
+            }
+
+            bricksUsed += ladderAllocations.remove()
+
+            if (bricksUsed > bricks) {
+                return i
+            }
+        }
+
+        return heights.size - 1
+    }
+
+    fun isPowerOfTwo(n: Int): Boolean {
+        if (n == 0) return false
+
+        var value = n
+
+        while (value % 2 == 0) value /= 2
+
+        return value == 1
+    }
+
+    fun missingNumber(nums: IntArray): Int {
+        val n = nums.size
+        val expectedSum = (n * (n + 1)) / 2
+        return abs(nums.sum() - expectedSum)
+    }
+
+    fun maxProduct(nums: IntArray): Int {
+        val pq = PriorityQueue<Int>()
+
+        for (num in nums) {
+            if (pq.size < 2) {
+                pq.add(num)
+            } else if (num > pq.peek()) {
+                pq.remove()
+                pq.add(num)
+            }
+        }
+
+        return pq.map { it - 1 }.reduce { acc, i -> acc * i }
     }
 
 }
@@ -2253,3 +2315,45 @@ class ListNode(var `val`: Int, var next: ListNode? = null)
 class TreeNode(var `val`: Int, var left: TreeNode? = null, var right: TreeNode? = null)
 
 class Node(var `val`: Int, var children: MutableList<Node?> = ArrayList<Node?>())
+
+@Suppress("unused")
+class ParkingSystem(big: Int, medium: Int, small: Int) {
+    private enum class ParkingSpotType(val id: Int) {
+        BIG(1),
+        MEDIUM(2),
+        SMALL(3);
+
+        companion object {
+            fun typeById(id: Int): ParkingSpotType {
+                return when (id) {
+                    1 -> BIG
+                    2 -> MEDIUM
+                    3 -> SMALL
+                    else -> BIG
+                }
+            }
+        }
+    }
+
+    private val spotAvailabilityByType = mutableMapOf<ParkingSpotType, Int>()
+
+    init {
+        spotAvailabilityByType[ParkingSpotType.BIG] = big
+        spotAvailabilityByType[ParkingSpotType.MEDIUM] = medium
+        spotAvailabilityByType[ParkingSpotType.SMALL] = small
+    }
+
+    fun addCar(carType: Int): Boolean {
+        val spotType = ParkingSpotType.typeById(carType)
+
+        if (spotAvailabilityByType[spotType]!! > 0) {
+            var slots = spotAvailabilityByType[spotType]!!
+            slots--
+            spotAvailabilityByType[spotType] = slots
+            return true
+        }
+
+        return false
+    }
+
+}
