@@ -1309,19 +1309,19 @@ class SolutionTests {
                     4,
                 ),
                 Arguments.of(
-                    intArrayOf(4,12,2,7,3,18,20,3,19),
+                    intArrayOf(4, 12, 2, 7, 3, 18, 20, 3, 19),
                     10,
                     2,
                     7,
                 ),
                 Arguments.of(
-                    intArrayOf(14,3,19,3),
+                    intArrayOf(14, 3, 19, 3),
                     17,
                     0,
                     3,
                 ),
 
-            )
+                )
         }
 
         @JvmStatic
@@ -1346,15 +1346,15 @@ class SolutionTests {
         fun missingNumberProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(0,1,3),
+                    intArrayOf(0, 1, 3),
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(0,1),
+                    intArrayOf(0, 1),
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(9,6,4,2,3,5,7,0,1),
+                    intArrayOf(9, 6, 4, 2, 3, 5, 7, 0, 1),
                     8,
                 ),
             )
@@ -1364,19 +1364,88 @@ class SolutionTests {
         fun maxProductProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(3,4,5,2),
+                    intArrayOf(3, 4, 5, 2),
                     12,
                 ),
                 Arguments.of(
-                    intArrayOf(1,5,4,5),
+                    intArrayOf(1, 5, 4, 5),
                     16,
                 ),
                 Arguments.of(
-                    intArrayOf(3,7),
+                    intArrayOf(3, 7),
                     12,
                 ),
             )
         }
+
+        @JvmStatic
+        fun judgeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    2,
+                    arrayOf(
+                        intArrayOf(1, 2),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 3),
+                    ),
+                    3,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 3),
+                        intArrayOf(3, 1),
+                    ),
+                    -1,
+                ),
+                Arguments.of(
+                    1,
+                    emptyArray<IntArray>(),
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun kthLargestProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3,2,1,5,6,4),
+                    2,
+                    5,
+                ),
+                Arguments.of(
+                    intArrayOf(3,2,3,1,2,4,5,5,6),
+                    4,
+                    4,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun topKFrequentProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,1,1,2,2,3),
+                    2,
+                    intArrayOf(1, 2),
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    1,
+                    intArrayOf(1),
+                ),
+            )
+        }
+
+
     }
 
     @BeforeEach
@@ -1993,6 +2062,27 @@ class SolutionTests {
     fun maxProduct(nums: IntArray, expected: Int) {
         val actual = solution.maxProduct(nums)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findJudge({0}, {1}) = {2}")
+    @MethodSource("judgeProvider")
+    fun findJudge(n: Int, trusts: Array<IntArray>, expected: Int) {
+        val actual = solution.findJudge(n, trusts)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findKthLargest({0}, {1}) = {2}")
+    @MethodSource("kthLargestProvider")
+    fun findKthLargest(nums: IntArray, k: Int, expected: Int) {
+        val actual = solution.findKthLargest(nums, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "topKFrequent({0}, {1}) = {2}")
+    @MethodSource("topKFrequentProvider")
+    fun topKFrequent(nums: IntArray, k: Int, expected: IntArray) {
+        val actual = solution.topKFrequent(nums, k)
+        assertThat(actual).containsExactlyInAnyOrder(expected.toTypedArray())
     }
 
     @AfterEach

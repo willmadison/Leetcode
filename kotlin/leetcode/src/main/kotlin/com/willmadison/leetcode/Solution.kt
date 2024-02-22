@@ -2237,6 +2237,7 @@ class Solution : VersionControl() {
         return minHeap.size
     }
 
+    // https://leetcode.com/problems/furthest-building-you-can-reach/description/
     fun furthestBuilding(heights: IntArray, bricks: Int, ladders: Int): Int {
         val ladderAllocations = PriorityQueue<Int>(max(1, ladders))
 
@@ -2268,6 +2269,7 @@ class Solution : VersionControl() {
         return heights.size - 1
     }
 
+    // https://leetcode.com/problems/power-of-two/description/
     fun isPowerOfTwo(n: Int): Boolean {
         if (n == 0) return false
 
@@ -2278,12 +2280,14 @@ class Solution : VersionControl() {
         return value == 1
     }
 
+    // https://leetcode.com/problems/missing-number/description/
     fun missingNumber(nums: IntArray): Int {
         val n = nums.size
         val expectedSum = (n * (n + 1)) / 2
         return abs(nums.sum() - expectedSum)
     }
 
+    // https://leetcode.com/problems/maximum-product-of-two-elements-in-an-array/description/
     fun maxProduct(nums: IntArray): Int {
         val pq = PriorityQueue<Int>()
 
@@ -2296,6 +2300,56 @@ class Solution : VersionControl() {
         }
 
         return pq.map { it - 1 }.reduce { acc, i -> acc * i }
+    }
+
+    // https://leetcode.com/problems/find-the-town-judge/description/
+    fun findJudge(n: Int, trusts: Array<IntArray>): Int {
+        if (trusts.isEmpty() && n == 1) return n
+
+        val trustors = mutableSetOf<Int>()
+        val trustCountsByTrustee = mutableMapOf<Int, Int>()
+
+        for ((trustor, trustee) in trusts) {
+            trustors.add(trustor)
+            var count = trustCountsByTrustee.getOrPut(trustee) { 0 }
+            count++
+            trustCountsByTrustee[trustee] = count
+        }
+
+        return trustCountsByTrustee.entries.filter { it.value == n-1 }.find { !trustors.contains(it.key) }?.key ?: -1
+    }
+
+    // https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+    fun findKthLargest(nums: IntArray, k: Int): Int {
+        val minHeap = PriorityQueue<Int>()
+
+        for (num in nums) {
+            minHeap.add(num)
+
+            if (minHeap.size > k) {
+                minHeap.remove()
+            }
+        }
+
+        return minHeap.peek()
+    }
+
+    // https://leetcode.com/problems/top-k-frequent-elements/description/
+    fun topKFrequent(nums: IntArray, k: Int): IntArray {
+        val compareByCount: Comparator<Map.Entry<Int, Int>> = compareBy { it.value }
+        val countsByNumber = nums.asIterable().groupingBy { it }.eachCount()
+
+        val minHeap = PriorityQueue(compareByCount)
+
+        for (entry in countsByNumber.entries) {
+            minHeap.add(entry)
+
+            if (minHeap.size > k) {
+                minHeap.remove()
+            }
+        }
+
+        return minHeap.map { it.key }.toIntArray()
     }
 
 }
