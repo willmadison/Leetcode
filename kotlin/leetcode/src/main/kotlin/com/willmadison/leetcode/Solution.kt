@@ -2352,6 +2352,32 @@ class Solution : VersionControl() {
         return minHeap.map { it.key }.toIntArray()
     }
 
+    // https://leetcode.com/problems/valid-word-square/description/?envType=study-plan-v2&envId=programming-skills
+    fun validWordSquare(words: List<String>): Boolean {
+        for ((row, word) in words.withIndex()) {
+            val columnarWord = getWordFromColumn(row, words)
+
+            if (columnarWord != word) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+
+    private fun getWordFromColumn(column: Int, words: List<String>): String {
+        val sb = StringBuilder()
+
+        for (word in words) {
+            if (word.length > column) {
+                sb.append(word[column])
+            }
+        }
+
+        return sb.toString()
+    }
+
 }
 
 open class VersionControl {

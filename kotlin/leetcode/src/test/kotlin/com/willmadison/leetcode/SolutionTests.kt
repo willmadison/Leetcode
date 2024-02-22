@@ -1445,6 +1445,24 @@ class SolutionTests {
             )
         }
 
+        @JvmStatic
+        fun wordSquareProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    listOf(
+                        "abcd","bnrt","crmy","dtye"
+                    ),
+                    true,
+                ),
+                Arguments.of(
+                    listOf(
+                        "ball","area","read","lady"
+                    ),
+                    false,
+                ),
+            )
+        }
+
 
     }
 
@@ -2083,6 +2101,13 @@ class SolutionTests {
     fun topKFrequent(nums: IntArray, k: Int, expected: IntArray) {
         val actual = solution.topKFrequent(nums, k)
         assertThat(actual).containsExactlyInAnyOrder(expected.toTypedArray())
+    }
+
+    @ParameterizedTest(name = "validWordSquare({0}) = {1}")
+    @MethodSource("wordSquareProvider")
+    fun validWordSquare(words: List<String>, expected: Boolean) {
+        val actual = solution.validWordSquare(words)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
