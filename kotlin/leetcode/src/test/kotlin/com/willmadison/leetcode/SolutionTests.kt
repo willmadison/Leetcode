@@ -1417,12 +1417,12 @@ class SolutionTests {
         fun kthLargestProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(3,2,1,5,6,4),
+                    intArrayOf(3, 2, 1, 5, 6, 4),
                     2,
                     5,
                 ),
                 Arguments.of(
-                    intArrayOf(3,2,3,1,2,4,5,5,6),
+                    intArrayOf(3, 2, 3, 1, 2, 4, 5, 5, 6),
                     4,
                     4,
                 ),
@@ -1433,7 +1433,7 @@ class SolutionTests {
         fun topKFrequentProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,1,1,2,2,3),
+                    intArrayOf(1, 1, 1, 2, 2, 3),
                     2,
                     intArrayOf(1, 2),
                 ),
@@ -1450,15 +1450,59 @@ class SolutionTests {
             return Stream.of(
                 Arguments.of(
                     listOf(
-                        "abcd","bnrt","crmy","dtye"
+                        "abcd", "bnrt", "crmy", "dtye"
                     ),
                     true,
                 ),
                 Arguments.of(
                     listOf(
-                        "ball","area","read","lady"
+                        "ball", "area", "read", "lady"
                     ),
                     false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun cheapestPriceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    4,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(2, 0, 100),
+                        intArrayOf(1, 3, 600),
+                        intArrayOf(2, 3, 200),
+                    ),
+                    0,
+                    3,
+                    1,
+                    700,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(0, 2, 500),
+                    ),
+                    0,
+                    2,
+                    1,
+                    200,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(0, 2, 500),
+                    ),
+                    0,
+                    2,
+                    0,
+                    500,
                 ),
             )
         }
@@ -2107,6 +2151,13 @@ class SolutionTests {
     @MethodSource("wordSquareProvider")
     fun validWordSquare(words: List<String>, expected: Boolean) {
         val actual = solution.validWordSquare(words)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findCheapestPrice({0}, {1}, {2}, {3}, {4}) = {5}")
+    @MethodSource("cheapestPriceProvider")
+    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int, expected: Int) {
+        val actual = solution.findCheapestPrice(n, flights, src, dst, k)
         assertEquals(expected, actual)
     }
 

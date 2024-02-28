@@ -2316,7 +2316,7 @@ class Solution : VersionControl() {
             trustCountsByTrustee[trustee] = count
         }
 
-        return trustCountsByTrustee.entries.filter { it.value == n-1 }.find { !trustors.contains(it.key) }?.key ?: -1
+        return trustCountsByTrustee.entries.filter { it.value == n - 1 }.find { !trustors.contains(it.key) }?.key ?: -1
     }
 
     // https://leetcode.com/problems/kth-largest-element-in-an-array/description/
@@ -2365,7 +2365,6 @@ class Solution : VersionControl() {
         return true
     }
 
-
     private fun getWordFromColumn(column: Int, words: List<String>): String {
         val sb = StringBuilder()
 
@@ -2376,6 +2375,96 @@ class Solution : VersionControl() {
         }
 
         return sb.toString()
+    }
+
+    // https://leetcode.com/problems/cheapest-flights-within-k-stops/description/
+    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int): Int {
+        // Bellman Ford Algorithm
+        var distancesFromSource = IntArray(n) { Int.MAX_VALUE }
+        distancesFromSource[src] = 0
+
+        for (i in 0..k) {
+            val temp = distancesFromSource.copyOf(n)
+
+            for (flight in flights) {
+                val from = flight[0]
+                val to = flight[1]
+                val cost = flight[2]
+
+                if (distancesFromSource[from] != Int.MAX_VALUE) {
+                    temp[to] = min(temp[to], distancesFromSource[from] + cost)
+                }
+            }
+
+            distancesFromSource = temp
+        }
+
+        return if (distancesFromSource[dst] == Int.MAX_VALUE) -1 else distancesFromSource[dst]
+    }
+
+    fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {
+        if (p == null && q == null) {
+            return true
+        }
+
+        if (p?.`val` != q?.`val`) {
+            return false
+        }
+
+        return isSameTree(p?.left, q?.left) && isSameTree(p?.right, q?.right)
+    }
+
+    fun mergeKLists(lists: Array<ListNode?>): ListNode? {
+        var head: ListNode? = null
+        var last: ListNode? = null
+
+        val valueComparator = compareBy<ListNode?> { it?.`val` }
+        val pq = PriorityQueue<ListNode?>(valueComparator)
+
+        for (list in lists) {
+            pq.add(list)
+        }
+
+        while (pq.isNotEmpty()) {
+            var current = pq.remove()
+
+            if (head == null) {
+                head = current
+            }
+
+            if (last != null) {
+                last.next = current
+            }
+
+            last = current
+
+            current = current?.next
+
+            if (current != null) {
+                pq.add(current)
+            }
+        }
+
+        return head
+    }
+
+    private var maxDepth = -1
+    private var bottomMostValue = Int.MIN_VALUE
+    fun findBottomLeftValue(root: TreeNode?, depth: Int = 0): Int {
+        if (depth > maxDepth) {
+            bottomMostValue = root?.`val`!!
+            maxDepth = depth
+        }
+
+        if (root?.left != null) {
+            findBottomLeftValue(root.left, depth + 1)
+        }
+
+        if (root?.right != null) {
+            findBottomLeftValue(root.right, depth + 1)
+        }
+
+        return bottomMostValue
     }
 
 }
