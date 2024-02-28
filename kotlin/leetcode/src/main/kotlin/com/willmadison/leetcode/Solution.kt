@@ -2467,6 +2467,51 @@ class Solution : VersionControl() {
         return bottomMostValue
     }
 
+    data class Meeting(val meetingWith: Int, val meetingTime: Int)
+
+    fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int): List<Int> {
+        val meetingsByPerson = mutableMapOf<Int, MutableCollection<Meeting>>()
+
+        for (rawMeeting in meetings) {
+            val personA = rawMeeting[0]
+            val personB = rawMeeting[1]
+            val meetingTime = rawMeeting[2]
+
+            var individualMeetings = meetingsByPerson.getOrPut(personA) { mutableListOf() }
+            individualMeetings.add(Meeting(personB, meetingTime))
+
+            individualMeetings = meetingsByPerson.getOrPut(personB) { mutableListOf() }
+            individualMeetings.add(Meeting(personA, meetingTime))
+        }
+
+        val compareByMeetingTime: Comparator<Meeting> = compareBy { it.meetingTime }
+
+        val minHeap = PriorityQueue(compareByMeetingTime)
+
+        minHeap.add(Meeting(0, 0))
+        minHeap.add(Meeting(firstPerson, 0))
+
+        val seen = mutableSetOf<Int>()
+
+        while (minHeap.isNotEmpty()) {
+            val meeting = minHeap.poll()
+
+            if (seen.contains(meeting.meetingWith)) {
+                continue
+            }
+
+            seen.add(meeting.meetingWith)
+
+            for (otherMeeting in meetingsByPerson.getOrDefault(meeting.meetingWith, emptyList())) {
+                if (!seen.contains(otherMeeting.meetingWith) && otherMeeting.meetingTime >= meeting.meetingTime) {
+                    minHeap.add(otherMeeting)
+                }
+            }
+        }
+
+        return seen.toList()
+    }
+
 }
 
 open class VersionControl {

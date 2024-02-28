@@ -1507,7 +1507,21 @@ class SolutionTests {
             )
         }
 
-
+        @JvmStatic
+        fun peopleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    6,
+                    arrayOf(
+                        intArrayOf(1,2,5),
+                        intArrayOf(2,3,8),
+                        intArrayOf(1,5,10),
+                    ),
+                    1,
+                    listOf(0,1,2,3,5),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2159,6 +2173,13 @@ class SolutionTests {
     fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int, expected: Int) {
         val actual = solution.findCheapestPrice(n, flights, src, dst, k)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findAllPeople({0}, {1}, {2}) = {3}")
+    @MethodSource("peopleProvider")
+    fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int, expected: List<Int>) {
+        val actual = solution.findAllPeople(n, meetings, firstPerson)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @AfterEach
