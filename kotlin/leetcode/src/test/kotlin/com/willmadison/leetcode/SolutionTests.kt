@@ -1522,6 +1522,44 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun binaryNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                   "010",
+                   "001",
+                ),
+                Arguments.of(
+                   "0101",
+                   "1001",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun islandProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                   arrayOf(
+                       charArrayOf('1', '1', '1', '1', '0'),
+                       charArrayOf('1', '1', '0', '1', '0'),
+                       charArrayOf('1', '1', '0', '0', '0'),
+                       charArrayOf('0', '0', '0', '0', '0'),
+                   ),
+                    1,
+                ),
+                Arguments.of(
+                   arrayOf(
+                       charArrayOf('1', '1', '0', '0', '0'),
+                       charArrayOf('1', '1', '0', '0', '0'),
+                       charArrayOf('0', '0', '1', '0', '0'),
+                       charArrayOf('0', '0', '0', '1', '1'),
+                   ),
+                   3,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2180,6 +2218,20 @@ class SolutionTests {
     fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int, expected: List<Int>) {
         val actual = solution.findAllPeople(n, meetings, firstPerson)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "maximumOddBinaryNumber({0}) = {1}")
+    @MethodSource("binaryNumberProvider")
+    fun maximumOddBinaryNumber(s: String, expected: String) {
+        val actual = solution.maximumOddBinaryNumber(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "numIslands({0}) = {1}")
+    @MethodSource("islandProvider")
+    fun numIslands(grid: Array<CharArray>, expected: Int) {
+        val actual = solution.numIslands(grid)
+        assertEquals(expected, actual)
     }
 
     @AfterEach

@@ -2486,7 +2486,7 @@ class Solution : VersionControl() {
 
         val compareByMeetingTime: Comparator<Meeting> = compareBy { it.meetingTime }
 
-        val minHeap = PriorityQueue(compareByMeetingTime)
+        val minHeap = PriorityQueue(n, compareByMeetingTime)
 
         minHeap.add(Meeting(0, 0))
         minHeap.add(Meeting(firstPerson, 0))
@@ -2511,6 +2511,214 @@ class Solution : VersionControl() {
 
         return seen.toList()
     }
+
+    data class NodeLevel(val node: TreeNode, val level: Int = 0)
+    fun isEvenOddTree(root: TreeNode?): Boolean {
+        if (root == null) {
+            return false
+        }
+
+        val nodeValuesByLevel = mutableMapOf<Int, MutableCollection<Int>>()
+
+        val q = ArrayDeque<NodeLevel>()
+
+        q.add(NodeLevel(root))
+
+        while (q.isNotEmpty()) {
+            val nodeLevel = q.remove()
+            val node = nodeLevel.node
+
+            val values = nodeValuesByLevel.getOrPut(nodeLevel.level) { emptyList<Int>().toMutableList() }
+            values.add(node.`val`)
+
+            if (node.left != null) {
+                q.add(NodeLevel(node.left!!, nodeLevel.level+1))
+            }
+
+            if (node.right != null) {
+                q.add(NodeLevel(node.right!!, nodeLevel.level+1))
+            }
+        }
+
+        for ((level, values) in nodeValuesByLevel) {
+            if (level % 2 == 0) {
+                if (!values.isSortedAscending() || !values.areAllOdd()) {
+                    return false
+                }
+            } else {
+                if (!values.isSortedDescending() || !values.areAllEven()) {
+                    return false
+                }
+
+            }
+        }
+
+
+        return true
+    }
+
+    private fun MutableCollection<Int>.isSortedAscending(): Boolean {
+        if (this.isEmpty()) {
+            return false
+        }
+
+        var last = this.first()
+
+        for ((i, value) in this.withIndex()) {
+            if (i == 0) {
+                continue
+            }
+
+            if (value <= last) {
+                return false
+            }
+
+            last = value
+        }
+
+        return true
+    }
+
+    private fun MutableCollection<Int>.isSortedDescending(): Boolean {
+        if (this.isEmpty()) {
+            return false
+        }
+
+        var last = this.first()
+
+        for ((i, value) in this.withIndex()) {
+            if (i == 0) {
+                continue
+            }
+
+            if (value >= last) {
+                return false
+            }
+
+            last = value
+        }
+
+        return true
+    }
+
+    private fun MutableCollection<Int>.areAllEven() = this.all { it % 2 == 0 }
+
+    private fun MutableCollection<Int>.areAllOdd() = this.all { it % 2 != 0 }
+    fun maximumOddBinaryNumber(s: String): String {
+        val sb = StringBuilder()
+
+        val countsByCharacter = s.groupingBy { it }.eachCount().toMutableMap()
+
+        while (countsByCharacter['1']!! > 1) {
+            sb.append('1')
+            countsByCharacter['1'] = countsByCharacter['1']!! - 1
+        }
+
+        while (countsByCharacter.containsKey('0') && countsByCharacter['0']!! > 0) {
+            sb.append('0')
+            countsByCharacter['0'] = countsByCharacter['0']!! - 1
+        }
+
+        sb.append('1')
+
+        return sb.toString()
+    }
+
+    private data class Island(val locations: MutableCollection<Location>)
+    fun numIslands(grid: Array<CharArray>): Int {
+        val islands = discoverIslands(grid)
+        return islands.size
+    }
+
+    private fun discoverIslands(grid: Array<CharArray>): Collection<Island> {
+        val islands = mutableSetOf<Island>()
+
+        val visited = mutableSetOf<Location>()
+
+        var unvisitedLocation = findFirstUnvisitedLandMass(grid, visited)
+
+        while (unvisitedLocation.isPresent) {
+            val coordinates = discoverContiguousLand(unvisitedLocation.get(), grid, visited)
+            islands.add(Island(coordinates))
+            coordinates.map { visited.add(it) }
+            unvisitedLocation = findFirstUnvisitedLandMass(grid, visited)
+        }
+
+        return islands
+    }
+
+    private fun findFirstUnvisitedLandMass(grid: Array<CharArray>, visited: MutableSet<Location>): Optional<Location> {
+        for (row in grid.indices) {
+            for (col in grid[row].indices) {
+                val l = Location(row, col)
+                val isLand = grid[row][col] == '1'
+
+                if (isLand && !visited.contains(l)) {
+                    return Optional.of(l)
+                }
+            }
+        }
+
+        return Optional.empty()
+    }
+
+    private fun discoverContiguousLand(
+        location: Location,
+        grid: Array<CharArray>,
+        visited: MutableSet<Location>
+    ): MutableCollection<Location> {
+        val locations = mutableListOf<Location>()
+
+        val q = ArrayDeque<Location>()
+
+        if (!visited.contains(location)) {
+            q.add(location)
+        }
+
+        while (q.isNotEmpty()) {
+            val current = q.remove()
+
+            visited.add(current)
+            locations.add(current)
+
+            val above = Location(current.row-1, current.col)
+            val right = Location(current.row, current.col+1)
+            val below = Location(current.row+1, current.col)
+            val left = Location(current.row, current.col-1)
+
+            val hasLandAbove = current.row-1 >= 0 && grid[current.row-1][current.col] == '1'
+            val hasLandRight = current.col+1 < grid[current.row].size && grid[current.row][current.col+1] == '1'
+            val hasLandBelow = current.row+1 < grid.size && grid[current.row+1][current.col] == '1'
+            val hasLandLeft = current.col-1 >= 0 && grid[current.row][current.col-1] == '1'
+
+            if (hasLandAbove) {
+                if (!visited.contains(above)) {
+                    q.add(above)
+                }
+            }
+
+            if (hasLandRight) {
+                if (!visited.contains(right)) {
+                    q.add(right)
+                }
+            }
+
+            if (hasLandBelow) {
+                if (!visited.contains(below)) {
+                    q.add(below)
+                }
+            }
+
+            if (hasLandLeft) {
+                if (!visited.contains(left)) {
+                    q.add(left)
+                }
+            }
+        }
+
+        return locations
+    }
+
 
 }
 
