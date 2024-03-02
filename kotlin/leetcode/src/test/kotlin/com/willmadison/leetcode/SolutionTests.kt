@@ -1513,12 +1513,12 @@ class SolutionTests {
                 Arguments.of(
                     6,
                     arrayOf(
-                        intArrayOf(1,2,5),
-                        intArrayOf(2,3,8),
-                        intArrayOf(1,5,10),
+                        intArrayOf(1, 2, 5),
+                        intArrayOf(2, 3, 8),
+                        intArrayOf(1, 5, 10),
                     ),
                     1,
-                    listOf(0,1,2,3,5),
+                    listOf(0, 1, 2, 3, 5),
                 ),
             )
         }
@@ -1527,12 +1527,12 @@ class SolutionTests {
         fun binaryNumberProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                   "010",
-                   "001",
+                    "010",
+                    "001",
                 ),
                 Arguments.of(
-                   "0101",
-                   "1001",
+                    "0101",
+                    "1001",
                 ),
             )
         }
@@ -1541,22 +1541,36 @@ class SolutionTests {
         fun islandProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                   arrayOf(
-                       charArrayOf('1', '1', '1', '1', '0'),
-                       charArrayOf('1', '1', '0', '1', '0'),
-                       charArrayOf('1', '1', '0', '0', '0'),
-                       charArrayOf('0', '0', '0', '0', '0'),
-                   ),
+                    arrayOf(
+                        charArrayOf('1', '1', '1', '1', '0'),
+                        charArrayOf('1', '1', '0', '1', '0'),
+                        charArrayOf('1', '1', '0', '0', '0'),
+                        charArrayOf('0', '0', '0', '0', '0'),
+                    ),
                     1,
                 ),
                 Arguments.of(
-                   arrayOf(
-                       charArrayOf('1', '1', '0', '0', '0'),
-                       charArrayOf('1', '1', '0', '0', '0'),
-                       charArrayOf('0', '0', '1', '0', '0'),
-                       charArrayOf('0', '0', '0', '1', '1'),
-                   ),
-                   3,
+                    arrayOf(
+                        charArrayOf('1', '1', '0', '0', '0'),
+                        charArrayOf('1', '1', '0', '0', '0'),
+                        charArrayOf('0', '0', '1', '0', '0'),
+                        charArrayOf('0', '0', '0', '1', '1'),
+                    ),
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun squareProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(-4, -1, 0, 3, 10),
+                    intArrayOf(0, 1, 9, 16, 100),
+                ),
+                Arguments.of(
+                    intArrayOf(-7, -3, 2, 3, 11),
+                    intArrayOf(4, 9, 9, 49, 121),
                 ),
             )
         }
@@ -2232,6 +2246,13 @@ class SolutionTests {
     fun numIslands(grid: Array<CharArray>, expected: Int) {
         val actual = solution.numIslands(grid)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "sortedSquares({0}) = {1}")
+    @MethodSource("squareProvider")
+    fun sortedSquares(nums: IntArray, expected: IntArray) {
+        val actual = solution.sortedSquares(nums)
+        assertArrayEquals(expected, actual)
     }
 
     @AfterEach

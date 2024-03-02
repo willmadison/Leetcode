@@ -2719,7 +2719,7 @@ class Solution : VersionControl() {
         return locations
     }
 
-
+    fun sortedSquares(nums: IntArray) = nums.map { it*it }.sorted().toIntArray()
 }
 
 open class VersionControl {
