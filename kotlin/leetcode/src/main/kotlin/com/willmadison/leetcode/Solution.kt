@@ -2725,29 +2725,29 @@ class Solution : VersionControl() {
 
         val sCountsByCharacter = s.asIterable().groupingBy { it }.eachCount()
 
-        var firstMismatchedIndex = -1
-        var secondMismatchedIndex = -1
+        var firstMismatchedIndex = Optional.empty<Int>()
+        var secondMismatchedIndex = Optional.empty<Int>()
 
         for ((i, c) in goal.withIndex()) {
             if (s[i] != c) {
-               if (firstMismatchedIndex == -1) {
-                   firstMismatchedIndex = i
-               } else if (secondMismatchedIndex == -1) {
-                   secondMismatchedIndex = i
+               if (!firstMismatchedIndex.isPresent) {
+                   firstMismatchedIndex = Optional.of(i)
+               } else if (!secondMismatchedIndex.isPresent) {
+                   secondMismatchedIndex = Optional.of(i)
                } else {
                    return false
                }
             }
         }
 
-        if (firstMismatchedIndex == -1 && secondMismatchedIndex == -1) {
+        if (firstMismatchedIndex.isEmpty && secondMismatchedIndex.isEmpty) {
             return sCountsByCharacter.values.any { it > 1}
         }
 
-        if (secondMismatchedIndex == -1) return false
+        if (secondMismatchedIndex.isEmpty) return false
 
-        return s[firstMismatchedIndex] == goal[secondMismatchedIndex] &&
-               s[secondMismatchedIndex] == goal[firstMismatchedIndex]
+        return s[firstMismatchedIndex.get()] == goal[secondMismatchedIndex.get()] &&
+               s[secondMismatchedIndex.get()] == goal[firstMismatchedIndex.get()]
     }
 
     fun bagOfTokensScore(tokens: IntArray, power: Int): Int {
