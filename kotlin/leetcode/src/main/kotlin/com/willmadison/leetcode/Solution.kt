@@ -2720,6 +2720,62 @@ class Solution : VersionControl() {
     }
 
     fun sortedSquares(nums: IntArray) = nums.map { it*it }.sorted().toIntArray()
+    fun buddyStrings(s: String, goal: String): Boolean {
+        if (s.length != goal.length) return false
+
+        val sCountsByCharacter = s.asIterable().groupingBy { it }.eachCount()
+
+        var firstMismatchedIndex = -1
+        var secondMismatchedIndex = -1
+
+        for ((i, c) in goal.withIndex()) {
+            if (s[i] != c) {
+               if (firstMismatchedIndex == -1) {
+                   firstMismatchedIndex = i
+               } else if (secondMismatchedIndex == -1) {
+                   secondMismatchedIndex = i
+               } else {
+                   return false
+               }
+            }
+        }
+
+        if (firstMismatchedIndex == -1 && secondMismatchedIndex == -1) {
+            return sCountsByCharacter.values.any { it > 1}
+        }
+
+        if (secondMismatchedIndex == -1) return false
+
+        return s[firstMismatchedIndex] == goal[secondMismatchedIndex] &&
+               s[secondMismatchedIndex] == goal[firstMismatchedIndex]
+    }
+
+    fun bagOfTokensScore(tokens: IntArray, power: Int): Int {
+        tokens.sort()
+
+        var score = 0
+        var currentPower = power
+
+        val deque = ArrayDeque<Int>()
+
+        for (token in tokens) {
+            deque.add(token)
+        }
+
+        while (deque.isNotEmpty()) {
+            if (currentPower >= deque.peekFirst()) {
+                currentPower -= deque.removeFirst()
+                score++
+            } else if (deque.size > 1 && score > 0) {
+                currentPower += deque.removeLast()
+                score--
+            } else {
+                return score
+            }
+        }
+
+        return score
+    }
 }
 
 open class VersionControl {

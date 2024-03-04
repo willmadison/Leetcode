@@ -1574,6 +1574,48 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun buddyStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                   "ab",
+                   "ba",
+                    true,
+                ),
+                Arguments.of(
+                   "ab",
+                   "ab",
+                    false,
+                ),
+                Arguments.of(
+                   "aa",
+                   "aa",
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun tokenBagProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                   intArrayOf(100),
+                    50,
+                    0,
+                ),
+                Arguments.of(
+                   intArrayOf(200, 100),
+                    150,
+                    1,
+                ),
+                Arguments.of(
+                   intArrayOf(100,200,300,400),
+                    200,
+                    2,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2253,6 +2295,20 @@ class SolutionTests {
     fun sortedSquares(nums: IntArray, expected: IntArray) {
         val actual = solution.sortedSquares(nums)
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "buddyStrings({0}, {1}) = {2}")
+    @MethodSource("buddyStringProvider")
+    fun buddyStrings(s: String, goal: String, expected: Boolean) {
+        val actual = solution.buddyStrings(s, goal)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "bagOfTokensScore({0}, {1}) = {2}")
+    @MethodSource("tokenBagProvider")
+    fun bagOfTokensScore(tokens: IntArray, power: Int, expected: Int) {
+        val actual = solution.bagOfTokensScore(tokens, power)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
