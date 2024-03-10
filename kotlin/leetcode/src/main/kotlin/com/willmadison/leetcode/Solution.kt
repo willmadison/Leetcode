@@ -2513,6 +2513,7 @@ class Solution : VersionControl() {
     }
 
     data class NodeLevel(val node: TreeNode, val level: Int = 0)
+
     fun isEvenOddTree(root: TreeNode?): Boolean {
         if (root == null) {
             return false
@@ -2532,11 +2533,11 @@ class Solution : VersionControl() {
             values.add(node.`val`)
 
             if (node.left != null) {
-                q.add(NodeLevel(node.left!!, nodeLevel.level+1))
+                q.add(NodeLevel(node.left!!, nodeLevel.level + 1))
             }
 
             if (node.right != null) {
-                q.add(NodeLevel(node.right!!, nodeLevel.level+1))
+                q.add(NodeLevel(node.right!!, nodeLevel.level + 1))
             }
         }
 
@@ -2625,6 +2626,7 @@ class Solution : VersionControl() {
     }
 
     private data class Island(val locations: MutableCollection<Location>)
+
     fun numIslands(grid: Array<CharArray>): Int {
         val islands = discoverIslands(grid)
         return islands.size
@@ -2681,15 +2683,15 @@ class Solution : VersionControl() {
             visited.add(current)
             locations.add(current)
 
-            val above = Location(current.row-1, current.col)
-            val right = Location(current.row, current.col+1)
-            val below = Location(current.row+1, current.col)
-            val left = Location(current.row, current.col-1)
+            val above = Location(current.row - 1, current.col)
+            val right = Location(current.row, current.col + 1)
+            val below = Location(current.row + 1, current.col)
+            val left = Location(current.row, current.col - 1)
 
-            val hasLandAbove = current.row-1 >= 0 && grid[current.row-1][current.col] == '1'
-            val hasLandRight = current.col+1 < grid[current.row].size && grid[current.row][current.col+1] == '1'
-            val hasLandBelow = current.row+1 < grid.size && grid[current.row+1][current.col] == '1'
-            val hasLandLeft = current.col-1 >= 0 && grid[current.row][current.col-1] == '1'
+            val hasLandAbove = current.row - 1 >= 0 && grid[current.row - 1][current.col] == '1'
+            val hasLandRight = current.col + 1 < grid[current.row].size && grid[current.row][current.col + 1] == '1'
+            val hasLandBelow = current.row + 1 < grid.size && grid[current.row + 1][current.col] == '1'
+            val hasLandLeft = current.col - 1 >= 0 && grid[current.row][current.col - 1] == '1'
 
             if (hasLandAbove) {
                 if (!visited.contains(above)) {
@@ -2719,7 +2721,7 @@ class Solution : VersionControl() {
         return locations
     }
 
-    fun sortedSquares(nums: IntArray) = nums.map { it*it }.sorted().toIntArray()
+    fun sortedSquares(nums: IntArray) = nums.map { it * it }.sorted().toIntArray()
     fun buddyStrings(s: String, goal: String): Boolean {
         if (s.length != goal.length) return false
 
@@ -2730,24 +2732,24 @@ class Solution : VersionControl() {
 
         for ((i, c) in goal.withIndex()) {
             if (s[i] != c) {
-               if (!firstMismatchedIndex.isPresent) {
-                   firstMismatchedIndex = Optional.of(i)
-               } else if (!secondMismatchedIndex.isPresent) {
-                   secondMismatchedIndex = Optional.of(i)
-               } else {
-                   return false
-               }
+                if (!firstMismatchedIndex.isPresent) {
+                    firstMismatchedIndex = Optional.of(i)
+                } else if (!secondMismatchedIndex.isPresent) {
+                    secondMismatchedIndex = Optional.of(i)
+                } else {
+                    return false
+                }
             }
         }
 
         if (firstMismatchedIndex.isEmpty && secondMismatchedIndex.isEmpty) {
-            return sCountsByCharacter.values.any { it > 1}
+            return sCountsByCharacter.values.any { it > 1 }
         }
 
         if (secondMismatchedIndex.isEmpty) return false
 
         return s[firstMismatchedIndex.get()] == goal[secondMismatchedIndex.get()] &&
-               s[secondMismatchedIndex.get()] == goal[firstMismatchedIndex.get()]
+                s[secondMismatchedIndex.get()] == goal[firstMismatchedIndex.get()]
     }
 
     fun bagOfTokensScore(tokens: IntArray, power: Int): Int {
@@ -2776,7 +2778,99 @@ class Solution : VersionControl() {
 
         return score
     }
+
+    fun minimumLength(s: String): Int {
+        var start = 0
+        var end = s.length - 1
+
+        while (start < end && s[start] == s[end]) {
+            val c = s[start]
+
+            while (start <= end && s[start] == c) {
+                start++
+            }
+
+            while (end > start && s[end] == c) {
+                end--
+            }
+        }
+
+        return end - start + 1
+    }
+
+    fun findMissingRanges(nums: IntArray, lower: Int, upper: Int): List<List<Int>> {
+        val missingRanges = mutableListOf<MutableList<Int>>()
+
+        if (nums.isEmpty()) {
+            return listOf(listOf(lower, upper))
+        }
+
+        if (lower < nums[0]) {
+            missingRanges.add(mutableListOf(lower, nums[0]-1))
+        }
+
+        for (i in 0..<nums.size-1) {
+            val delta = nums[i+1]-nums[i]
+
+            if (delta > 1) {
+                missingRanges.add(mutableListOf(nums[i]+1, nums[i+1]-1))
+            }
+        }
+
+        if (upper > nums.last()) {
+            missingRanges.add(mutableListOf(nums.last()+1, upper))
+        }
+
+        return missingRanges
+    }
+
+    fun confusingNumber(n: Int): Boolean {
+        val invalidDigits = setOf(2,3,4,5,7)
+        val newDigitsBySource = mapOf(0 to 0, 1 to 1, 6 to 9, 8 to 8, 9 to 6)
+
+        val digits = n.digits()
+
+        if (digits.intersect(invalidDigits).isNotEmpty()) {
+            return false
+        }
+
+        val rotatedDigits = mutableListOf<Int>()
+
+        for (d in digits.reversed()) {
+            rotatedDigits.add(newDigitsBySource[d]!!)
+        }
+
+        return rotatedDigits != digits
+    }
+
+    private fun Int.digits(): Collection<Int> {
+        val digits = mutableListOf<Int>()
+
+        var v = this
+
+        while (v > 0) {
+            digits.add(v % 10)
+            v /= 10
+        }
+
+        return digits.reversed()
+    }
+
+    fun intersection(nums1: IntArray, nums2: IntArray): IntArray {
+        val uniquesIn1 = nums1.toSet()
+        val common = mutableSetOf<Int>()
+
+        for (n in nums2) {
+            if (uniquesIn1.contains(n)) {
+                common.add(n)
+            }
+        }
+
+        return common.toIntArray()
+    }
 }
+
+
 
 open class VersionControl {
     fun isBadVersion(version: Int): Boolean {

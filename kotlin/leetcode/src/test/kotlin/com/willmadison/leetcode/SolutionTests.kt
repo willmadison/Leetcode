@@ -1579,18 +1579,18 @@ class SolutionTests {
         fun buddyStringProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                   "ab",
-                   "ba",
+                    "ab",
+                    "ba",
                     true,
                 ),
                 Arguments.of(
-                   "ab",
-                   "ab",
+                    "ab",
+                    "ab",
                     false,
                 ),
                 Arguments.of(
-                   "aa",
-                   "aa",
+                    "aa",
+                    "aa",
                     true,
                 ),
             )
@@ -1600,19 +1600,98 @@ class SolutionTests {
         fun tokenBagProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                   intArrayOf(100),
+                    intArrayOf(100),
                     50,
                     0,
                 ),
                 Arguments.of(
-                   intArrayOf(200, 100),
+                    intArrayOf(200, 100),
                     150,
                     1,
                 ),
                 Arguments.of(
-                   intArrayOf(100,200,300,400),
+                    intArrayOf(100, 200, 300, 400),
                     200,
                     2,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minimumLengthStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "ca",
+                    2,
+                ),
+                Arguments.of(
+                    "cabaabac",
+                    0,
+                ),
+                Arguments.of(
+                    "aabccabba",
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun missingRangeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0,1,3,50,75),
+                    0,
+                    99,
+                    listOf(
+                        listOf(2,2),
+                        listOf(4,49),
+                        listOf(51,74),
+                        listOf(76,99),
+                    ),
+                ),
+                Arguments.of(
+                    intArrayOf(-1),
+                    -1,
+                    -1,
+                    emptyList<List<Int>>(),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun confusingNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    6,
+                    true,
+                ),
+                Arguments.of(
+                    89,
+                    true,
+                ),
+                Arguments.of(
+                    11,
+                    false,
+                ),
+                Arguments.of(
+                    916,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun intersectionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,2,1),
+                    intArrayOf(2,2),
+                    intArrayOf(2),
+                ),
+                Arguments.of(
+                    intArrayOf(4,9,5),
+                    intArrayOf(9,4,9,8,4),
+                    intArrayOf(4,9),
                 ),
             )
         }
@@ -2309,6 +2388,34 @@ class SolutionTests {
     fun bagOfTokensScore(tokens: IntArray, power: Int, expected: Int) {
         val actual = solution.bagOfTokensScore(tokens, power)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "minimumLength({0}) = {1}")
+    @MethodSource("minimumLengthStringProvider")
+    fun minimumLength(s: String, expected: Int) {
+        val actual = solution.minimumLength(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findMissingRanges({0}, {1}, {2}) = {3}")
+    @MethodSource("missingRangeProvider")
+    fun findMissingRanges(nums: IntArray, lower: Int, upper: Int, expected: List<List<Int>>) {
+        val actual = solution.findMissingRanges(nums, lower, upper)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "confusingNumber({0}) = {1}")
+    @MethodSource("confusingNumberProvider")
+    fun confusingNumber(n: Int, expected: Boolean) {
+        val actual = solution.confusingNumber(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "intersection({0}, {1}) = {2}")
+    @MethodSource("intersectionProvider")
+    fun intersection(nums1: IntArray, nums2: IntArray, expected: IntArray) {
+        val actual = solution.intersection(nums1, nums2)
+        assertThat(actual.toList()).containsExactlyInAnyOrderElementsOf(expected.toList())
     }
 
     @AfterEach
