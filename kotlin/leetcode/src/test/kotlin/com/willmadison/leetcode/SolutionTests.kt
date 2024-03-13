@@ -1711,6 +1711,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun pivotIntegerProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    8,
+                    6,
+                ),
+                Arguments.of(
+                    1,
+                    1,
+                ),
+                Arguments.of(
+                    4,
+                    -1,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2440,6 +2458,13 @@ class SolutionTests {
         val actual = solution.customSortString(order, s)
         val range = 0..minOf(order.length-1, s.length-1)
         assertThat(actual.substring(range)).isEqualTo(expected.substring(range))
+    }
+
+    @ParameterizedTest(name = "pivotInteger({0}) = {1}")
+    @MethodSource("pivotIntegerProvider")
+    fun pivotInteger(n: Int, expected: Int) {
+        val actual = solution.pivotInteger(n)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @AfterEach

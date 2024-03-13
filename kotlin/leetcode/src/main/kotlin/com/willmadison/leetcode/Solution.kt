@@ -2908,6 +2908,13 @@ class Solution : VersionControl() {
         return dummy.next
     }
 
+    fun pivotInteger(n: Int): Int {
+        val sum = n*(n+1)/2
+        val pivot = sqrt(sum.toDouble()).toInt()
+
+        return if (pivot*pivot == sum) pivot else -1
+    }
+
 }
 
 
