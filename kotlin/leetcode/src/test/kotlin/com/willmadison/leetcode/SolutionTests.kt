@@ -1695,6 +1695,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun customStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "cba",
+                    "abcd",
+                    "cbad",
+                ),
+                Arguments.of(
+                    "bcafg",
+                    "abcd",
+                    "bcad",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2416,6 +2432,14 @@ class SolutionTests {
     fun intersection(nums1: IntArray, nums2: IntArray, expected: IntArray) {
         val actual = solution.intersection(nums1, nums2)
         assertThat(actual.toList()).containsExactlyInAnyOrderElementsOf(expected.toList())
+    }
+
+    @ParameterizedTest(name = "customSortString({0}, {1}) = {2}")
+    @MethodSource("customStringProvider")
+    fun customSortString(order: String, s: String, expected: String) {
+        val actual = solution.customSortString(order, s)
+        val range = 0..minOf(order.length-1, s.length-1)
+        assertThat(actual.substring(range)).isEqualTo(expected.substring(range))
     }
 
     @AfterEach

@@ -2868,6 +2868,46 @@ class Solution : VersionControl() {
 
         return common.toIntArray()
     }
+
+    fun customSortString(order: String, s: String): String {
+        val indexByCharacter = mutableMapOf<Char, Int>()
+
+        for ((i, c) in order.withIndex()) {
+            indexByCharacter[c] = i
+        }
+
+        val customOrder: Comparator<Char> = compareBy { indexByCharacter.getOrDefault(it, Int.MAX_VALUE) }
+
+        return s.toCharArray().sortedWith(customOrder).joinToString("")
+    }
+
+    fun removeZeroSumSublists(head: ListNode?): ListNode? {
+        val dummy = ListNode(0, head)
+        var current: ListNode? = dummy
+
+        var prefixSum = 0
+
+        val prefixSumsByNode = mutableMapOf<Int, ListNode>()
+        prefixSumsByNode[0] = dummy
+
+        while (current != null) {
+            prefixSum += current.`val`
+            prefixSumsByNode[prefixSum] = current
+            current = current.next
+        }
+
+        prefixSum = 0
+        current = dummy
+
+        while (current != null) {
+            prefixSum += current.`val`
+            current.next = prefixSumsByNode[prefixSum]!!.next
+            current = current.next
+        }
+
+        return dummy.next
+    }
+
 }
 
 
