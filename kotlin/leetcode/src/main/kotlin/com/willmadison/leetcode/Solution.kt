@@ -2806,26 +2806,26 @@ class Solution : VersionControl() {
         }
 
         if (lower < nums[0]) {
-            missingRanges.add(mutableListOf(lower, nums[0]-1))
+            missingRanges.add(mutableListOf(lower, nums[0] - 1))
         }
 
-        for (i in 0..<nums.size-1) {
-            val delta = nums[i+1]-nums[i]
+        for (i in 0..<nums.size - 1) {
+            val delta = nums[i + 1] - nums[i]
 
             if (delta > 1) {
-                missingRanges.add(mutableListOf(nums[i]+1, nums[i+1]-1))
+                missingRanges.add(mutableListOf(nums[i] + 1, nums[i + 1] - 1))
             }
         }
 
         if (upper > nums.last()) {
-            missingRanges.add(mutableListOf(nums.last()+1, upper))
+            missingRanges.add(mutableListOf(nums.last() + 1, upper))
         }
 
         return missingRanges
     }
 
     fun confusingNumber(n: Int): Boolean {
-        val invalidDigits = setOf(2,3,4,5,7)
+        val invalidDigits = setOf(2, 3, 4, 5, 7)
         val newDigitsBySource = mapOf(0 to 0, 1 to 1, 6 to 9, 8 to 8, 9 to 6)
 
         val digits = n.digits()
@@ -2909,14 +2909,80 @@ class Solution : VersionControl() {
     }
 
     fun pivotInteger(n: Int): Int {
-        val sum = n*(n+1)/2
+        val sum = n * (n + 1) / 2
         val pivot = sqrt(sum.toDouble()).toInt()
 
-        return if (pivot*pivot == sum) pivot else -1
+        return if (pivot * pivot == sum) pivot else -1
+    }
+
+    fun numSubarraysWithSum(nums: IntArray, goal: Int): Int {
+        var numSubarrays = 0
+        var currentSum = 0
+        val occurrencesByPrefixSum = mutableMapOf<Int, Int>()
+
+        for (num in nums) {
+            currentSum += num
+
+            if (currentSum == goal) {
+                numSubarrays++
+            }
+
+            numSubarrays += occurrencesByPrefixSum[currentSum - goal] ?: 0
+
+            occurrencesByPrefixSum[currentSum] = occurrencesByPrefixSum.getOrDefault(currentSum, 0) + 1
+        }
+
+        return numSubarrays
+    }
+
+    fun reorderList(head: ListNode?) {
+        var current = head
+
+        val deque = ArrayDeque<ListNode>()
+        val reorderedNodes = mutableListOf<ListNode>()
+
+        while (current != null) {
+            deque.add(current)
+            current = current.next
+        }
+
+        while (deque.isNotEmpty()) {
+            reorderedNodes.add(deque.removeFirst())
+
+            if (deque.isNotEmpty()) {
+                reorderedNodes.add(deque.removeLast())
+            }
+        }
+
+        for (i in reorderedNodes.indices) {
+            if (i == reorderedNodes.size - 1) {
+                reorderedNodes[i].next = null
+            } else {
+                reorderedNodes[i].next = reorderedNodes[i + 1]
+            }
+        }
+    }
+
+    fun findDuplicate(nums: IntArray): Int {
+        var slow = nums[0]
+        var fast = nums[0]
+
+        do {
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+        } while (slow != fast)
+
+        slow = nums[0]
+
+        while (slow != fast) {
+            slow = nums[slow]
+            fast = nums[fast]
+        }
+
+        return fast
     }
 
 }
-
 
 
 open class VersionControl {

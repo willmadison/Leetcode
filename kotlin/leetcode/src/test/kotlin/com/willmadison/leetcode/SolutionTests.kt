@@ -1729,6 +1729,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun sumSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,0,1,0,1),
+                    2,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(0,0,0,0,0),
+                    0,
+                    15,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2464,6 +2480,13 @@ class SolutionTests {
     @MethodSource("pivotIntegerProvider")
     fun pivotInteger(n: Int, expected: Int) {
         val actual = solution.pivotInteger(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numSubarraysWithSum({0}, {1}) = {2}")
+    @MethodSource("sumSubarrayProvider")
+    fun numSubarraysWithSum(nums: IntArray, goal: Int, expected: Int) {
+        val actual = solution.numSubarraysWithSum(nums, goal)
         assertThat(actual).isEqualTo(expected)
     }
 
