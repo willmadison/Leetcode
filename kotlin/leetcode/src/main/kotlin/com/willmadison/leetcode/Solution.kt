@@ -2982,6 +2982,22 @@ class Solution : VersionControl() {
         return fast
     }
 
+    fun findDuplicates(nums: IntArray): List<Int> {
+        val dupes = mutableListOf<Int>()
+
+        for (i in nums) {
+            if (nums[abs(i)-1] < 0) {
+                dupes.add(abs(i))
+                continue
+            }
+
+            nums[abs(i)-1] *= -1
+        }
+
+        return dupes
+    }
+
+
 }
 
 

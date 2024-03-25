@@ -1745,6 +1745,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun duplicatesArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(4,3,2,7,8,2,3,1),
+                    listOf(2, 3),
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,2),
+                    listOf(1),
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    emptyList<Int>(),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2488,6 +2506,13 @@ class SolutionTests {
     fun numSubarraysWithSum(nums: IntArray, goal: Int, expected: Int) {
         val actual = solution.numSubarraysWithSum(nums, goal)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findDuplicate({0}) = {1}")
+    @MethodSource("duplicatesArrayProvider")
+    fun findDuplicates(nums: IntArray, expected: List<Int>) {
+        val actual = solution.findDuplicates(nums)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @AfterEach
