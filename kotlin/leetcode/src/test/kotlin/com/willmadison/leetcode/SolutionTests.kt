@@ -1,5 +1,6 @@
 package com.willmadison.leetcode
 
+import com.willmadison.leetcode.extensions.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertArrayEquals
@@ -1763,6 +1764,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun missingPositiveProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,0),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(3,4,-1,1),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(7,8,9,11,12),
+                    1,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1785,21 +1804,21 @@ class SolutionTests {
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
     @MethodSource("magazineSourceProvider")
     fun canConstruct(note: String, magazine: String, expected: Boolean) {
-        val actual = solution.canConstruct(note, magazine)
+        val actual = canConstruct(note, magazine)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "countTestedDevices({0}) = {1}")
     @MethodSource("testedDeviceProvider")
     fun countTestedDevices(percentages: IntArray, expected: Int) {
-        val actual = solution.countTestedDevices(percentages)
+        val actual = countTestedDevices(percentages)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "getGoodIndices({0}, {1}) = {2}")
     @MethodSource("variablesProvider")
     fun getGoodIndicies(variables: Array<IntArray>, target: Int, expected: List<Int>) {
-        val actual = solution.getGoodIndices(variables, target)
+        val actual = getGoodIndices(variables, target)
         assertEquals(expected, actual)
     }
 
@@ -1807,112 +1826,112 @@ class SolutionTests {
     @MethodSource("subarraysProvider")
     @Disabled
     fun countSubarrays(nums: IntArray, k: Int, expected: Long) {
-        val actual = solution.countSubarrays(nums, k)
+        val actual = countSubarrays(nums, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "climbStairs({0}) = {1}")
     @MethodSource("stairProvider")
     fun climbStairs(numStairs: Int, expected: Int) {
-        val actual = solution.climbStairs(numStairs)
+        val actual = climbStairs(numStairs)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "longestPalindrome({0}) = {1}")
     @MethodSource("palindromeProvider")
     fun longestPalindrome(value: String, expected: Int) {
-        val actual = solution.longestPalindrome(value)
+        val actual = longestPalindrome(value)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "twoSum({0}, {1}) = {2}")
     @MethodSource("addendProvider")
     fun twoSum(nums: IntArray, target: Int, expected: IntArray) {
-        val actual = solution.twoSum(nums, target)
+        val actual = twoSum(nums, target)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "majorityElement({0}, {1})")
     @MethodSource("elementProvider")
     fun majorityElement(nums: IntArray, expected: Int) {
-        val actual = solution.majorityElement(nums)
+        val actual = majorityElement(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "addBinary({0}, {1}) = {2}")
     @MethodSource("binaryAddendProvider")
     fun addBinary(a: String, b: String, expected: String) {
-        val actual = solution.addBinary(a, b)
+        val actual = addBinary(a, b)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "containsDuplicate({0}) = {1}")
     @MethodSource("duplicatesProvider")
     fun containsDuplicate(nums: IntArray, expected: Boolean) {
-        val actual = solution.containsDuplicate(nums)
+        val actual = containsDuplicate(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "maxSubArray({0}) = {1}")
     @MethodSource("subArrayProvider")
     fun maxSubArray(nums: IntArray, expected: Int) {
-        val actual = solution.maxSubArray(nums)
+        val actual = maxSubArray(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "insert({0}, {1}) = {2}")
     @MethodSource("intervalProvider")
     fun insert(intervals: Array<IntArray>, newInterval: IntArray, expected: Array<IntArray>) {
-        val actual = solution.insert(intervals, newInterval)
+        val actual = insert(intervals, newInterval)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "updateMatrix({0}) = {1}")
     @MethodSource("matrixProvider")
     fun updateMatrix(matrix: Array<IntArray>, expected: Array<IntArray>) {
-        val actual = solution.updateMatrix(matrix)
+        val actual = updateMatrix(matrix)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "kClosest({0}, {1}) = {2}")
     @MethodSource("pointProvider")
     fun kClosest(points: Array<IntArray>, k: Int, expected: Array<IntArray>) {
-        val actual = solution.kClosest(points, k)
+        val actual = kClosest(points, k)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "lengthOfLongestSubstring({0}) = {1}")
     @MethodSource("substringProvider")
     fun lengthOfLongestSubstring(s: String, expected: Int) {
-        val actual = solution.lengthOfLongestSubstring(s)
+        val actual = lengthOfLongestSubstring(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "evalRPN({0}) = {1}")
     @MethodSource("tokenProvider")
     fun evalRPN(tokens: Array<String>, expected: Int) {
-        val actual = solution.evalRPN(tokens)
+        val actual = evalRPN(tokens)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "lengthOfLIS({0}) = {1}")
     @MethodSource("subsequenceProvider")
     fun lengthOfLIS(nums: IntArray, expected: Int) {
-        val actual = solution.lengthOfLIS(nums)
+        val actual = lengthOfLIS(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "isPalindrome({0}) = {1}")
     @MethodSource("palindromeNumProvider")
     fun isPalindrome(x: Int, expected: Boolean) {
-        val actual = solution.isPalindrome(x)
+        val actual = isPalindrome(x)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "longestCommonPrefix({0}) = {1}")
     @MethodSource("prefixProvider")
     fun longestCommonPrefix(words: Array<String>, expected: String) {
-        val actual = solution.longestCommonPrefix(words)
+        val actual = longestCommonPrefix(words)
         assertEquals(expected, actual)
     }
 
@@ -1920,35 +1939,35 @@ class SolutionTests {
     @MethodSource("jobProvider")
     @Disabled
     fun jobScheduling(startTimes: IntArray, endTimes: IntArray, profits: IntArray, expected: Int) {
-        val actual = solution.jobScheduling(startTimes, endTimes, profits)
+        val actual = jobScheduling(startTimes, endTimes, profits)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "calculateTime({0}, {1}) = {2}")
     @MethodSource("keyboardProvider")
     fun calculateTime(keyboard: String, word: String, expected: Int) {
-        val actual = solution.calculateTime(keyboard, word)
+        val actual = calculateTime(keyboard, word)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "canJump({0}) = {1}")
     @MethodSource("jumpProvider")
     fun canJump(nums: IntArray, expected: Boolean) {
-        val actual = solution.canJump(nums)
+        val actual = canJump(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "isValid({0}) = {1}")
     @MethodSource("parenthesisProvider")
     fun isValid(given: String, expected: Boolean) {
-        val actual = solution.isValid(given)
+        val actual = isValid(given)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "removeDuplicates({0}) = ({1}, {2})")
     @MethodSource("duplicateProvider")
     fun removeDuplicates(nums: IntArray, expectedLength: Int, expectedArray: IntArray) {
-        val actual = solution.removeDuplicates(nums)
+        val actual = removeDuplicates(nums)
         assertEquals(expectedLength, actual)
         assertArrayEquals(expectedArray, nums.take(expectedLength).toIntArray())
     }
@@ -1956,77 +1975,77 @@ class SolutionTests {
     @ParameterizedTest(name = "findContentChildren({0}, {1}) = {2}")
     @MethodSource("childrenProvider")
     fun findContentChildren(greeds: IntArray, cookies: IntArray, expected: Int) {
-        val actual = solution.findContentChildren(greeds, cookies)
+        val actual = findContentChildren(greeds, cookies)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findMatrix({0}) = {1}")
     @MethodSource("valueProvider")
     fun findMatrix(nums: IntArray, expected: List<List<Int>>) {
-        val actual = solution.findMatrix(nums)
+        val actual = findMatrix(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "numberOfBeams({0}) = {1}")
     @MethodSource("beamProvider")
     fun numberOfBeams(bank: Array<String>, expected: Int) {
-        val actual = solution.numberOfBeams(bank)
+        val actual = numberOfBeams(bank)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "minOperations({0}) = {1}")
     @MethodSource("operandProvider")
     fun minOperations(nums: IntArray, expected: Int) {
-        val actual = solution.minOperations(nums)
+        val actual = minOperations(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "threeSum({0}) = {1}")
     @MethodSource("threeSumProvider")
     fun threeSum(nums: IntArray, expected: List<List<Int>>) {
-        val actual = solution.threeSum(nums)
+        val actual = threeSum(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "longestPalindromicSubstring({0}) = {1}")
     @MethodSource("palindromicSubstringProvider")
     fun longestPalindromicSubstring(s: String, expected: String) {
-        val actual = solution.longestPalindromicSubstring(s)
+        val actual = longestPalindromicSubstring(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "isAnagram({0}, {1}) = {2}")
     @MethodSource("anagramProvider")
     fun isAnagram(s: String, t: String, expected: Boolean) {
-        val actual = solution.isAnagram(s, t)
+        val actual = isAnagram(s, t)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "productExceptSelf({0}) = {1}")
     @MethodSource("factorProvider")
     fun productExceptSelf(nums: IntArray, expected: IntArray) {
-        val actual = solution.productExceptSelf(nums)
+        val actual = productExceptSelf(nums)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "titleToNumber({0}) = {1}")
     @MethodSource("titleProvider")
     fun titleToNumber(columnTitle: String, expected: Int) {
-        val actual = solution.titleToNumber(columnTitle)
+        val actual = titleToNumber(columnTitle)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "sortTheStudents({0}, {1}) = {2}")
     @MethodSource("studentProvider")
     fun sortTheStudents(scores: Array<IntArray>, k: Int, expected: Array<IntArray>) {
-        val actual = solution.sortTheStudents(scores, k)
+        val actual = sortTheStudents(scores, k)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "coinChange({0}, {1}) = {2}")
     @MethodSource("coinProvider")
     fun coinChange(coins: IntArray, changeDue: Int, expected: Int) {
-        val actual = solution.coinChange(coins, changeDue)
+        val actual = coinChange(coins, changeDue)
         assertEquals(expected, actual)
     }
 
@@ -2037,7 +2056,7 @@ class SolutionTests {
             TreeNode(5, right = TreeNode(4, TreeNode(9), TreeNode(2))), TreeNode(3, TreeNode(10), TreeNode(6))
         )
 
-        var actual = solution.amountOfTime(root, 3)
+        var actual = amountOfTime(root, 3)
 
         assertEquals(4, actual)
 
@@ -2046,7 +2065,7 @@ class SolutionTests {
             left = TreeNode(2, left = TreeNode(3, left = TreeNode(4, left = TreeNode(5))))
         )
 
-        actual = solution.amountOfTime(root, 3)
+        actual = amountOfTime(root, 3)
 
         assertEquals(2, actual)
     }
@@ -2076,174 +2095,174 @@ class SolutionTests {
     @ParameterizedTest(name = "minWindow({0}, {1}) = {2}")
     @MethodSource("windowProvider")
     fun minWindow(source: String, target: String, expected: String) {
-        val actual = solution.minWindow(source, target)
+        val actual = minWindow(source, target)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "onesMinusZeros({0}) = {1}")
     @MethodSource("binaryMatrixProvider")
     fun onesMinusZeros(grid: Array<IntArray>, expected: Array<IntArray>) {
-        val actual = solution.onesMinusZeros(grid)
+        val actual = onesMinusZeros(grid)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "havlesAreAlike({0}) = {1}")
     @MethodSource("halveProvider")
     fun halvesAreAlike(s: String, expected: Boolean) {
-        val actual = solution.halvesAreAlike(s)
+        val actual = halvesAreAlike(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "minSteps({0}, {1}) = {2}")
     @MethodSource("stepProvider")
     fun minSteps(s: String, t: String, expected: Int) {
-        val actual = solution.minSteps(s, t)
+        val actual = minSteps(s, t)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "maxFrequencyElements({0}) = {1}")
     @MethodSource("elementsProvider")
     fun maxFrequencyElements(nums: IntArray, expected: Int) {
-        val actual = solution.maxFrequencyElements(nums)
+        val actual = maxFrequencyElements(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "beautifulIndices({0}, {1}, {2}, {3}) = {4}")
     @MethodSource("beautyProvider")
     fun beautifulIndices(s: String, a: String, b: String, k: Int, expected: List<Int>) {
-        val actual = solution.beautifulIndices(s, a, b, k)
+        val actual = beautifulIndices(s, a, b, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "sum({0}, {1}) = {2}")
     @MethodSource("sumProvider")
     fun sum(num1: Int, num2: Int, expected: Int) {
-        val actual = solution.sum(num1, num2)
+        val actual = sum(num1, num2)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findWinners({0}) = {1}")
     @MethodSource("winnerProvider")
     fun findWinners(matches: Array<IntArray>, expected: List<List<Int>>) {
-        val actual = solution.findWinners(matches)
+        val actual = findWinners(matches)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findTheDifference({0}, {1}) = {2}")
     @MethodSource("differenceProvider")
     fun findTheDifference(s: String, t: String, expected: Char) {
-        val actual = solution.findTheDifference(s, t)
+        val actual = findTheDifference(s, t)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "strStr({0}, {1}) = {2}")
     @MethodSource("needleProvider")
     fun strStr(haystack: String, needle: String, expected: Int) {
-        val actual = solution.strStr(haystack, needle)
+        val actual = strStr(haystack, needle)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "mergeAlternately({0}, {1}) = {2}")
     @MethodSource("mergeProvider")
     fun mergeAlternately(word1: String, word2: String, expected: String) {
-        val actual = solution.mergeAlternately(word1, word2)
+        val actual = mergeAlternately(word1, word2)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "repeatedSubstringPattern({0}) = {1}")
     @MethodSource("repeatedSubstringProvider")
     fun repeatedSubstringPattern(s: String, expected: Boolean) {
-        val actual = solution.repeatedSubstringPattern(s)
+        val actual = repeatedSubstringPattern(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "moveZeroes({0}) = {1}")
     @MethodSource("zeroProvider")
     fun moveZeroes(nums: IntArray, expected: IntArray) {
-        solution.moveZeroes(nums)
+        moveZeroes(nums)
         assertArrayEquals(expected, nums)
     }
 
     @ParameterizedTest(name = "uniqueOccurrences({0}) = {1}")
     @MethodSource("occurrenceProvider")
     fun uniqueOccurrences(nums: IntArray, expected: Boolean) {
-        val actual = solution.uniqueOccurrences(nums)
+        val actual = uniqueOccurrences(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findMin({0}) = {1}")
     @MethodSource("minProvider")
     fun findMin(nums: IntArray, expected: Int) {
-        val actual = solution.findMin(nums)
+        val actual = findMin(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findMin({0}, {1}) = {2}")
     @MethodSource("vowelStringProvider")
     fun vowelStrings(words: Array<String>, queries: Array<IntArray>, expected: IntArray) {
-        val actual = solution.vowelStrings(words, queries)
+        val actual = vowelStrings(words, queries)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "plusOne({0}) = {1}")
     @MethodSource("plusOneProvider")
     fun plusOne(digits: IntArray, expected: IntArray) {
-        val actual = solution.plusOne(digits)
+        val actual = plusOne(digits)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "arraySign({0}) = {1}")
     @MethodSource("arrayProvider")
     fun arraySign(nums: IntArray, expected: Int) {
-        val actual = solution.arraySign(nums)
+        val actual = arraySign(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "canMakeArithmeticProgression({0}) = {1}")
     @MethodSource("progressionProvider")
     fun canMakeArithmeticProgression(nums: IntArray, expected: Boolean) {
-        val actual = solution.canMakeArithmeticProgression(nums)
+        val actual = canMakeArithmeticProgression(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "isMonotonic({0}) = {1}")
     @MethodSource("monotonicProvider")
     fun isMonotonic(nums: IntArray, expected: Boolean) {
-        val actual = solution.isMonotonic(nums)
+        val actual = isMonotonic(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "romanToInt({0}) = {1}")
     @MethodSource("romanProvider")
     fun romanToInt(s: String, expected: Int) {
-        val actual = solution.romanToInt(s)
+        val actual = romanToInt(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "minFallingPathSum({0}) = {1}")
     @MethodSource("fallingPathProvider")
     fun minFallingPathSum(matrix: Array<IntArray>, expected: Int) {
-        val actual = solution.minFallingPathSum(matrix)
+        val actual = minFallingPathSum(matrix)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findErrorNums({0}) = {1}")
     @MethodSource("errorNumProvider")
     fun findErrorNums(nums: IntArray, expected: IntArray) {
-        val actual = solution.findErrorNums(nums)
+        val actual = findErrorNums(nums)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "searchInsert({0}, {1}) = {2}")
     @MethodSource("insertProvider")
     fun searchInsert(nums: IntArray, target: Int, expected: Int) {
-        val actual = solution.searchInsert(nums, target)
+        val actual = searchInsert(nums, target)
         assertEquals(expected, actual)
     }
 
     @Test
     fun divideArray() {
-        val actual = solution.divideArray(intArrayOf(1, 3, 4, 8, 7, 9, 3, 5, 1), 2)
+        val actual = divideArray(intArrayOf(1, 3, 4, 8, 7, 9, 3, 5, 1), 2)
         val expected = arrayOf(intArrayOf(1, 1, 3), intArrayOf(3, 4, 5), intArrayOf(7, 8, 9))
         assertArrayEquals(expected, actual)
     }
@@ -2256,7 +2275,7 @@ class SolutionTests {
 
         val head = ListNode(3, two)
 
-        val actual = solution.detectCycle(head)
+        val actual = detectCycle(head)
 
         assertEquals(two, actual)
     }
@@ -2264,77 +2283,77 @@ class SolutionTests {
     @ParameterizedTest(name = "maxSumAfterPartitioning({0}, {1}) = {2}")
     @MethodSource("partitionProvider")
     fun maxSumAfterPartitioning(nums: IntArray, k: Int, expected: Int) {
-        val actual = solution.maxSumAfterPartitioning(nums, k)
+        val actual = maxSumAfterPartitioning(nums, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "returnToBoundaryCount({0}) = {1}")
     @MethodSource("boundaryProvider")
     fun returnToBoundaryCount(nums: IntArray, expected: Int) {
-        val actual = solution.returnToBoundaryCount(nums)
+        val actual = returnToBoundaryCount(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "lengthOfLastWord({0}) = {1}")
     @MethodSource("wordProvider")
     fun lengthOfLastWord(word: String, expected: Int) {
-        val actual = solution.lengthOfLastWord(word)
+        val actual = lengthOfLastWord(word)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "calPoints({0}) = {1}")
     @MethodSource("operationProvider")
     fun calPoints(operations: Array<String>, expected: Int) {
-        val actual = solution.calPoints(operations)
+        val actual = calPoints(operations)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "judgeCircle({0}) = {1}")
     @MethodSource("moveProvider")
     fun judgeCircle(moves: String, expected: Boolean) {
-        val actual = solution.judgeCircle(moves)
+        val actual = judgeCircle(moves)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "tictactoe({0}) = {1}")
     @MethodSource("ticTacToeProvider")
     fun tictactoe(moves: Array<IntArray>, expected: String) {
-        val actual = solution.tictactoe(moves)
+        val actual = tictactoe(moves)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "maximumWealth({0}) = {1}")
     @MethodSource("wealthProvider")
     fun maximumWealth(accounts: Array<IntArray>, expected: Int) {
-        val actual = solution.maximumWealth(accounts)
+        val actual = maximumWealth(accounts)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "firstUniqChr({0}) = {1}")
     @MethodSource("uniqueCharProvider")
     fun firstUniqChar(word: String, expected: Int) {
-        val actual = solution.firstUniqChar(word)
+        val actual = firstUniqChar(word)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "groupAnagrams({0}) = {1}")
     @MethodSource("anagramGroupProvider")
     fun groupAnagrams(words: Array<String>, expected: List<List<String>>) {
-        val actual = solution.groupAnagrams(words)
+        val actual = groupAnagrams(words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @ParameterizedTest(name = "firstPalindrome({0}) = {1}")
     @MethodSource("palindromeListProvider")
     fun firstPalindrome(words: Array<String>, expected: String) {
-        val actual = solution.firstPalindrome(words)
+        val actual = firstPalindrome(words)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "rearrangeArray({0}) = {1}")
     @MethodSource("arrangeableArrayProvider")
     fun rearrangeArray(nums: IntArray, expected: IntArray) {
-        val actual = solution.rearrangeArray(nums)
+        val actual = rearrangeArray(nums)
         assertArrayEquals(expected, actual)
     }
 
@@ -2342,154 +2361,154 @@ class SolutionTests {
     @MethodSource("frequencySortProvider")
     @Disabled
     fun frequencySort(string: String, expected: String) {
-        val actual = solution.frequencySort(string)
+        val actual = frequencySort(string)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findLeastNumOfUniqueInts({0}, {1}) = {2}")
     @MethodSource("intArrayProvider")
     fun findLeastNumOfUniqueInts(array: IntArray, k: Int, expected: Int) {
-        val actual = solution.findLeastNumOfUniqueInts(array, k)
+        val actual = findLeastNumOfUniqueInts(array, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "furthestBuilding({0}, {1}, {2}) = {3}")
     @MethodSource("buildingProvider")
     fun furthestBuilding(heights: IntArray, bricks: Int, ladders: Int, expected: Int) {
-        val actual = solution.furthestBuilding(heights, bricks, ladders)
+        val actual = furthestBuilding(heights, bricks, ladders)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "isPowerOfTwo({0}) = {1}")
     @MethodSource("powerOfTwoProvider")
     fun isPowerOfTwo(n: Int, expected: Boolean) {
-        val actual = solution.isPowerOfTwo(n)
+        val actual = isPowerOfTwo(n)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "missingNumber({0}) = {1}")
     @MethodSource("missingNumberProvider")
     fun missingNumber(nums: IntArray, expected: Int) {
-        val actual = solution.missingNumber(nums)
+        val actual = missingNumber(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "maxProduct({0}) = {1}")
     @MethodSource("maxProductProvider")
     fun maxProduct(nums: IntArray, expected: Int) {
-        val actual = solution.maxProduct(nums)
+        val actual = maxProduct(nums)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findJudge({0}, {1}) = {2}")
     @MethodSource("judgeProvider")
     fun findJudge(n: Int, trusts: Array<IntArray>, expected: Int) {
-        val actual = solution.findJudge(n, trusts)
+        val actual = findJudge(n, trusts)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findKthLargest({0}, {1}) = {2}")
     @MethodSource("kthLargestProvider")
     fun findKthLargest(nums: IntArray, k: Int, expected: Int) {
-        val actual = solution.findKthLargest(nums, k)
+        val actual = findKthLargest(nums, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "topKFrequent({0}, {1}) = {2}")
     @MethodSource("topKFrequentProvider")
     fun topKFrequent(nums: IntArray, k: Int, expected: IntArray) {
-        val actual = solution.topKFrequent(nums, k)
+        val actual = topKFrequent(nums, k)
         assertThat(actual).containsExactlyInAnyOrder(expected.toTypedArray())
     }
 
     @ParameterizedTest(name = "validWordSquare({0}) = {1}")
     @MethodSource("wordSquareProvider")
     fun validWordSquare(words: List<String>, expected: Boolean) {
-        val actual = solution.validWordSquare(words)
+        val actual = validWordSquare(words)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findCheapestPrice({0}, {1}, {2}, {3}, {4}) = {5}")
     @MethodSource("cheapestPriceProvider")
     fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int, expected: Int) {
-        val actual = solution.findCheapestPrice(n, flights, src, dst, k)
+        val actual = findCheapestPrice(n, flights, src, dst, k)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findAllPeople({0}, {1}, {2}) = {3}")
     @MethodSource("peopleProvider")
     fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int, expected: List<Int>) {
-        val actual = solution.findAllPeople(n, meetings, firstPerson)
+        val actual = findAllPeople(n, meetings, firstPerson)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @ParameterizedTest(name = "maximumOddBinaryNumber({0}) = {1}")
     @MethodSource("binaryNumberProvider")
     fun maximumOddBinaryNumber(s: String, expected: String) {
-        val actual = solution.maximumOddBinaryNumber(s)
+        val actual = maximumOddBinaryNumber(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "numIslands({0}) = {1}")
     @MethodSource("islandProvider")
     fun numIslands(grid: Array<CharArray>, expected: Int) {
-        val actual = solution.numIslands(grid)
+        val actual = numIslands(grid)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "sortedSquares({0}) = {1}")
     @MethodSource("squareProvider")
     fun sortedSquares(nums: IntArray, expected: IntArray) {
-        val actual = solution.sortedSquares(nums)
+        val actual = sortedSquares(nums)
         assertArrayEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "buddyStrings({0}, {1}) = {2}")
     @MethodSource("buddyStringProvider")
     fun buddyStrings(s: String, goal: String, expected: Boolean) {
-        val actual = solution.buddyStrings(s, goal)
+        val actual = buddyStrings(s, goal)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "bagOfTokensScore({0}, {1}) = {2}")
     @MethodSource("tokenBagProvider")
     fun bagOfTokensScore(tokens: IntArray, power: Int, expected: Int) {
-        val actual = solution.bagOfTokensScore(tokens, power)
+        val actual = bagOfTokensScore(tokens, power)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "minimumLength({0}) = {1}")
     @MethodSource("minimumLengthStringProvider")
     fun minimumLength(s: String, expected: Int) {
-        val actual = solution.minimumLength(s)
+        val actual = minimumLength(s)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "findMissingRanges({0}, {1}, {2}) = {3}")
     @MethodSource("missingRangeProvider")
     fun findMissingRanges(nums: IntArray, lower: Int, upper: Int, expected: List<List<Int>>) {
-        val actual = solution.findMissingRanges(nums, lower, upper)
+        val actual = findMissingRanges(nums, lower, upper)
         assertEquals(expected, actual)
     }
 
     @ParameterizedTest(name = "confusingNumber({0}) = {1}")
     @MethodSource("confusingNumberProvider")
     fun confusingNumber(n: Int, expected: Boolean) {
-        val actual = solution.confusingNumber(n)
+        val actual = confusingNumber(n)
         assertThat(actual).isEqualTo(expected)
     }
 
     @ParameterizedTest(name = "intersection({0}, {1}) = {2}")
     @MethodSource("intersectionProvider")
     fun intersection(nums1: IntArray, nums2: IntArray, expected: IntArray) {
-        val actual = solution.intersection(nums1, nums2)
+        val actual = intersection(nums1, nums2)
         assertThat(actual.toList()).containsExactlyInAnyOrderElementsOf(expected.toList())
     }
 
     @ParameterizedTest(name = "customSortString({0}, {1}) = {2}")
     @MethodSource("customStringProvider")
     fun customSortString(order: String, s: String, expected: String) {
-        val actual = solution.customSortString(order, s)
+        val actual = customSortString(order, s)
         val range = 0..minOf(order.length-1, s.length-1)
         assertThat(actual.substring(range)).isEqualTo(expected.substring(range))
     }
@@ -2497,22 +2516,29 @@ class SolutionTests {
     @ParameterizedTest(name = "pivotInteger({0}) = {1}")
     @MethodSource("pivotIntegerProvider")
     fun pivotInteger(n: Int, expected: Int) {
-        val actual = solution.pivotInteger(n)
+        val actual = pivotInteger(n)
         assertThat(actual).isEqualTo(expected)
     }
 
     @ParameterizedTest(name = "numSubarraysWithSum({0}, {1}) = {2}")
     @MethodSource("sumSubarrayProvider")
     fun numSubarraysWithSum(nums: IntArray, goal: Int, expected: Int) {
-        val actual = solution.numSubarraysWithSum(nums, goal)
+        val actual = numSubarraysWithSum(nums, goal)
         assertThat(actual).isEqualTo(expected)
     }
 
     @ParameterizedTest(name = "findDuplicate({0}) = {1}")
     @MethodSource("duplicatesArrayProvider")
     fun findDuplicates(nums: IntArray, expected: List<Int>) {
-        val actual = solution.findDuplicates(nums)
+        val actual = findDuplicates(nums)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "firstMissingPositive({0}) = {1}")
+    @MethodSource("missingPositiveProvider")
+    fun firstMissingPositive(nums: IntArray, expected: Int) {
+        val actual = firstMissingPositive(nums)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @AfterEach
