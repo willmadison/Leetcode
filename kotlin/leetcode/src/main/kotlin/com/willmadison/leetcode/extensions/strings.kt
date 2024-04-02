@@ -620,3 +620,22 @@ fun canConstruct(note: String, magazine: String): Boolean {
     return true
 }
 
+fun isIsomorphic(s: String, t: String): Boolean {
+    val mappedCharacters = mutableMapOf<Char, Char>()
+    val alreadyMapped = mutableSetOf<Char>()
+
+    for ((i,c) in s.withIndex()) {
+        if (mappedCharacters.containsKey(c) && mappedCharacters[c] != t[i]) {
+            return false
+        }
+
+        if (!mappedCharacters.containsKey(c) && alreadyMapped.contains(t[i])) {
+            return false
+        }
+
+        mappedCharacters[c] = t[i]
+        alreadyMapped.add(t[i])
+    }
+
+    return true
+}

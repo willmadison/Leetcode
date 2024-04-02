@@ -1782,6 +1782,64 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun subarrayProductProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10,5,2,6),
+                    100,
+                    8,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,3),
+                    0,
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subarrayLengthConstraintProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3,1,2,3,1,2),
+                    2,
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,1,2,1,2,1,2),
+                    1,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(5,5,5,5,5,5,5),
+                    4,
+                    4,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun isomorphicStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "egg",
+                    "add",
+                    true,
+                ),
+                Arguments.of(
+                    "foo",
+                    "bar",
+                    false,
+                ),
+                Arguments.of(
+                    "paper",
+                    "title",
+                    true,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -1824,7 +1882,6 @@ class SolutionTests {
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
     @MethodSource("subarraysProvider")
-    @Disabled
     fun countSubarrays(nums: IntArray, k: Int, expected: Long) {
         val actual = countSubarrays(nums, k)
         assertEquals(expected, actual)
@@ -2538,6 +2595,27 @@ class SolutionTests {
     @MethodSource("missingPositiveProvider")
     fun firstMissingPositive(nums: IntArray, expected: Int) {
         val actual = firstMissingPositive(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numSubarrayProductLessThanK({0}, {1}) = {2}")
+    @MethodSource("subarrayProductProvider")
+    fun numSubarrayProductLessThanK(nums: IntArray, k: Int, expected: Int) {
+        val actual = numSubarrayProductLessThanK(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxSubarrayLength({0}, {1}) = {2}")
+    @MethodSource("subarrayLengthConstraintProvider")
+    fun maxSubarrayLength(nums: IntArray, k: Int, expected: Int) {
+        val actual = maxSubarrayLength(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isIsomorphic({0}, {1}) = {2}")
+    @MethodSource("isomorphicStringProvider")
+    fun isIsomorphic(s: String, t: String, expected: Boolean) {
+        val actual = isIsomorphic(s, t)
         assertThat(actual).isEqualTo(expected)
     }
 

@@ -4,6 +4,7 @@ import com.willmadison.leetcode.Location
 import com.willmadison.leetcode.Point
 import java.util.*
 import kotlin.math.abs
+import kotlin.math.max
 
 // https://leetcode.com/problems/two-sum/
 fun twoSum(nums: IntArray, target: Int): IntArray {
@@ -462,12 +463,12 @@ fun findDuplicates(nums: IntArray): List<Int> {
     val dupes = mutableListOf<Int>()
 
     for (i in nums) {
-        if (nums[abs(i) -1] < 0) {
+        if (nums[abs(i) - 1] < 0) {
             dupes.add(abs(i))
             continue
         }
 
-        nums[abs(i) -1] *= -1
+        nums[abs(i) - 1] *= -1
     }
 
     return dupes
@@ -489,9 +490,9 @@ fun firstMissingPositive(nums: IntArray): Int {
         val v = abs(nums[i])
 
         if (v == n) {
-            nums[0] = -1* abs(nums[0])
+            nums[0] = -1 * abs(nums[0])
         } else {
-            nums[v] = -1* abs(nums[v])
+            nums[v] = -1 * abs(nums[v])
         }
     }
 
@@ -505,7 +506,7 @@ fun firstMissingPositive(nums: IntArray): Int {
         return n
     }
 
-    return n+1
+    return n + 1
 }
 
 fun numSubarraysWithSum(nums: IntArray, goal: Int): Int {
@@ -599,21 +600,23 @@ fun countSubarrays(nums: IntArray, k: Int): Long {
 
     val max = nums.max()
 
-    if (nums.count { it == max } >= k) {
-        subarrays++
-    }
-
     var start = 0
-    var end = 0
 
-    while (start <= end) {
-        val countInWindow = nums.slice(start..end).count { it == max }
-        if (countInWindow >= k) {
-            subarrays++
-            start++
-        } else {
-            end++
+    var occurrencesOfMax = 0
+
+    for (end in nums.indices) {
+        if (nums[end] == max) {
+            occurrencesOfMax++
         }
+
+        while (k == occurrencesOfMax) {
+            if (nums[start] == max) {
+                occurrencesOfMax--
+            }
+            start++
+        }
+
+        subarrays += start
     }
 
     return subarrays
@@ -1297,4 +1300,49 @@ fun findWinners(matches: Array<IntArray>): List<List<Int>> {
 
     return listOf(undefeated, singleLoss)
 }
+
+fun numSubarrayProductLessThanK(nums: IntArray, k: Int): Int {
+    if (k <= 1) return 0
+
+    var start = 0
+
+    var numSubarrays = 0
+    var cumulativeProduct = 1
+
+    for (end in nums.indices) {
+        cumulativeProduct *= nums[end]
+
+        while (cumulativeProduct >= k && start < nums.size) {
+            cumulativeProduct /= nums[start++]
+        }
+
+        numSubarrays += end - start + 1
+    }
+
+    return numSubarrays
+}
+
+fun maxSubarrayLength(nums: IntArray, k: Int): Int {
+    var start = 0
+
+    var maxLength = 0
+
+    val frequencyByNumber = mutableMapOf<Int, Int>()
+
+    for (end in nums.indices) {
+        val count = frequencyByNumber.getOrPut(nums[end]) {0}
+        frequencyByNumber[nums[end]] = count+1
+
+        while (frequencyByNumber[nums[end]]!! > k) {
+            frequencyByNumber[nums[start]] = frequencyByNumber[nums[start]]!! - 1
+            start++
+        }
+
+        maxLength = max(maxLength, end-start+1)
+    }
+
+    return maxLength
+}
+
+
 
