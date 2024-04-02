@@ -5,6 +5,7 @@ import com.willmadison.leetcode.Point
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 
 // https://leetcode.com/problems/two-sum/
 fun twoSum(nums: IntArray, target: Int): IntArray {
@@ -617,6 +618,25 @@ fun countSubarrays(nums: IntArray, k: Int): Long {
         }
 
         subarrays += start
+    }
+
+    return subarrays
+}
+
+fun countSubarrays(nums: IntArray, minK: Int, maxK: Int): Long {
+    var subarrays = 0L
+
+    var minPosition = -1
+    var maxPosition = -1
+    var leftBound = -1
+
+    for (i in nums.indices) {
+        if (nums[i] < minK || nums[i] > maxK) leftBound = i
+
+        if (nums[i] == minK) minPosition = i
+        if (nums[i] == maxK) maxPosition = i
+
+        subarrays += maxOf(0, (min(maxPosition, minPosition) - leftBound)).toLong()
     }
 
     return subarrays
@@ -1344,5 +1364,36 @@ fun maxSubarrayLength(nums: IntArray, k: Int): Int {
     return maxLength
 }
 
+fun subarraysWithKDistinct(nums: IntArray, k: Int): Int {
+    return subarrayWithAtMostKDistinct(nums, k) -
+            subarrayWithAtMostKDistinct(nums, k-1)
+}
 
+fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
+    val countsByValue = mutableMapOf<Int, Int>()
+
+    var numSubarrays = 0
+    var start = 0
+
+    for (end in nums.indices) {
+        val count = countsByValue.getOrPut(nums[end]) {0}
+        countsByValue[nums[end]] = count+1
+
+        while (countsByValue.size > k) {
+            if (countsByValue.containsKey(nums[start])) {
+                countsByValue[nums[start]] = countsByValue[nums[start]]!! - 1
+
+                if (countsByValue[nums[start]] == 0) {
+                    countsByValue.remove(nums[start])
+                }
+
+                start++
+            }
+        }
+
+        numSubarrays += end-start+1
+    }
+
+    return numSubarrays
+}
 

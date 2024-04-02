@@ -1840,6 +1840,40 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun subarrayWithKDistinctProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,1,2,3),
+                    2,
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,1,3,4),
+                    3,
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun constrainedSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,3,5,2,7,5),
+                    1,
+                    5,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1,1),
+                    1,
+                    1,
+                    10,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2617,6 +2651,20 @@ class SolutionTests {
     fun isIsomorphic(s: String, t: String, expected: Boolean) {
         val actual = isIsomorphic(s, t)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "subarraysWithKDistinct({0}) = {1}")
+    @MethodSource("subarrayWithKDistinctProvider")
+    fun subarraysWithKDistinct(nums: IntArray, k: Int, expected: Int) {
+        val actual = subarraysWithKDistinct(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countSubarrays({0}, {1}, {2}) = {3}")
+    @MethodSource("constrainedSubarrayProvider")
+    fun countSubarrays(nums: IntArray, minK: Int, maxK: Int, expected: Long) {
+        val actual = countSubarrays(nums, minK, maxK)
+        assertEquals(expected, actual)
     }
 
     @AfterEach
