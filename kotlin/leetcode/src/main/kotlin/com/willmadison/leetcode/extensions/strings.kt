@@ -624,7 +624,7 @@ fun isIsomorphic(s: String, t: String): Boolean {
     val mappedCharacters = mutableMapOf<Char, Char>()
     val alreadyMapped = mutableSetOf<Char>()
 
-    for ((i,c) in s.withIndex()) {
+    for ((i, c) in s.withIndex()) {
         if (mappedCharacters.containsKey(c) && mappedCharacters[c] != t[i]) {
             return false
         }
@@ -638,4 +638,71 @@ fun isIsomorphic(s: String, t: String): Boolean {
     }
 
     return true
+}
+
+private var puzzle: Array<CharArray> = emptyArray()
+
+fun exist(board: Array<CharArray>, word: String): Boolean {
+    puzzle = board
+    val rows = board.size
+    val columns = board[0].size
+    for (row in board.indices) {
+        for (col in board[0].indices) {
+            if (backtrack(row, col, word, 0, rows, columns)) {
+                return true
+            }
+        }
+    }
+
+    return false
+}
+
+fun backtrack(row: Int, col: Int, word: String, i: Int, rows: Int, columns: Int): Boolean {
+    if (i >= word.length) return true
+
+    if (row < 0 || row == rows || col < 0 ||
+        col == columns || puzzle[row][col] != word[i]
+    ) return false
+
+    puzzle[row][col] = '#'
+
+    val rowOffsets = arrayOf(0, 1, 0, -1)
+    val columnOffsets = arrayOf(1, 0, -1, 0)
+
+    for (j in rowOffsets.indices) {
+        if (backtrack(row + rowOffsets[j], col + columnOffsets[j], word, i + 1, rows, columns))
+            return true
+    }
+
+    puzzle[row][col] = word[i]
+
+    return false
+}
+
+fun maxDepth(s: String): Int {
+    var maxDepth = 0
+
+    var depth = 0
+
+    for (c in s) {
+        when (c) {
+            '(' -> {
+                depth++
+                maxDepth = maxOf(depth, maxDepth)
+            }
+            ')' -> depth--
+        }
+    }
+
+    return maxDepth
+}
+
+fun makeGood(s: String): String {
+    for (i in 0..<s.length-1) {
+        if (abs(s[i]-s[i+1]) == 32) {
+            return makeGood(s.substring(0..<i) + s.substring(i+2))
+        }
+    }
+
+    return s
 }

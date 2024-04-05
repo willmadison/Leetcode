@@ -1874,6 +1874,67 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun crosswordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "ABCCED",
+                    true,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "SEE",
+                    true,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "ABCB",
+                    false,
+                )
+            )
+        }
+
+        @JvmStatic
+        fun maxDepthProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "(1+(2*3)+((8)/4))+1",
+                    3,
+                ),
+                Arguments.of(
+                    "(1)+((2))+(((3)))",
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun goodStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leEeetcode",
+                    "leetcode",
+                ),
+                Arguments.of(
+                    "abBAcC",
+                    "",
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2665,6 +2726,27 @@ class SolutionTests {
     fun countSubarrays(nums: IntArray, minK: Int, maxK: Int, expected: Long) {
         val actual = countSubarrays(nums, minK, maxK)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "exist({0}, {1}) = {2}")
+    @MethodSource("crosswordProvider")
+    fun exist(board: Array<CharArray>, word: String, expected: Boolean) {
+        val actual = exist(board, word)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxDepth({0}) = {1}")
+    @MethodSource("maxDepthProvider")
+    fun maxDepth(s: String, expected: Int) {
+        val actual = maxDepth(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "makeGood({0}) = {1}")
+    @MethodSource("goodStringProvider")
+    fun makeGood(s: String, expected: String) {
+        val actual = makeGood(s)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @AfterEach
