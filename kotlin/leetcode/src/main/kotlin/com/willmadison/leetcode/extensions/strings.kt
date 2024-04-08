@@ -706,3 +706,62 @@ fun makeGood(s: String): String {
 
     return s
 }
+
+fun minRemoveToMakeValid(s: String): String {
+    val unbalancedIndexes = mutableSetOf<Int>()
+    val stack = ArrayDeque<Int>()
+
+    for ((i,c) in s.withIndex()) {
+        when (c) {
+            '(' -> stack.push(i)
+            ')' -> {
+                 if (stack.isEmpty()) {
+                     unbalancedIndexes.add(i)
+                 } else {
+                     stack.pop()
+                 }
+            }
+        }
+    }
+
+    while (stack.isNotEmpty()) unbalancedIndexes.add(stack.pop())
+
+    val sb = StringBuilder()
+
+    for ((i, c) in s.withIndex()) {
+        if (!unbalancedIndexes.contains(i)) {
+            sb.append(c)
+        }
+    }
+
+    return sb.toString()
+}
+
+fun checkValidString(s: String): Boolean {
+    val openings = ArrayDeque<Int>()
+    val asterisks = ArrayDeque<Int>()
+
+    for ((i, c) in s.withIndex()) {
+        when (c) {
+            '(' -> openings.push(i)
+            '*' -> asterisks.push(i)
+            else -> {
+                if (openings.isNotEmpty()) {
+                    openings.pop()
+                } else if (asterisks.isNotEmpty()) {
+                    asterisks.pop()
+                } else {
+                    return false
+                }
+            }
+        }
+    }
+
+    while (openings.isNotEmpty() && asterisks.isNotEmpty()) {
+        if (openings.pop() > asterisks.pop()) {
+            return false
+        }
+    }
+
+    return openings.isEmpty()
+}

@@ -1397,3 +1397,30 @@ fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
     return numSubarrays
 }
 
+fun countStudents(students: IntArray, sandwiches: IntArray): Int {
+    val q = ArrayDeque<Int>()
+    q.addAll(students.asIterable())
+
+    val stack = ArrayDeque<Int>()
+    stack.addAll(sandwiches.asIterable())
+
+    var considerations = 0
+
+    while (q.isNotEmpty() && stack.isNotEmpty()) {
+        if (q.peek() == stack.peek()) {
+            q.removeFirst()
+            stack.pop()
+            considerations = 0
+        } else {
+            q.add(q.removeFirst())
+            considerations++
+        }
+
+        if (considerations == q.size) {
+            break
+        }
+    }
+
+    return q.size
+}
+

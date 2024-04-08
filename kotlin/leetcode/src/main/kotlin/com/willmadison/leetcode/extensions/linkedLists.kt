@@ -262,3 +262,39 @@ private fun ListNode?.getNodeAt(index: Int): ListNode? {
 
     return this?.next.getNodeAt(index - 1)
 }
+
+fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
+    var a = list1
+    var b = list2
+
+    val dummy = ListNode(Int.MIN_VALUE)
+    var current: ListNode? = dummy
+
+    while (a != null || b != null) {
+        var next: ListNode?
+        if (a == null) {
+            next = b
+            b = b?.next
+        } else if (b == null) {
+            next = a
+            a = a.next
+        } else {
+            var smaller: ListNode?
+
+            if (a.`val` < b.`val`) {
+                smaller = a
+                a = a.next
+            } else {
+                smaller = b
+                b = b.next
+            }
+
+            next = smaller
+        }
+
+        current?.next = next
+        current = next
+    }
+
+    return dummy.next
+}

@@ -1935,6 +1935,58 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun removeToMakeValidProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "lee(t(c)o)de)",
+                    "lee(t(c)o)de",
+                ),
+                Arguments.of(
+                    "a)b(c)d",
+                    "ab(c)d",
+                ),
+                Arguments.of(
+                    "))((",
+                    "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wildcardValidStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "()",
+                    true,
+                ),
+                Arguments.of(
+                    "(*)",
+                    true,
+                ),
+                Arguments.of(
+                    "(*))",
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun studentSandwichProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,1,0,0),
+                    intArrayOf(0,1,0,1),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1,0,0,1),
+                    intArrayOf(1,0,0,0,1,1),
+                    3,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2746,6 +2798,27 @@ class SolutionTests {
     @MethodSource("goodStringProvider")
     fun makeGood(s: String, expected: String) {
         val actual = makeGood(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minRemoveToMakeValid({0}) = {1}")
+    @MethodSource("removeToMakeValidProvider")
+    fun minRemoveToMakeValid(s: String, expected: String) {
+        val actual = minRemoveToMakeValid(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "checkValidString({0}) = {1}")
+    @MethodSource("wildcardValidStringProvider")
+    fun checkValidString(s: String, expected: Boolean) {
+        val actual = checkValidString(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countStudents({0}, {1}) = {2}")
+    @MethodSource("studentSandwichProvider")
+    fun countStudents(students: IntArray, sandwiches: IntArray, expected: Int) {
+        val actual = countStudents(students, sandwiches)
         assertThat(actual).isEqualTo(expected)
     }
 
