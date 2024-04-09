@@ -440,7 +440,7 @@ fun threeSum(nums: IntArray): List<List<Int>> {
     return result
 }
 
-
+@Suppress("unused")
 fun findDuplicate(nums: IntArray): Int {
     var slow = nums[0]
     var fast = nums[0]
@@ -839,7 +839,7 @@ fun rearrangeArray(nums: IntArray): IntArray {
     return nums
 }
 
-
+@Suppress("unused")
 fun modifiedMatrix(matrix: Array<IntArray>): Array<IntArray> {
     val answer = mutableListOf<IntArray>()
     val maximumsByColumn = mutableMapOf<Int, Int>()
@@ -873,6 +873,7 @@ fun modifiedMatrix(matrix: Array<IntArray>): Array<IntArray> {
     return answer.toTypedArray()
 }
 
+@Suppress("unused")
 fun countMatchingSubarrays(nums: IntArray, pattern: IntArray): Int {
     val subArraySize = pattern.size + 1
 
@@ -1003,6 +1004,7 @@ private fun doMinFallingPathSum(
     return cache[location]!!
 }
 
+@Suppress("unused")
 fun sumSubarrayMins(arr: IntArray): Int {
     val divisor = 1000000007
 
@@ -1015,9 +1017,8 @@ fun sumSubarrayMins(arr: IntArray): Int {
         while (stack.isNotEmpty() && (i == arr.size || arr[stack.peek()] >= arr[i])) {
             val mid = stack.pop()
             val leftBoundary = if (stack.isEmpty()) -1 else stack.peek()
-            val rightBoundary = i
 
-            val count = (mid - leftBoundary) * (rightBoundary - mid) % divisor
+            val count = (mid - leftBoundary) * (i - mid) % divisor
 
             sumOfMinimums += (count * arr[mid]) % divisor
             sumOfMinimums %= divisor
@@ -1071,7 +1072,7 @@ fun searchInsert(nums: IntArray, target: Int): Int {
 fun divideArray(nums: IntArray, k: Int): Array<IntArray> {
     nums.sort()
 
-    return Array<IntArray>(nums.size / 3) {
+    return Array(nums.size / 3) {
         println(it)
         val i = it * 3
         if (nums[i + 2] - nums[i] > k) return emptyArray()
