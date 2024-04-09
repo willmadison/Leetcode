@@ -1350,15 +1350,15 @@ fun maxSubarrayLength(nums: IntArray, k: Int): Int {
     val frequencyByNumber = mutableMapOf<Int, Int>()
 
     for (end in nums.indices) {
-        val count = frequencyByNumber.getOrPut(nums[end]) {0}
-        frequencyByNumber[nums[end]] = count+1
+        val count = frequencyByNumber.getOrPut(nums[end]) { 0 }
+        frequencyByNumber[nums[end]] = count + 1
 
         while (frequencyByNumber[nums[end]]!! > k) {
             frequencyByNumber[nums[start]] = frequencyByNumber[nums[start]]!! - 1
             start++
         }
 
-        maxLength = max(maxLength, end-start+1)
+        maxLength = max(maxLength, end - start + 1)
     }
 
     return maxLength
@@ -1366,7 +1366,7 @@ fun maxSubarrayLength(nums: IntArray, k: Int): Int {
 
 fun subarraysWithKDistinct(nums: IntArray, k: Int): Int {
     return subarrayWithAtMostKDistinct(nums, k) -
-            subarrayWithAtMostKDistinct(nums, k-1)
+            subarrayWithAtMostKDistinct(nums, k - 1)
 }
 
 fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
@@ -1376,8 +1376,8 @@ fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
     var start = 0
 
     for (end in nums.indices) {
-        val count = countsByValue.getOrPut(nums[end]) {0}
-        countsByValue[nums[end]] = count+1
+        val count = countsByValue.getOrPut(nums[end]) { 0 }
+        countsByValue[nums[end]] = count + 1
 
         while (countsByValue.size > k) {
             if (countsByValue.containsKey(nums[start])) {
@@ -1391,7 +1391,7 @@ fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
             }
         }
 
-        numSubarrays += end-start+1
+        numSubarrays += end - start + 1
     }
 
     return numSubarrays
@@ -1424,3 +1424,22 @@ fun countStudents(students: IntArray, sandwiches: IntArray): Int {
     return q.size
 }
 
+fun timeRequiredToBuy(tickets: IntArray, k: Int): Int {
+    var timeElapsed = 0
+
+    val q = ArrayDeque<Int>()
+    q.addAll(tickets.indices)
+
+    while (tickets[k] > 0) {
+        val customer = q.removeFirst()
+        tickets[customer]--
+
+        if (tickets[customer] > 0) {
+            q.add(customer)
+        }
+
+        timeElapsed++
+    }
+
+    return timeElapsed
+}

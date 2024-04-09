@@ -1987,6 +1987,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun ticketConstraintProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,3,2),
+                    2,
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(5,1,1,1),
+                    0,
+                    8,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2819,6 +2835,13 @@ class SolutionTests {
     @MethodSource("studentSandwichProvider")
     fun countStudents(students: IntArray, sandwiches: IntArray, expected: Int) {
         val actual = countStudents(students, sandwiches)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "timeRequiredToBuy({0}, {1}) = {2}")
+    @MethodSource("ticketConstraintProvider")
+    fun timeRequiredToBuy(tickets: IntArray, k: Int, expected: Int) {
+        val actual = timeRequiredToBuy(tickets, k)
         assertThat(actual).isEqualTo(expected)
     }
 
