@@ -1444,3 +1444,41 @@ fun timeRequiredToBuy(tickets: IntArray, k: Int): Int {
 
     return timeElapsed
 }
+
+fun deckRevealedIncreasing(deck: IntArray): IntArray {
+    val newDeck = IntArray(deck.size)
+    val q = ArrayDeque<Int>()
+    q.addAll(deck.indices)
+
+    deck.sort()
+
+    for (i in deck.indices) {
+        newDeck[q.removeFirst()] = deck[i]
+
+        if (q.isNotEmpty()) {
+            q.add(q.removeFirst())
+        }
+    }
+
+    return newDeck
+}
+
+fun trap(heights: IntArray): Int {
+    var totalVolume = 0
+    var i = 0
+    val stack = ArrayDeque<Int>()
+
+    while (i < heights.size) {
+        while (stack.isNotEmpty() && heights[i] > heights[stack.peek()]) {
+            val top = stack.pop()
+            if (stack.isEmpty()) break
+
+            val distance = i - stack.peek() - 1
+            val boundedHeight = minOf(heights[i], heights[stack.peek()]) - heights[top]
+            totalVolume += distance*boundedHeight
+        }
+        stack.push(i++)
+    }
+
+    return totalVolume
+}

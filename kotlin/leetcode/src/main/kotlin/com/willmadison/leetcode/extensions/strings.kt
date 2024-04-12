@@ -690,6 +690,7 @@ fun maxDepth(s: String): Int {
                 depth++
                 maxDepth = maxOf(depth, maxDepth)
             }
+
             ')' -> depth--
         }
     }
@@ -698,9 +699,9 @@ fun maxDepth(s: String): Int {
 }
 
 fun makeGood(s: String): String {
-    for (i in 0..<s.length-1) {
-        if (abs(s[i]-s[i+1]) == 32) {
-            return makeGood(s.substring(0..<i) + s.substring(i+2))
+    for (i in 0..<s.length - 1) {
+        if (abs(s[i] - s[i + 1]) == 32) {
+            return makeGood(s.substring(0..<i) + s.substring(i + 2))
         }
     }
 
@@ -711,15 +712,15 @@ fun minRemoveToMakeValid(s: String): String {
     val unbalancedIndexes = mutableSetOf<Int>()
     val stack = ArrayDeque<Int>()
 
-    for ((i,c) in s.withIndex()) {
+    for ((i, c) in s.withIndex()) {
         when (c) {
             '(' -> stack.push(i)
             ')' -> {
-                 if (stack.isEmpty()) {
-                     unbalancedIndexes.add(i)
-                 } else {
-                     stack.pop()
-                 }
+                if (stack.isEmpty()) {
+                    unbalancedIndexes.add(i)
+                } else {
+                    stack.pop()
+                }
             }
         }
     }
@@ -764,4 +765,34 @@ fun checkValidString(s: String): Boolean {
     }
 
     return openings.isEmpty()
+}
+
+fun removeKdigits(num: String, k: Int): String {
+    val stack = ArrayDeque<Char>()
+    var digitsToRemove = k
+
+    for (digit in num) {
+        while (stack.size > 0 && digitsToRemove > 0 && stack.peek() > digit) {
+            stack.pop()
+            digitsToRemove--
+        }
+
+        stack.push(digit)
+    }
+
+    while (digitsToRemove > 0) {
+        stack.pop()
+        digitsToRemove--
+    }
+
+    val sb = StringBuilder()
+    var hasLeadingZeroes = true
+
+    for (digit in stack.reversed()) {
+        if (hasLeadingZeroes && digit == '0') continue
+        hasLeadingZeroes = false
+        sb.append(digit)
+    }
+
+    return if (sb.isEmpty()) "0" else sb.toString()
 }

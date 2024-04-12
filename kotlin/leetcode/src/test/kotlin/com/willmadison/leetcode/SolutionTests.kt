@@ -2003,6 +2003,55 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun deckProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(17,13,11,2,3,5,7),
+                    intArrayOf(2,13,3,11,5,17,7),
+                ),
+                Arguments.of(
+                    intArrayOf(1,1000),
+                    intArrayOf(1,1000),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun kdigitsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "1432219",
+                    3,
+                    "1219",
+                ),
+                Arguments.of(
+                    "10200",
+                    1,
+                    "200",
+                ),
+                Arguments.of(
+                    "10",
+                    2,
+                    "0",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun waterTrapProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1),
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(4,2,0,3,2,5),
+                    9,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2842,6 +2891,28 @@ class SolutionTests {
     @MethodSource("ticketConstraintProvider")
     fun timeRequiredToBuy(tickets: IntArray, k: Int, expected: Int) {
         val actual = timeRequiredToBuy(tickets, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "deckRevealedIncreasing({0}) = {1}")
+    @MethodSource("deckProvider")
+    fun deckRevealedIncreasing(deck: IntArray, expected: IntArray) {
+        val actual = deckRevealedIncreasing(deck)
+        assertThat(actual.toList()).isEqualTo(expected.toList())
+    }
+
+
+    @ParameterizedTest(name = "removeKdigits({0}, {1}) = {2}")
+    @MethodSource("kdigitsProvider")
+    fun removeKdigits(num: String, k: Int, expected: String) {
+        val actual = removeKdigits(num, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "trap({0}) = {1}")
+    @MethodSource("waterTrapProvider")
+    fun trap(heights: IntArray, expected: Int) {
+        val actual = trap(heights)
         assertThat(actual).isEqualTo(expected)
     }
 
