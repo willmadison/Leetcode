@@ -7,6 +7,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
+
 // https://leetcode.com/problems/two-sum/
 fun twoSum(nums: IntArray, target: Int): IntArray {
     val indiciesByValue = mutableMapOf<Int, MutableList<Int>>()
@@ -1481,4 +1482,40 @@ fun trap(heights: IntArray): Int {
     }
 
     return totalVolume
+}
+
+fun maximalRectangle(matrix: Array<CharArray>): Int {
+    if (matrix.isEmpty()) return 0
+
+    var maxArea = 0
+    val histogram = IntArray(matrix[0].size)
+
+    for (i in matrix.indices) {
+        for (j in matrix[0].indices) {
+            histogram[j] = if (matrix[i][j] == '1') histogram[j]+1 else 0
+        }
+
+        maxArea = maxOf(maxArea, maximalHistogramArea(histogram))
+    }
+
+    return maxArea
+}
+
+fun maximalHistogramArea(histogram: IntArray): Int {
+    val stack = ArrayDeque<Int>()
+    stack.push(-1)
+
+    var maxArea = 0
+
+    for (i in histogram.indices) {
+        while (stack.peek() != -1 && histogram[stack.peek()] >= histogram[i]) {
+            maxArea = maxOf(maxArea, histogram[stack.pop()] * (i - stack.peek() - 1))
+        }
+        stack.push(i)
+    }
+
+    while (stack.peek() != -1) maxArea =
+        maxOf(maxArea, histogram[stack.pop()] * (histogram.size - stack.peek() - 1))
+
+    return maxArea
 }

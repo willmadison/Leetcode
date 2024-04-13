@@ -2052,6 +2052,33 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun rectangleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('0'),
+                    ),
+                    0,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('1'),
+                    ),
+                    1,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('1', '0', '1', '0', '0'),
+                        charArrayOf('1', '0', '1', '1', '1'),
+                        charArrayOf('1', '1', '1', '1', '1'),
+                        charArrayOf('1', '0', '0', '1', '0'),
+                    ),
+                    6,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2913,6 +2940,13 @@ class SolutionTests {
     @MethodSource("waterTrapProvider")
     fun trap(heights: IntArray, expected: Int) {
         val actual = trap(heights)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximalRectangle{0}) = {1}")
+    @MethodSource("rectangleProvider")
+    fun maximalRectangle(matrix: Array<CharArray>, expected: Int) {
+        val actual = maximalRectangle(matrix)
         assertThat(actual).isEqualTo(expected)
     }
 
