@@ -2079,6 +2079,51 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun numberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "0",
+                    true,
+                ),
+                Arguments.of(
+                    "e",
+                    false,
+                ),
+                Arguments.of(
+                    ".",
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun islandPerimeterProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0,1,0,0),
+                        intArrayOf(1,1,1,0),
+                        intArrayOf(0,1,0,0),
+                        intArrayOf(1,1,0,0),
+                    ),
+                    16,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1),
+                    ),
+                    4,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1,0),
+                    ),
+                    4,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2947,6 +2992,20 @@ class SolutionTests {
     @MethodSource("rectangleProvider")
     fun maximalRectangle(matrix: Array<CharArray>, expected: Int) {
         val actual = maximalRectangle(matrix)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isNumber{0}) = {1}")
+    @MethodSource("numberProvider")
+    fun isNumber(s: String, expected: Boolean) {
+        val actual = isNumber(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "islandPerimeter{0}) = {1}")
+    @MethodSource("islandPerimeterProvider")
+    fun islandPerimeter(grid: Array<IntArray>, expected: Int) {
+        val actual = islandPerimeter(grid)
         assertThat(actual).isEqualTo(expected)
     }
 
