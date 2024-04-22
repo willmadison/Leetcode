@@ -1563,6 +1563,38 @@ class SolutionTests {
         }
 
         @JvmStatic
+        fun farmlandProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 0, 0),
+                        intArrayOf(0, 1, 1),
+                        intArrayOf(0, 1, 1),
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 0, 0, 0),
+                        intArrayOf(1, 1, 2, 2),
+                    ),
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 1),
+                        intArrayOf(1, 1),
+                    ),
+                    arrayOf(
+                        intArrayOf(0, 0, 1, 1),
+                    ),
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0),
+                    ),
+                    emptyArray<IntArray>()
+                ),
+            )
+        }
+
+        @JvmStatic
         fun squareProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
@@ -1640,14 +1672,14 @@ class SolutionTests {
         fun missingRangeProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(0,1,3,50,75),
+                    intArrayOf(0, 1, 3, 50, 75),
                     0,
                     99,
                     listOf(
-                        listOf(2,2),
-                        listOf(4,49),
-                        listOf(51,74),
-                        listOf(76,99),
+                        listOf(2, 2),
+                        listOf(4, 49),
+                        listOf(51, 74),
+                        listOf(76, 99),
                     ),
                 ),
                 Arguments.of(
@@ -1685,14 +1717,14 @@ class SolutionTests {
         fun intersectionProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,2,1),
-                    intArrayOf(2,2),
+                    intArrayOf(1, 2, 2, 1),
+                    intArrayOf(2, 2),
                     intArrayOf(2),
                 ),
                 Arguments.of(
-                    intArrayOf(4,9,5),
-                    intArrayOf(9,4,9,8,4),
-                    intArrayOf(4,9),
+                    intArrayOf(4, 9, 5),
+                    intArrayOf(9, 4, 9, 8, 4),
+                    intArrayOf(4, 9),
                 ),
             )
         }
@@ -1735,12 +1767,12 @@ class SolutionTests {
         fun sumSubarrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,0,1,0,1),
+                    intArrayOf(1, 0, 1, 0, 1),
                     2,
                     4,
                 ),
                 Arguments.of(
-                    intArrayOf(0,0,0,0,0),
+                    intArrayOf(0, 0, 0, 0, 0),
                     0,
                     15,
                 ),
@@ -1751,11 +1783,11 @@ class SolutionTests {
         fun duplicatesArrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(4,3,2,7,8,2,3,1),
+                    intArrayOf(4, 3, 2, 7, 8, 2, 3, 1),
                     listOf(2, 3),
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,2),
+                    intArrayOf(1, 1, 2),
                     listOf(1),
                 ),
                 Arguments.of(
@@ -1769,15 +1801,15 @@ class SolutionTests {
         fun missingPositiveProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,0),
+                    intArrayOf(1, 2, 0),
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(3,4,-1,1),
+                    intArrayOf(3, 4, -1, 1),
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(7,8,9,11,12),
+                    intArrayOf(7, 8, 9, 11, 12),
                     1,
                 ),
             )
@@ -1787,12 +1819,12 @@ class SolutionTests {
         fun subarrayProductProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(10,5,2,6),
+                    intArrayOf(10, 5, 2, 6),
                     100,
                     8,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,3),
+                    intArrayOf(1, 2, 3),
                     0,
                     0,
                 ),
@@ -1803,17 +1835,17 @@ class SolutionTests {
         fun subarrayLengthConstraintProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3,1,2,3,1,2),
+                    intArrayOf(1, 2, 3, 1, 2, 3, 1, 2),
                     2,
                     6,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,1,2,1,2,1,2),
+                    intArrayOf(1, 2, 1, 2, 1, 2, 1, 2),
                     1,
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(5,5,5,5,5,5,5),
+                    intArrayOf(5, 5, 5, 5, 5, 5, 5),
                     4,
                     4,
                 ),
@@ -1845,12 +1877,12 @@ class SolutionTests {
         fun subarrayWithKDistinctProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,1,2,3),
+                    intArrayOf(1, 2, 1, 2, 3),
                     2,
                     7,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,1,3,4),
+                    intArrayOf(1, 2, 1, 3, 4),
                     3,
                     3,
                 ),
@@ -1861,13 +1893,13 @@ class SolutionTests {
         fun constrainedSubarrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,3,5,2,7,5),
+                    intArrayOf(1, 3, 5, 2, 7, 5),
                     1,
                     5,
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1,1),
+                    intArrayOf(1, 1, 1, 1),
                     1,
                     1,
                     10,
@@ -1976,13 +2008,13 @@ class SolutionTests {
         fun studentSandwichProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,1,0,0),
-                    intArrayOf(0,1,0,1),
+                    intArrayOf(1, 1, 0, 0),
+                    intArrayOf(0, 1, 0, 1),
                     0,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1,0,0,1),
-                    intArrayOf(1,0,0,0,1,1),
+                    intArrayOf(1, 1, 1, 0, 0, 1),
+                    intArrayOf(1, 0, 0, 0, 1, 1),
                     3,
                 ),
             )
@@ -1992,12 +2024,12 @@ class SolutionTests {
         fun ticketConstraintProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,2),
+                    intArrayOf(2, 3, 2),
                     2,
                     6,
                 ),
                 Arguments.of(
-                    intArrayOf(5,1,1,1),
+                    intArrayOf(5, 1, 1, 1),
                     0,
                     8,
                 ),
@@ -2008,12 +2040,12 @@ class SolutionTests {
         fun deckProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(17,13,11,2,3,5,7),
-                    intArrayOf(2,13,3,11,5,17,7),
+                    intArrayOf(17, 13, 11, 2, 3, 5, 7),
+                    intArrayOf(2, 13, 3, 11, 5, 17, 7),
                 ),
                 Arguments.of(
-                    intArrayOf(1,1000),
-                    intArrayOf(1,1000),
+                    intArrayOf(1, 1000),
+                    intArrayOf(1, 1000),
                 ),
             )
         }
@@ -2043,11 +2075,11 @@ class SolutionTests {
         fun waterTrapProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1),
+                    intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1),
                     6,
                 ),
                 Arguments.of(
-                    intArrayOf(4,2,0,3,2,5),
+                    intArrayOf(4, 2, 0, 3, 2, 5),
                     9,
                 ),
             )
@@ -2103,10 +2135,10 @@ class SolutionTests {
             return Stream.of(
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(0,1,0,0),
-                        intArrayOf(1,1,1,0),
-                        intArrayOf(0,1,0,0),
-                        intArrayOf(1,1,0,0),
+                        intArrayOf(0, 1, 0, 0),
+                        intArrayOf(1, 1, 1, 0),
+                        intArrayOf(0, 1, 0, 0),
+                        intArrayOf(1, 1, 0, 0),
                     ),
                     16,
                 ),
@@ -2118,9 +2150,36 @@ class SolutionTests {
                 ),
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(1,0),
+                        intArrayOf(1, 0),
                     ),
                     4,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun lockCombinationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        "0201", "0101", "0102", "1212", "2002",
+                    ),
+                    "0202",
+                    6,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        "8888",
+                    ),
+                    "0009",
+                    1,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        "8887","8889","8878","8898","8788","8988","7888","9888"
+                    ),
+                    "8888",
+                    -1,
                 ),
             )
         }
@@ -2797,6 +2856,13 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
+    @ParameterizedTest(name = "findFarmland({0}) = {1}")
+    @MethodSource("farmlandProvider")
+    fun findFarmland(land: Array<IntArray>, expected: Array<IntArray>) {
+        val actual = findFarmland(land)
+        assertThat(actual.toList()).containsExactlyInAnyOrderElementsOf(expected.toList())
+    }
+
     @ParameterizedTest(name = "sortedSquares({0}) = {1}")
     @MethodSource("squareProvider")
     fun sortedSquares(nums: IntArray, expected: IntArray) {
@@ -2850,7 +2916,7 @@ class SolutionTests {
     @MethodSource("customStringProvider")
     fun customSortString(order: String, s: String, expected: String) {
         val actual = customSortString(order, s)
-        val range = 0..minOf(order.length-1, s.length-1)
+        val range = 0..minOf(order.length - 1, s.length - 1)
         assertThat(actual.substring(range)).isEqualTo(expected.substring(range))
     }
 
@@ -3002,10 +3068,17 @@ class SolutionTests {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @ParameterizedTest(name = "islandPerimeter{0}) = {1}")
+    @ParameterizedTest(name = "islandPerimeter({0}) = {1}")
     @MethodSource("islandPerimeterProvider")
     fun islandPerimeter(grid: Array<IntArray>, expected: Int) {
         val actual = islandPerimeter(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "openLock({0}, {1}) = {2}")
+    @MethodSource("lockCombinationProvider")
+    fun openLock(deadends: Array<String>, combination: String, expected: Int) {
+        val actual = openLock(deadends, combination)
         assertThat(actual).isEqualTo(expected)
     }
 
