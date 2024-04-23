@@ -277,4 +277,55 @@ fun openLock(deadends: Array<String>, combination: String): Int {
     return -1
 }
 
+fun findMinHeightTrees(n: Int, edges: Array<IntArray>): List<Int> {
+    val roots = mutableListOf<Int>()
+
+    if (n < 2) {
+        for (i in 0 until n) {
+            roots.add(i)
+        }
+
+        return roots
+    }
+
+    val adjacencyList = mutableMapOf<Int, MutableCollection<Int>>()
+
+    for (edge in edges) {
+        var adjacentsA = adjacencyList.getOrPut(edge[0]) { mutableListOf() }
+        var adjacentsB = adjacencyList.getOrPut(edge[1]) { mutableListOf() }
+
+        adjacentsA.add(edge[1])
+        adjacentsB.add(edge[0])
+    }
+
+    var leaves = mutableListOf<Int>()
+
+    for (entry in adjacencyList) {
+        if (entry.value.size == 1) {
+            leaves.add(entry.key)
+        }
+    }
+
+    var remainingNodes = n
+
+    while (remainingNodes > 2) {
+        remainingNodes -= leaves.size
+        val newLeaves = mutableListOf<Int>()
+
+        for (leaf in leaves) {
+            val neighbor = adjacencyList[leaf]!!.first()
+
+            adjacencyList[neighbor]!!.remove(leaf)
+
+            if (adjacencyList[neighbor]!!.size == 1) {
+                newLeaves.add(neighbor)
+            }
+        }
+
+        leaves = newLeaves
+    }
+
+    return leaves
+}
+
 

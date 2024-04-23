@@ -2183,6 +2183,32 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun minHeightTreeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    6,
+                    arrayOf(
+                        intArrayOf(3,0),
+                        intArrayOf(3,1),
+                        intArrayOf(3,2),
+                        intArrayOf(3,4),
+                        intArrayOf(5,4),
+                    ),
+                    listOf(3,4),
+                ),
+                Arguments.of(
+                    4,
+                    arrayOf(
+                        intArrayOf(1,0),
+                        intArrayOf(1,2),
+                        intArrayOf(1,3),
+                    ),
+                    listOf(1),
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -3080,6 +3106,13 @@ class SolutionTests {
     fun openLock(deadends: Array<String>, combination: String, expected: Int) {
         val actual = openLock(deadends, combination)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findMinHeightTrees({0}, {1}) = {2}")
+    @MethodSource("minHeightTreeProvider")
+    fun findMinHeightTrees(n: Int, edges: Array<IntArray>, expected: List<Int>) {
+        val actual = findMinHeightTrees(n, edges)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
     @AfterEach
