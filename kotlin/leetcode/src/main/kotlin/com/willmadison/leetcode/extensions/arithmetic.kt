@@ -319,3 +319,19 @@ fun titleToNumber(columnTitle: String): Int {
 }
 
 fun sum(num1: Int, num2: Int) = num1 + num2
+
+private val cache = mutableMapOf(
+    0 to 0,
+    1 to 1,
+    2 to 1,
+)
+
+fun tribonacci(n: Int): Int {
+    if (cache.containsKey(n)) return cache[n]!!
+
+    val ans = tribonacci(n-1) + tribonacci(n-2) + tribonacci(n-3)
+
+    cache[n] = ans
+
+    return ans
+}

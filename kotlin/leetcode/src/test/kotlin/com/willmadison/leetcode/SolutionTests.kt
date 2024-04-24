@@ -2209,6 +2209,20 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun tribonacciProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    4,
+                    4,
+                ),
+                Arguments.of(
+                    25,
+                    1389537,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -3113,6 +3127,13 @@ class SolutionTests {
     fun findMinHeightTrees(n: Int, edges: Array<IntArray>, expected: List<Int>) {
         val actual = findMinHeightTrees(n, edges)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "tribonacci({0}) = {1}")
+    @MethodSource("tribonacciProvider")
+    fun tribonacci(n: Int, expected: Int) {
+        val actual = tribonacci(n)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @AfterEach

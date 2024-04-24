@@ -60,7 +60,7 @@ fun findFarmland(land: Array<IntArray>): Array<IntArray> {
                 var x = row
                 var y = col
 
-                while (x < land.size && land[row][col] == 1) {
+                while (x < land.size && land[x][col] == 1) {
                     y = col
                     while (y < land[row].size && land[x][y] == 1) {
                         land[x][y] = 0
