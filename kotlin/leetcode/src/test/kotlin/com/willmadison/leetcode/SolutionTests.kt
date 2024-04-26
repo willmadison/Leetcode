@@ -1023,6 +1023,20 @@ class SolutionTests {
         }
 
         @JvmStatic
+        fun fallingPathProvider2(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2, 3),
+                        intArrayOf(4, 5, 6),
+                        intArrayOf(7, 8, 9),
+                    ),
+                    13,
+                ),
+            )
+        }
+
+        @JvmStatic
         fun errorNumProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
@@ -2223,6 +2237,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun idealStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "acfgbd",
+                    2,
+                    4,
+                ),
+                Arguments.of(
+                    "abcd",
+                    3,
+                    4,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2686,6 +2716,13 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
+    @ParameterizedTest(name = "minFallingPathSum2({0}) = {1}")
+    @MethodSource("fallingPathProvider2")
+    fun minFallingPathSum2(grid: Array<IntArray>, expected: Int) {
+        val actual = minFallingPathSum2(grid)
+        assertEquals(expected, actual)
+    }
+
     @ParameterizedTest(name = "findErrorNums({0}) = {1}")
     @MethodSource("errorNumProvider")
     fun findErrorNums(nums: IntArray, expected: IntArray) {
@@ -3133,6 +3170,13 @@ class SolutionTests {
     @MethodSource("tribonacciProvider")
     fun tribonacci(n: Int, expected: Int) {
         val actual = tribonacci(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestIdealString({0}, {1}) = {2}")
+    @MethodSource("idealStringProvider")
+    fun longestIdealString(s: String, k: Int, expected: Int) {
+        val actual = longestIdealString(s, k)
         assertThat(actual).isEqualTo(expected)
     }
 

@@ -865,3 +865,26 @@ fun myAtoi(input: String): Int {
 
     return sign * result
 }
+
+fun longestIdealString(s: String, k: Int): Int {
+    val dp = IntArray(26)
+
+    var length = 0
+
+    for (i in s.indices) {
+        val current = s[i].code - 'a'.code
+
+        var best = 0
+
+        for (prev in 0 until 26) {
+            if (abs(prev-current) <= k) {
+                best = maxOf(best, dp[prev])
+            }
+        }
+
+        dp[current] = maxOf(dp[current], best+1)
+        length = maxOf(length, dp[current])
+    }
+
+    return length
+}

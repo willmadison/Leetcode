@@ -979,6 +979,35 @@ fun minFallingPathSum(matrix: Array<IntArray>): Int {
     return minFallingSum
 }
 
+fun minFallingPathSum2(grid: Array<IntArray>): Int {
+    val memo = Array(grid.size) { IntArray(grid.size) }
+
+    for (col in grid.indices) {
+        memo[grid.size - 1][col] = grid[grid.size - 1][col]
+    }
+
+    for (row in grid.size - 2 downTo 0) {
+        for (col in grid.indices) {
+            var nextMinimum = Int.MAX_VALUE
+            for (nextRowCol in grid.indices) {
+                if (nextRowCol != col) {
+                    nextMinimum = minOf(nextMinimum, memo[row + 1][nextRowCol])
+                }
+            }
+
+            memo[row][col] = grid[row][col] + nextMinimum
+        }
+    }
+
+    var answer = Int.MAX_VALUE
+    for (col in grid.indices) {
+        answer = minOf(answer, memo[0][col])
+    }
+
+
+    return answer
+}
+
 private fun doMinFallingPathSum(
     matrix: Array<IntArray>,
     location: Location,
