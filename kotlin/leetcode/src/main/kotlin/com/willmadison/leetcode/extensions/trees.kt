@@ -3,7 +3,7 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Node
 import com.willmadison.leetcode.Solution
 import com.willmadison.leetcode.TreeNode
-import java.util.ArrayDeque
+import java.util.*
 import kotlin.math.max
 
 private var maxHeight = 0
@@ -352,3 +352,49 @@ fun Solution.maxAncestorDiff(root: TreeNode?, min: Int = root!!.`val`, max: Int 
     else listOf(root.left, root.right).maxOf {
         maxAncestorDiff(it, minOf(root.`val`, min), maxOf(root.`val`, max))
     }
+
+fun sumOfDistancesInTree(n: Int, edges: Array<IntArray>): IntArray {
+    val graph = mutableMapOf<Int, MutableList<Int>>()
+
+    val distances = IntArray(n)
+    val counts = IntArray(n)
+
+    Arrays.fill(counts, 1)
+
+    for (edge in edges) {
+        graph.getOrPut(edge[0]) { mutableListOf() }.add(edge[1])
+        graph.getOrPut(edge[1]) { mutableListOf() }.add(edge[0])
+    }
+
+    fun noOp(node: Int, child: Int) {}
+
+    fun accumulateCounts(node: Int, child: Int) {
+        counts[node] += counts[child]
+        distances[node] += distances[child] + counts[child]
+    }
+
+    fun subtractNodeCounts(node: Int, child: Int) {
+        distances[child] = distances[node] - counts[child] + n - counts[child]
+    }
+
+    fun dfs(
+        node: Int, parent: Int,
+        preOrder: (node: Int, child: Int) -> Unit,
+        postOrder: (node: Int, child: Int) -> Unit
+    ) {
+        if (graph.isNotEmpty()) {
+            for (child in graph[node]!!) {
+                if (child != parent) {
+                    preOrder(node, child)
+                    dfs(child, node, preOrder, postOrder)
+                    postOrder(node, child)
+                }
+            }
+        }
+    }
+
+    dfs(0, -1, ::noOp, ::accumulateCounts)
+    dfs(0, -1, ::subtractNodeCounts, ::noOp)
+
+    return distances
+}

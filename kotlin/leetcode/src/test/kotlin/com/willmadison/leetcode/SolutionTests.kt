@@ -2253,6 +2253,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun rotateStepProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "godding",
+                    "gd",
+                    4,
+                ),
+                Arguments.of(
+                    "godding",
+                    "godding",
+                    13,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2735,6 +2751,13 @@ class SolutionTests {
     fun searchInsert(nums: IntArray, target: Int, expected: Int) {
         val actual = searchInsert(nums, target)
         assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findRotateSteps({0}, {1}) = {2}")
+    @MethodSource("rotateStepProvider")
+    fun findRotateSteps(ring: String, key: String, expected: Int) {
+        val actual = findRotateSteps(ring, key)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test

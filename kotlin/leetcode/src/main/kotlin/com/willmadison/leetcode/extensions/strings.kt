@@ -888,3 +888,37 @@ fun longestIdealString(s: String, k: Int): Int {
 
     return length
 }
+
+fun findRotateSteps(ring: String, key: String): Int {
+    val bestSteps = Array(ring.length) { IntArray(key.length+1) }
+
+    for (row in bestSteps) {
+        Arrays.fill(row, Int.MAX_VALUE)
+    }
+
+    for (i in ring.indices) {
+        bestSteps[i][key.length] = 0
+    }
+
+    for (keyIndex in key.length-1 downTo 0) {
+        for (ringIndex in ring.indices) {
+            for (charIndex in ring.indices) {
+                if (ring[charIndex] == key[keyIndex]) {
+                    bestSteps[ringIndex][keyIndex] = minOf(bestSteps[ringIndex][keyIndex],
+                        1 + countSteps(ringIndex, charIndex, ring.length) +
+                        bestSteps[charIndex][keyIndex+1])
+                }
+            }
+        }
+    }
+
+    return bestSteps[0][0]
+}
+
+fun countSteps(current: Int, next: Int, length: Int): Int {
+    val stepsBetween = abs(current-next)
+    val stepsAround = length - stepsBetween
+
+    return minOf(stepsBetween, stepsAround)
+}
+
