@@ -335,3 +335,14 @@ fun tribonacci(n: Int): Int {
 
     return ans
 }
+
+fun minXOROperations(nums: IntArray, k: Int): Int {
+    var result = 0
+
+    for (n in nums) {
+        result = result xor n
+    }
+
+    return Integer.bitCount(result xor k)
+}
+

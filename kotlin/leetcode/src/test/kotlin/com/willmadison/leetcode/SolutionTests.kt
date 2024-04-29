@@ -2269,6 +2269,22 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun minOperationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,1,3,4),
+                    1,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(2,0,2,0),
+                    0,
+                    0,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -3200,6 +3216,13 @@ class SolutionTests {
     @MethodSource("idealStringProvider")
     fun longestIdealString(s: String, k: Int, expected: Int) {
         val actual = longestIdealString(s, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minXOROperations({0}, {1}) = {2}")
+    @MethodSource("minOperationProvider")
+    fun minXOROperations(nums: IntArray, k: Int, expected: Int) {
+        val actual = minXOROperations(nums, k)
         assertThat(actual).isEqualTo(expected)
     }
 
