@@ -2285,6 +2285,24 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun wonderfulSubstringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "aba",
+                    4L,
+                ),
+                Arguments.of(
+                    "aabb",
+                    9L,
+                ),
+                Arguments.of(
+                    "he",
+                    2L,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -3223,6 +3241,13 @@ class SolutionTests {
     @MethodSource("minOperationProvider")
     fun minXOROperations(nums: IntArray, k: Int, expected: Int) {
         val actual = minXOROperations(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "wonderfulSubstrings({0}) = {1}")
+    @MethodSource("wonderfulSubstringProvider")
+    fun wonderfulSubstrings(word: String, expected: Long) {
+        val actual = wonderfulSubstrings(word)
         assertThat(actual).isEqualTo(expected)
     }
 

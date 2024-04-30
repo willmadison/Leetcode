@@ -922,3 +922,28 @@ fun countSteps(current: Int, next: Int, length: Int): Int {
     return minOf(stepsBetween, stepsAround)
 }
 
+fun wonderfulSubstrings(word: String): Long {
+    var wonderfuls: Long = 0
+    val countsByBitmask = mutableMapOf(
+        0 to 1
+    )
+
+    var mask = 0
+
+    for (i in word.indices) {
+        val c = word[i]
+        val bit = c.code - 'a'.code
+
+        mask = mask xor (1 shl bit)
+
+        wonderfuls += countsByBitmask.getOrPut(mask) {0}.toLong()
+        countsByBitmask[mask] = countsByBitmask.getOrElse(mask) { 0 } + 1
+
+        for (oddCharacter in 0..9) {
+            wonderfuls += countsByBitmask.getOrDefault(mask xor (1 shl oddCharacter), 0)
+        }
+    }
+
+    return wonderfuls
+}
+
