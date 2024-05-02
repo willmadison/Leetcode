@@ -353,6 +353,7 @@ fun Solution.maxAncestorDiff(root: TreeNode?, min: Int = root!!.`val`, max: Int 
         maxAncestorDiff(it, minOf(root.`val`, min), maxOf(root.`val`, max))
     }
 
+// https://leetcode.com/problems/sum-of-distances-in-tree/?envType=daily-question&envId=2024-04-30
 fun sumOfDistancesInTree(n: Int, edges: Array<IntArray>): IntArray {
     val graph = mutableMapOf<Int, MutableList<Int>>()
 
@@ -398,3 +399,97 @@ fun sumOfDistancesInTree(n: Int, edges: Array<IntArray>): IntArray {
 
     return distances
 }
+
+// https://leetcode.com/problems/smallest-string-starting-from-leaf/?envType=daily-question&envId=2024-04-30
+fun smallestFromLeaf(root: TreeNode?): String {
+    var smallest = ""
+
+    fun dfs(node: TreeNode?, current: String) {
+        if (node == null) return
+
+        val value = (node.`val` + 'a'.code).toChar() + current
+
+        if (node.left == null && node.right == null) {
+            if (smallest.isEmpty() || smallest.compareTo(value) > 0) {
+                smallest = value
+            }
+        }
+
+        if (node.left != null) {
+            dfs(node.left, value)
+        }
+
+        if (node.right != null) {
+            dfs(node.right, value)
+        }
+    }
+
+    dfs(root, "")
+    return smallest
+}
+
+// https://leetcode.com/problems/add-one-row-to-tree/?envType=daily-question&envId=2024-04-30
+fun addOneRow(root: TreeNode?, `val`: Int, desiredDepth: Int): TreeNode? {
+    if (desiredDepth == 1) {
+        val newRoot = TreeNode(`val`)
+        newRoot.left = root
+        return newRoot
+    }
+
+    fun doInsert(node: TreeNode?, value: Int, targetDepth: Int, currentDepth: Int = 1) {
+        if (node == null) return
+
+        if (currentDepth == targetDepth-1) {
+            val newLeft = TreeNode(value)
+            newLeft.left = node.left
+
+            val newRight = TreeNode(value)
+            newRight.right = node.right
+
+            node.left = newLeft
+            node.right = newRight
+        } else {
+            doInsert(node.left, value, targetDepth, currentDepth+1)
+            doInsert(node.right, value, targetDepth, currentDepth+1)
+        }
+    }
+
+    doInsert(root, `val`, desiredDepth)
+    return root
+}
+
+// https://leetcode.com/problems/sum-root-to-leaf-numbers/?envType=daily-question&envId=2024-04-30
+fun sumNumbers(root: TreeNode?): Int {
+    var rootToLeafSum = 0
+
+    fun preorder(node: TreeNode?, currentNumber: Int) {
+        var current = currentNumber
+
+        if (node != null) {
+            current = current * 10 + node.`val`
+
+            if (node.left == null && node.right == null) {
+                rootToLeafSum += current
+            }
+
+            preorder(node.left, current)
+            preorder(node.right, current)
+        }
+    }
+
+    preorder(root, 0)
+    return rootToLeafSum
+}
+
+// https://leetcode.com/problems/sum-of-left-leaves/?envType=daily-question&envId=2024-04-30
+fun sumOfLeftLeaves(root: TreeNode?, isLeft: Boolean = false): Int {
+    if (root == null) return 0
+
+    if (isLeft && root.isLeaf()) return root.`val`
+
+    return sumOfLeftLeaves(root.left, true) + sumOfLeftLeaves(root.right)
+}
+
+
+
+

@@ -3,7 +3,7 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Location
 import java.util.*
 
-
+// https://leetcode.com/problems/number-of-islands/?envType=daily-question&envId=2024-04-30
 fun numIslands(grid: Array<CharArray>): Int {
     var islands = 0
 
@@ -49,6 +49,7 @@ fun numIslands(grid: Array<CharArray>): Int {
     return islands
 }
 
+// https://leetcode.com/problems/find-all-groups-of-farmland/?envType=daily-question&envId=2024-04-30
 private data class Landmass(val locations: MutableCollection<Location>)
 
 fun findFarmland(land: Array<IntArray>): Array<IntArray> {
@@ -174,6 +175,7 @@ private fun discoverContiguousLand(
     return locations
 }
 
+// https://leetcode.com/problems/find-if-path-exists-in-graph/?envType=daily-question&envId=2024-04-30
 @Suppress("unused")
 fun validPath(n: Int, edges: Array<IntArray>, source: Int, destination: Int): Boolean {
     val adjacencyList = mutableMapOf<Int, MutableCollection<Int>>()
@@ -206,6 +208,7 @@ fun validPath(n: Int, edges: Array<IntArray>, source: Int, destination: Int): Bo
     return false
 }
 
+// https://leetcode.com/problems/open-the-lock/?envType=daily-question&envId=2024-04-30
 fun openLock(deadends: Array<String>, combination: String): Int {
     val nextValues = mapOf(
         '0' to '1',
@@ -277,6 +280,7 @@ fun openLock(deadends: Array<String>, combination: String): Int {
     return -1
 }
 
+// https://leetcode.com/problems/n-th-tribonacci-number/?envType=daily-question&envId=2024-04-30
 fun findMinHeightTrees(n: Int, edges: Array<IntArray>): List<Int> {
     val roots = mutableListOf<Int>()
 

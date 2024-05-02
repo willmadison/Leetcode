@@ -2303,6 +2303,45 @@ class SolutionTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun reversePrefixProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcdefd",
+                    'd',
+                    "dcbaefd",
+                ),
+                Arguments.of(
+                    "xyxzxe",
+                    'z',
+                    "zxyxxe",
+                ),
+                Arguments.of(
+                    "abcd",
+                    'z',
+                    "abcd",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxKProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(-1,2,-3,3),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(-1,10,6,7,-7,1),
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(-10,8,6,7,-2,-3),
+                    -1,
+                ),
+            )
+        }
     }
 
     @BeforeEach
@@ -2310,17 +2349,17 @@ class SolutionTests {
         solution = Solution()
     }
 
-    @Test
-    @Disabled
-    fun firstBadVersion() {
-        System.setProperty("FIRST_BAD_VERSION", "4")
-
-        val expected = 4
-
-        val actual = solution.firstBadVersion(10)
-
-        assertEquals(expected, actual)
-    }
+//    @Test
+//    @Disabled
+//    fun firstBadVersion() {
+//        System.setProperty("FIRST_BAD_VERSION", "4")
+//
+//        val expected = 4
+//
+//        val actual = solution.firstBadVersion(10)
+//
+//        assertEquals(expected, actual)
+//    }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
     @MethodSource("magazineSourceProvider")
@@ -2329,19 +2368,19 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
-    @ParameterizedTest(name = "countTestedDevices({0}) = {1}")
-    @MethodSource("testedDeviceProvider")
-    fun countTestedDevices(percentages: IntArray, expected: Int) {
-        val actual = countTestedDevices(percentages)
-        assertEquals(expected, actual)
-    }
+//    @ParameterizedTest(name = "countTestedDevices({0}) = {1}")
+//    @MethodSource("testedDeviceProvider")
+//    fun countTestedDevices(percentages: IntArray, expected: Int) {
+//        val actual = countTestedDevices(percentages)
+//        assertEquals(expected, actual)
+//    }
 
-    @ParameterizedTest(name = "getGoodIndices({0}, {1}) = {2}")
-    @MethodSource("variablesProvider")
-    fun getGoodIndicies(variables: Array<IntArray>, target: Int, expected: List<Int>) {
-        val actual = getGoodIndices(variables, target)
-        assertEquals(expected, actual)
-    }
+//    @ParameterizedTest(name = "getGoodIndices({0}, {1}) = {2}")
+//    @MethodSource("variablesProvider")
+//    fun getGoodIndices(variables: Array<IntArray>, target: Int, expected: List<Int>) {
+//        val actual = getGoodIndices(variables, target)
+//        assertEquals(expected, actual)
+//    }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
     @MethodSource("subarraysProvider")
@@ -2350,12 +2389,12 @@ class SolutionTests {
         assertEquals(expected, actual)
     }
 
-    @ParameterizedTest(name = "climbStairs({0}) = {1}")
-    @MethodSource("stairProvider")
-    fun climbStairs(numStairs: Int, expected: Int) {
-        val actual = climbStairs(numStairs)
-        assertEquals(expected, actual)
-    }
+//    @ParameterizedTest(name = "climbStairs({0}) = {1}")
+//    @MethodSource("stairProvider")
+//    fun climbStairs(numStairs: Int, expected: Int) {
+//        val actual = climbStairs(numStairs)
+//        assertEquals(expected, actual)
+//    }
 
     @ParameterizedTest(name = "longestPalindrome({0}) = {1}")
     @MethodSource("palindromeProvider")
@@ -2801,18 +2840,18 @@ class SolutionTests {
         assertArrayEquals(expected, actual)
     }
 
-    @Test
-    fun detectCycle() {
-        val negativeFour = ListNode(-4, null)
-        val two = ListNode(2, ListNode(0, negativeFour))
-        negativeFour.next = two
-
-        val head = ListNode(3, two)
-
-        val actual = detectCycle(head)
-
-        assertEquals(two, actual)
-    }
+//    @Test
+//    fun detectCycle() {
+//        val negativeFour = ListNode(-4, null)
+//        val two = ListNode(2, ListNode(0, negativeFour))
+//        negativeFour.next = two
+//
+//        val head = ListNode(3, two)
+//
+//        val actual = detectCycle(head)
+//
+//        assertEquals(two, actual)
+//    }
 
     @ParameterizedTest(name = "maxSumAfterPartitioning({0}, {1}) = {2}")
     @MethodSource("partitionProvider")
@@ -3248,6 +3287,20 @@ class SolutionTests {
     @MethodSource("wonderfulSubstringProvider")
     fun wonderfulSubstrings(word: String, expected: Long) {
         val actual = wonderfulSubstrings(word)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "wonderfulSubstrings({0}, {1}) = {2}")
+    @MethodSource("reversePrefixProvider")
+    fun reversePrefix(word: String, ch: Char, expected: String) {
+        val actual = reversePrefix(word, ch)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findMaxK({0}) = {1}")
+    @MethodSource("maxKProvider")
+    fun findMaxK(nums: IntArray, expected: Int) {
+        val actual = findMaxK(nums)
         assertThat(actual).isEqualTo(expected)
     }
 

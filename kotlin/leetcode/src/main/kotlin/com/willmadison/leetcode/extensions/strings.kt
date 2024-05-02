@@ -620,6 +620,7 @@ fun canConstruct(note: String, magazine: String): Boolean {
     return true
 }
 
+// https://leetcode.com/problems/isomorphic-strings/?envType=daily-question&envId=2024-04-30
 fun isIsomorphic(s: String, t: String): Boolean {
     val mappedCharacters = mutableMapOf<Char, Char>()
     val alreadyMapped = mutableSetOf<Char>()
@@ -640,6 +641,7 @@ fun isIsomorphic(s: String, t: String): Boolean {
     return true
 }
 
+// https://leetcode.com/problems/word-search/?envType=daily-question&envId=2024-04-30
 private var puzzle: Array<CharArray> = emptyArray()
 
 fun exist(board: Array<CharArray>, word: String): Boolean {
@@ -679,6 +681,7 @@ fun backtrack(row: Int, col: Int, word: String, i: Int, rows: Int, columns: Int)
     return false
 }
 
+// https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/?envType=daily-question&envId=2024-04-30
 fun maxDepth(s: String): Int {
     var maxDepth = 0
 
@@ -698,6 +701,7 @@ fun maxDepth(s: String): Int {
     return maxDepth
 }
 
+// https://leetcode.com/problems/make-the-string-great/?envType=daily-question&envId=2024-04-30
 fun makeGood(s: String): String {
     for (i in 0..<s.length - 1) {
         if (abs(s[i] - s[i + 1]) == 32) {
@@ -708,6 +712,7 @@ fun makeGood(s: String): String {
     return s
 }
 
+// https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/?envType=daily-question&envId=2024-04-30
 fun minRemoveToMakeValid(s: String): String {
     val unbalancedIndexes = mutableSetOf<Int>()
     val stack = ArrayDeque<Int>()
@@ -738,6 +743,7 @@ fun minRemoveToMakeValid(s: String): String {
     return sb.toString()
 }
 
+// https://leetcode.com/problems/valid-parenthesis-string/?envType=daily-question&envId=2024-04-30
 fun checkValidString(s: String): Boolean {
     val openings = ArrayDeque<Int>()
     val asterisks = ArrayDeque<Int>()
@@ -767,6 +773,7 @@ fun checkValidString(s: String): Boolean {
     return openings.isEmpty()
 }
 
+// https://leetcode.com/problems/remove-k-digits/?envType=daily-question&envId=2024-04-30
 fun removeKdigits(num: String, k: Int): String {
     val stack = ArrayDeque<Char>()
     var digitsToRemove = k
@@ -866,6 +873,7 @@ fun myAtoi(input: String): Int {
     return sign * result
 }
 
+// https://leetcode.com/problems/longest-ideal-subsequence/?envType=daily-question&envId=2024-04-30
 fun longestIdealString(s: String, k: Int): Int {
     val dp = IntArray(26)
 
@@ -889,6 +897,7 @@ fun longestIdealString(s: String, k: Int): Int {
     return length
 }
 
+// https://leetcode.com/problems/freedom-trail/?envType=daily-question&envId=2024-04-30
 fun findRotateSteps(ring: String, key: String): Int {
     val bestSteps = Array(ring.length) { IntArray(key.length+1) }
 
@@ -922,6 +931,7 @@ fun countSteps(current: Int, next: Int, length: Int): Int {
     return minOf(stepsBetween, stepsAround)
 }
 
+// https://leetcode.com/problems/number-of-wonderful-substrings/description/?envType=daily-question&envId=2024-04-30
 fun wonderfulSubstrings(word: String): Long {
     var wonderfuls: Long = 0
     val countsByBitmask = mutableMapOf(
@@ -945,5 +955,17 @@ fun wonderfulSubstrings(word: String): Long {
     }
 
     return wonderfuls
+}
+
+// https://leetcode.com/problems/reverse-prefix-of-word/description/?envType=daily-question&envId=2024-05-01
+fun reversePrefix(word: String, ch: Char): String {
+    val end = word.indexOf(ch)
+
+    if (end == -1) {
+        return word
+    }
+
+    val prefix = word.substring(0..end)
+    return prefix.reversed() + word.substring(end+1)
 }
 

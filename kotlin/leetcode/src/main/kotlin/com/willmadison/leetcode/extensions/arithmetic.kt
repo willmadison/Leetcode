@@ -320,6 +320,7 @@ fun titleToNumber(columnTitle: String): Int {
 
 fun sum(num1: Int, num2: Int) = num1 + num2
 
+// https://leetcode.com/problems/n-th-tribonacci-number/?envType=daily-question&envId=2024-04-30
 private val cache = mutableMapOf(
     0 to 0,
     1 to 1,
@@ -336,6 +337,7 @@ fun tribonacci(n: Int): Int {
     return ans
 }
 
+// https://leetcode.com/problems/minimum-number-of-operations-to-make-array-xor-equal-to-k/?envType=daily-question&envId=2024-04-30
 fun minXOROperations(nums: IntArray, k: Int): Int {
     var result = 0
 
@@ -346,3 +348,17 @@ fun minXOROperations(nums: IntArray, k: Int): Int {
     return Integer.bitCount(result xor k)
 }
 
+// https://leetcode.com/problems/largest-positive-integer-that-exists-with-its-negative/description/?envType=daily-question&envId=2024-05-02
+fun findMaxK(nums: IntArray): Int {
+    val negatives = nums.filter { it < 0 }.toSet()
+
+    var max = -1
+
+    for (n in nums) {
+        if (n > max && negatives.contains(-n)) {
+            max = n
+        }
+    }
+
+    return max
+}

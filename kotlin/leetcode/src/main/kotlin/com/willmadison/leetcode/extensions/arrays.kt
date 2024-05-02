@@ -979,6 +979,7 @@ fun minFallingPathSum(matrix: Array<IntArray>): Int {
     return minFallingSum
 }
 
+//  https://leetcode.com/problems/minimum-falling-path-sum-ii/?envType=daily-question&envId=2024-04-30
 fun minFallingPathSum2(grid: Array<IntArray>): Int {
     val memo = Array(grid.size) { IntArray(grid.size) }
 
@@ -1428,6 +1429,7 @@ fun subarrayWithAtMostKDistinct(nums: IntArray, k: Int): Int {
     return numSubarrays
 }
 
+// https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/?envType=daily-question&envId=2024-04-30
 fun countStudents(students: IntArray, sandwiches: IntArray): Int {
     val q = ArrayDeque<Int>()
     q.addAll(students.asIterable())
@@ -1455,6 +1457,7 @@ fun countStudents(students: IntArray, sandwiches: IntArray): Int {
     return q.size
 }
 
+// https://leetcode.com/problems/time-needed-to-buy-tickets/?envType=daily-question&envId=2024-04-30
 fun timeRequiredToBuy(tickets: IntArray, k: Int): Int {
     var timeElapsed = 0
 
@@ -1475,6 +1478,7 @@ fun timeRequiredToBuy(tickets: IntArray, k: Int): Int {
     return timeElapsed
 }
 
+// https://leetcode.com/problems/reveal-cards-in-increasing-order/?envType=daily-question&envId=2024-04-30
 fun deckRevealedIncreasing(deck: IntArray): IntArray {
     val newDeck = IntArray(deck.size)
     val q = ArrayDeque<Int>()
@@ -1493,6 +1497,7 @@ fun deckRevealedIncreasing(deck: IntArray): IntArray {
     return newDeck
 }
 
+// https://leetcode.com/problems/trapping-rain-water/?envType=daily-question&envId=2024-04-30
 fun trap(heights: IntArray): Int {
     var totalVolume = 0
     var i = 0
@@ -1513,6 +1518,7 @@ fun trap(heights: IntArray): Int {
     return totalVolume
 }
 
+// https://leetcode.com/problems/maximal-rectangle/description/?envType=daily-question&envId=2024-04-30
 fun maximalRectangle(matrix: Array<CharArray>): Int {
     if (matrix.isEmpty()) return 0
 
@@ -1549,6 +1555,7 @@ fun maximalHistogramArea(histogram: IntArray): Int {
     return maxArea
 }
 
+// https://leetcode.com/problems/island-perimeter/?envType=daily-question&envId=2024-04-30
 fun islandPerimeter(grid: Array<IntArray>): Int {
     var perimeter = 0
 
