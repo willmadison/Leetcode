@@ -4,6 +4,41 @@ import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+// https://leetcode.com/problems/3sum/
+fun threeSum(nums: IntArray): List<List<Int>> {
+    nums.sort()
+
+    val n = nums.size
+
+    val result = arrayListOf<List<Int>>()
+
+    for (i in 0 until n - 2) {
+        if (i == 0 || (nums[i] != nums[i - 1])) {
+            var low = i + 1
+            var high = nums.size - 1
+            val sum = 0 - nums[i]
+
+            while (low < high) {
+                if (nums[i] + nums[low] + nums[high] == 0) {
+                    result.add(listOf(nums[i], nums[low], nums[high]))
+
+                    while (low < high && nums[low] == nums[low + 1]) low++
+                    while (low < high && nums[high] == nums[high - 1]) high--
+
+                    low++
+                    high--
+                } else if (nums[low] + nums[high] > sum) {
+                    high--
+                } else {
+                    low++
+                }
+            }
+        }
+    }
+
+    return result
+}
+
 // https://leetcode.com/problems/add-binary/
 fun addBinary(a: String, b: String): String {
     var carry = 0
@@ -361,4 +396,24 @@ fun findMaxK(nums: IntArray): Int {
     }
 
     return max
+}
+
+// https://leetcode.com/problems/product-of-array-except-self/
+fun productExceptSelf(nums: IntArray): IntArray {
+    val answer = IntArray(nums.size)
+
+    answer[0] = 1
+
+    for (i in 1 until nums.size) {
+        answer[i] = nums[i - 1] * answer[i - 1]
+    }
+
+    var rightProduct = 1
+
+    for (i in nums.size - 1 downTo 0) {
+        answer[i] = answer[i] * rightProduct
+        rightProduct *= nums[i]
+    }
+
+    return answer
 }
