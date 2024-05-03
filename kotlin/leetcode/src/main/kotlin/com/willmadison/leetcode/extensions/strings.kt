@@ -3,6 +3,7 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Location
 import com.willmadison.leetcode.Point
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.math.abs
 
 fun longestPalindrome(value: String): Int {
@@ -961,3 +962,27 @@ fun reversePrefix(word: String, ch: Char): String {
     return prefix.reversed() + word.substring(end+1)
 }
 
+// https://leetcode.com/problems/compare-version-numbers/description/?envType=daily-question&envId=2024-05-03
+fun compareVersion(version1: String, version2: String): Int {
+    return Version(version1).compareTo(Version(version2))
+}
+
+class Version(v: String): Comparable<Version> {
+    private val parts = v.split(".").map { it.trimStart('0') }.map { it.ifEmpty { "0" } }
+
+    override fun compareTo(other: Version): Int {
+        val longer = if (this.parts.size >= other.parts.size) this.parts else other.parts
+        for (i in longer.indices) {
+            val left = if (this.parts.size > i) this.parts[i].toInt() else 0
+            val right = if (other.parts.size > i) other.parts[i].toInt() else 0
+
+            val delta = left - right
+
+            if (delta != 0) {
+                return if (delta > 0) 1 else -1
+            }
+        }
+
+        return 0
+    }
+}

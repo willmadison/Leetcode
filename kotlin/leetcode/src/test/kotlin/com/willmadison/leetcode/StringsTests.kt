@@ -764,6 +764,32 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun versionComparisonProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "1.01",
+                    "1.0001",
+                    0,
+                ),
+                Arguments.of(
+                    "1.0",
+                    "1.0.0",
+                    0,
+                ),
+                Arguments.of(
+                    "0.1",
+                    "1.0.0",
+                    -1,
+                ),
+                Arguments.of(
+                    "1",
+                    "1.1",
+                    -1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1054,4 +1080,13 @@ class StringsTests {
         val actual = com.willmadison.leetcode.extensions.longestIdealString(s, k)
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest(name = "compareVersion({0}, {1}) = {2}")
+    @MethodSource("versionComparisonProvider")
+    fun compareVersion(a: String, b: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.compareVersion(a, b)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
 }
