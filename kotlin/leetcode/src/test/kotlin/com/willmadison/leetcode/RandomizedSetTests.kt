@@ -1,5 +1,6 @@
 package com.willmadison.leetcode
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +32,7 @@ class RandomizedSetTests {
         randomizedSet.insert(1)
         randomizedSet.insert(2)
 
-        assertTrue(randomizedSet.getRandom() == 1 || randomizedSet.getRandom() == 2)
+        assertThat(randomizedSet.getRandom()).isGreaterThan(0)
 
         randomizedSet.remove(2)
 

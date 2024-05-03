@@ -389,15 +389,7 @@ fun tictactoe(moves: Array<IntArray>): String {
     return if (moves.size == 9) "Draw" else "Pending"
 }
 
-fun maximumWealth(accounts: Array<IntArray>): Int {
-    val wealthByCustomer = mutableMapOf<Int, Int>()
 
-    for ((customer, customerAccounts) in accounts.withIndex()) {
-        wealthByCustomer[customer] = customerAccounts.sum()
-    }
-
-    return wealthByCustomer.values.max()
-}
 
 // https://leetcode.com/problems/robot-return-to-origin/
 fun judgeCircle(moves: String): Boolean {

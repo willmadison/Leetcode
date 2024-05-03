@@ -1,8 +1,10 @@
 package com.willmadison.leetcode
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -583,6 +585,578 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun insertProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    5,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    2,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    7,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 6),
+                    0,
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 3, 5),
+                    4,
+                    2,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun partitionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 15, 7, 9, 2, 5, 10),
+                    3,
+                    84,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 4, 1, 5, 7, 3, 6, 1, 9, 9, 3),
+                    4,
+                    83,
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    1,
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun boundaryProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 3, -5),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 2, -3, -4),
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wealthProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2, 3),
+                        intArrayOf(3, 2, 1),
+                    ),
+                    6
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 5),
+                        intArrayOf(7, 3),
+                        intArrayOf(3, 5),
+                    ),
+                    10
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun arrangeableArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 1, -2, -5, 2, -4),
+                    intArrayOf(3, -2, 1, -5, 2, -4),
+                ),
+                Arguments.of(
+                    intArrayOf(-1, 1),
+                    intArrayOf(1, -1),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun intArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 5, 4),
+                    1,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 3, 1, 1, 3, 3, 2),
+                    3,
+                    2,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun buildingProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(4, 2, 7, 6, 9, 14, 12),
+                    5,
+                    1,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 12, 2, 7, 3, 18, 20, 3, 19),
+                    10,
+                    2,
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(14, 3, 19, 3),
+                    17,
+                    0,
+                    3,
+                ),
+
+                )
+        }
+
+        @JvmStatic
+        fun missingNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0, 1, 3),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(0, 1),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(9, 6, 4, 2, 3, 5, 7, 0, 1),
+                    8,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxProductProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 4, 5, 2),
+                    12,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 5, 4, 5),
+                    16,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 7),
+                    12,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun judgeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    2,
+                    arrayOf(
+                        intArrayOf(1, 2),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 3),
+                    ),
+                    3,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 3),
+                        intArrayOf(3, 1),
+                    ),
+                    -1,
+                ),
+                Arguments.of(
+                    1,
+                    emptyArray<IntArray>(),
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun kthLargestProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 2, 1, 5, 6, 4),
+                    2,
+                    5,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 2, 3, 1, 2, 4, 5, 5, 6),
+                    4,
+                    4,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun topKFrequentProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 1, 1, 2, 2, 3),
+                    2,
+                    intArrayOf(1, 2),
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    1,
+                    intArrayOf(1),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun peopleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    6,
+                    arrayOf(
+                        intArrayOf(1, 2, 5),
+                        intArrayOf(2, 3, 8),
+                        intArrayOf(1, 5, 10),
+                    ),
+                    1,
+                    listOf(0, 1, 2, 3, 5),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun squareProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(-4, -1, 0, 3, 10),
+                    intArrayOf(0, 1, 9, 16, 100),
+                ),
+                Arguments.of(
+                    intArrayOf(-7, -3, 2, 3, 11),
+                    intArrayOf(4, 9, 9, 49, 121),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun tokenBagProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(100),
+                    50,
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(200, 100),
+                    150,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(100, 200, 300, 400),
+                    200,
+                    2,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun missingRangeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0, 1, 3, 50, 75),
+                    0,
+                    99,
+                    listOf(
+                        listOf(2, 2),
+                        listOf(4, 49),
+                        listOf(51, 74),
+                        listOf(76, 99),
+                    ),
+                ),
+                Arguments.of(
+                    intArrayOf(-1),
+                    -1,
+                    -1,
+                    emptyList<List<Int>>(),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun intersectionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 1),
+                    intArrayOf(2, 2),
+                    intArrayOf(2),
+                ),
+                Arguments.of(
+                    intArrayOf(4, 9, 5),
+                    intArrayOf(9, 4, 9, 8, 4),
+                    intArrayOf(4, 9),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun sumSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 0, 1, 0, 1),
+                    2,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(0, 0, 0, 0, 0),
+                    0,
+                    15,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun duplicatesArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(4, 3, 2, 7, 8, 2, 3, 1),
+                    listOf(2, 3),
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1, 2),
+                    listOf(1),
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    emptyList<Int>(),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun missingPositiveProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 0),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 4, -1, 1),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(7, 8, 9, 11, 12),
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subarrayProductProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10, 5, 2, 6),
+                    100,
+                    8,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3),
+                    0,
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subarrayLengthConstraintProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 1, 2, 3, 1, 2),
+                    2,
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 1, 2, 1, 2, 1, 2),
+                    1,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(5, 5, 5, 5, 5, 5, 5),
+                    4,
+                    4,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subarrayWithKDistinctProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 1, 2, 3),
+                    2,
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 1, 3, 4),
+                    3,
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun constrainedSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 3, 5, 2, 7, 5),
+                    1,
+                    5,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1, 1, 1),
+                    1,
+                    1,
+                    10,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun studentSandwichProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 1, 0, 0),
+                    intArrayOf(0, 1, 0, 1),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1, 1, 0, 0, 1),
+                    intArrayOf(1, 0, 0, 0, 1, 1),
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun ticketConstraintProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 3, 2),
+                    2,
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(5, 1, 1, 1),
+                    0,
+                    8,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun deckProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(17, 13, 11, 2, 3, 5, 7),
+                    intArrayOf(2, 13, 3, 11, 5, 17, 7),
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1000),
+                    intArrayOf(1, 1000),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun waterTrapProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1),
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 2, 0, 3, 2, 5),
+                    9,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun rectangleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('0'),
+                    ),
+                    0,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('1'),
+                    ),
+                    1,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('1', '0', '1', '0', '0'),
+                        charArrayOf('1', '0', '1', '1', '1'),
+                        charArrayOf('1', '1', '1', '1', '1'),
+                        charArrayOf('1', '0', '0', '1', '0'),
+                    ),
+                    6,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun islandPerimeterProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 1, 0, 0),
+                        intArrayOf(1, 1, 1, 0),
+                        intArrayOf(0, 1, 0, 0),
+                        intArrayOf(1, 1, 0, 0),
+                    ),
+                    16,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1),
+                    ),
+                    4,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 0),
+                    ),
+                    4,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -797,4 +1371,220 @@ class ArraysTests {
         assertArrayEquals(expected, actual)
     }
 
+    @ParameterizedTest(name = "searchInsert({0}, {1}) = {2}")
+    @MethodSource("insertProvider")
+    fun searchInsert(nums: IntArray, target: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.searchInsert(nums, target)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maxSumAfterPartitioning({0}, {1}) = {2}")
+    @MethodSource("partitionProvider")
+    fun maxSumAfterPartitioning(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxSumAfterPartitioning(nums, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "returnToBoundaryCount({0}) = {1}")
+    @MethodSource("boundaryProvider")
+    fun returnToBoundaryCount(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.returnToBoundaryCount(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maximumWealth({0}) = {1}")
+    @MethodSource("wealthProvider")
+    fun maximumWealth(accounts: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maximumWealth(accounts)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "rearrangeArray({0}) = {1}")
+    @MethodSource("arrangeableArrayProvider")
+    fun rearrangeArray(nums: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.rearrangeArray(nums)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findLeastNumOfUniqueInts({0}, {1}) = {2}")
+    @MethodSource("intArrayProvider")
+    fun findLeastNumOfUniqueInts(array: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findLeastNumOfUniqueInts(array, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "furthestBuilding({0}, {1}, {2}) = {3}")
+    @MethodSource("buildingProvider")
+    fun furthestBuilding(heights: IntArray, bricks: Int, ladders: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.furthestBuilding(heights, bricks, ladders)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "missingNumber({0}) = {1}")
+    @MethodSource("missingNumberProvider")
+    fun missingNumber(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.missingNumber(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maxProduct({0}) = {1}")
+    @MethodSource("maxProductProvider")
+    fun maxProduct(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxProduct(nums)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findJudge({0}, {1}) = {2}")
+    @MethodSource("judgeProvider")
+    fun findJudge(n: Int, trusts: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findJudge(n, trusts)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findKthLargest({0}, {1}) = {2}")
+    @MethodSource("kthLargestProvider")
+    fun findKthLargest(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findKthLargest(nums, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "topKFrequent({0}, {1}) = {2}")
+    @MethodSource("topKFrequentProvider")
+    fun topKFrequent(nums: IntArray, k: Int, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.topKFrequent(nums, k)
+        assertThat(actual).containsExactlyInAnyOrder(expected.toTypedArray())
+    }
+
+    @ParameterizedTest(name = "findAllPeople({0}, {1}, {2}) = {3}")
+    @MethodSource("peopleProvider")
+    fun findAllPeople(n: Int, meetings: Array<IntArray>, firstPerson: Int, expected: List<Int>) {
+        val actual = com.willmadison.leetcode.extensions.findAllPeople(n, meetings, firstPerson)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "sortedSquares({0}) = {1}")
+    @MethodSource("squareProvider")
+    fun sortedSquares(nums: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.sortedSquares(nums)
+        assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "bagOfTokensScore({0}, {1}) = {2}")
+    @MethodSource("tokenBagProvider")
+    fun bagOfTokensScore(tokens: IntArray, power: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.bagOfTokensScore(tokens, power)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findMissingRanges({0}, {1}, {2}) = {3}")
+    @MethodSource("missingRangeProvider")
+    fun findMissingRanges(nums: IntArray, lower: Int, upper: Int, expected: List<List<Int>>) {
+        val actual = com.willmadison.leetcode.extensions.findMissingRanges(nums, lower, upper)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "intersection({0}, {1}) = {2}")
+    @MethodSource("intersectionProvider")
+    fun intersection(nums1: IntArray, nums2: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.intersection(nums1, nums2)
+        assertThat(actual.toList()).containsExactlyInAnyOrderElementsOf(expected.toList())
+    }
+
+    @ParameterizedTest(name = "numSubarraysWithSum({0}, {1}) = {2}")
+    @MethodSource("sumSubarrayProvider")
+    fun numSubarraysWithSum(nums: IntArray, goal: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numSubarraysWithSum(nums, goal)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findDuplicate({0}) = {1}")
+    @MethodSource("duplicatesArrayProvider")
+    fun findDuplicates(nums: IntArray, expected: List<Int>) {
+        val actual = com.willmadison.leetcode.extensions.findDuplicates(nums)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "firstMissingPositive({0}) = {1}")
+    @MethodSource("missingPositiveProvider")
+    fun firstMissingPositive(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.firstMissingPositive(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numSubarrayProductLessThanK({0}, {1}) = {2}")
+    @MethodSource("subarrayProductProvider")
+    fun numSubarrayProductLessThanK(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numSubarrayProductLessThanK(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxSubarrayLength({0}, {1}) = {2}")
+    @MethodSource("subarrayLengthConstraintProvider")
+    fun maxSubarrayLength(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxSubarrayLength(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "subarraysWithKDistinct({0}) = {1}")
+    @MethodSource("subarrayWithKDistinctProvider")
+    fun subarraysWithKDistinct(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.subarraysWithKDistinct(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countSubarrays({0}, {1}, {2}) = {3}")
+    @MethodSource("constrainedSubarrayProvider")
+    fun countSubarrays(nums: IntArray, minK: Int, maxK: Int, expected: Long) {
+        val actual = com.willmadison.leetcode.extensions.countSubarrays(nums, minK, maxK)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "countStudents({0}, {1}) = {2}")
+    @MethodSource("studentSandwichProvider")
+    fun countStudents(students: IntArray, sandwiches: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.countStudents(students, sandwiches)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "timeRequiredToBuy({0}, {1}) = {2}")
+    @MethodSource("ticketConstraintProvider")
+    fun timeRequiredToBuy(tickets: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.timeRequiredToBuy(tickets, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "deckRevealedIncreasing({0}) = {1}")
+    @MethodSource("deckProvider")
+    fun deckRevealedIncreasing(deck: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.deckRevealedIncreasing(deck)
+        assertThat(actual.toList()).isEqualTo(expected.toList())
+    }
+
+    @ParameterizedTest(name = "trap({0}) = {1}")
+    @MethodSource("waterTrapProvider")
+    fun trap(heights: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.trap(heights)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximalRectangle{0}) = {1}")
+    @MethodSource("rectangleProvider")
+    fun maximalRectangle(matrix: Array<CharArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maximalRectangle(matrix)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "islandPerimeter({0}) = {1}")
+    @MethodSource("islandPerimeterProvider")
+    fun islandPerimeter(grid: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.islandPerimeter(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun divideArray() {
+        val actual = com.willmadison.leetcode.extensions.divideArray(intArrayOf(1, 3, 4, 8, 7, 9, 3, 5, 1), 2)
+        val expected = arrayOf(intArrayOf(1, 1, 3), intArrayOf(3, 4, 5), intArrayOf(7, 8, 9))
+        assertArrayEquals(expected, actual)
+    }
 }

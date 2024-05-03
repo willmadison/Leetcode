@@ -1525,3 +1525,15 @@ fun islandPerimeter(grid: Array<IntArray>): Int {
 
     return perimeter
 }
+
+fun maximumWealth(accounts: Array<IntArray>): Int {
+    val wealthByCustomer = mutableMapOf<Int, Int>()
+
+    for ((customer, customerAccounts) in accounts.withIndex()) {
+        wealthByCustomer[customer] = customerAccounts.sum()
+    }
+
+    return wealthByCustomer.values.max()
+}
+
+

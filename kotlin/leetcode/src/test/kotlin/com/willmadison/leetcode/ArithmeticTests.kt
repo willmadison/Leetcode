@@ -157,6 +157,156 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun operationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("5", "2", "C", "D", "+"),
+                    30,
+                ),
+                Arguments.of(
+                    arrayOf("5", "-2", "4", "C", "D", "9", "+", "+"),
+                    27,
+                ),
+                Arguments.of(
+                    arrayOf("1", "C"),
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun powerOfTwoProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    1,
+                    true,
+                ),
+                Arguments.of(
+                    16,
+                    true,
+                ),
+                Arguments.of(
+                    3,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun cheapestPriceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    4,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(2, 0, 100),
+                        intArrayOf(1, 3, 600),
+                        intArrayOf(2, 3, 200),
+                    ),
+                    0,
+                    3,
+                    1,
+                    700,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(0, 2, 500),
+                    ),
+                    0,
+                    2,
+                    1,
+                    200,
+                ),
+                Arguments.of(
+                    3,
+                    arrayOf(
+                        intArrayOf(0, 1, 100),
+                        intArrayOf(1, 2, 100),
+                        intArrayOf(0, 2, 500),
+                    ),
+                    0,
+                    2,
+                    0,
+                    500,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun confusingNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    6,
+                    true,
+                ),
+                Arguments.of(
+                    89,
+                    true,
+                ),
+                Arguments.of(
+                    11,
+                    false,
+                ),
+                Arguments.of(
+                    916,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun pivotIntegerProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    8,
+                    6,
+                ),
+                Arguments.of(
+                    1,
+                    1,
+                ),
+                Arguments.of(
+                    4,
+                    -1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minOperationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,1,3,4),
+                    1,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(2,0,2,0),
+                    0,
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun tribonacciProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    4,
+                    4,
+                ),
+                Arguments.of(
+                    25,
+                    1389537,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -222,5 +372,52 @@ class ArithmeticTests {
         assertEquals(expected, actual)
     }
 
+    @ParameterizedTest(name = "calPoints({0}) = {1}")
+    @MethodSource("operationProvider")
+    fun calPoints(operations: Array<String>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.calPoints(operations)
+        assertEquals(expected, actual)
+    }
 
+    @ParameterizedTest(name = "isPowerOfTwo({0}) = {1}")
+    @MethodSource("powerOfTwoProvider")
+    fun isPowerOfTwo(n: Int, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isPowerOfTwo(n)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "findCheapestPrice({0}, {1}, {2}, {3}, {4}) = {5}")
+    @MethodSource("cheapestPriceProvider")
+    fun findCheapestPrice(n: Int, flights: Array<IntArray>, src: Int, dst: Int, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findCheapestPrice(n, flights, src, dst, k)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "confusingNumber({0}) = {1}")
+    @MethodSource("confusingNumberProvider")
+    fun confusingNumber(n: Int, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.confusingNumber(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "pivotInteger({0}) = {1}")
+    @MethodSource("pivotIntegerProvider")
+    fun pivotInteger(n: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.pivotInteger(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minXOROperations({0}, {1}) = {2}")
+    @MethodSource("minOperationProvider")
+    fun minXOROperations(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minXOROperations(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "tribonacci({0}) = {1}")
+    @MethodSource("tribonacciProvider")
+    fun tribonacci(n: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.tribonacci(n)
+        assertThat(actual).isEqualTo(expected)
+    }
 }

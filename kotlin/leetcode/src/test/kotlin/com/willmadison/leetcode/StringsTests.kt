@@ -3,6 +3,7 @@ package com.willmadison.leetcode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -340,6 +341,429 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun wordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "Hello World",
+                    5,
+                ),
+                Arguments.of(
+                    "   fly me   to   the moon  ",
+                    4,
+                ),
+                Arguments.of(
+                    "luffy is still joyboy",
+                    6,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun moveProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "UD",
+                    true,
+                ),
+                Arguments.of(
+                    "LL",
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun ticTacToeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0),
+                        intArrayOf(2, 0),
+                        intArrayOf(1, 1),
+                        intArrayOf(2, 1),
+                        intArrayOf(2, 2)
+                    ),
+                    "A"
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0),
+                        intArrayOf(1, 1),
+                        intArrayOf(0, 1),
+                        intArrayOf(0, 2),
+                        intArrayOf(1, 0),
+                        intArrayOf(2, 0)
+                    ),
+                    "B"
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun uniqueCharProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leetcode",
+                    0,
+                ),
+                Arguments.of(
+                    "loveleetcode",
+                    2,
+                ),
+                Arguments.of(
+                    "aabb",
+                    -1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun anagramGroupProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("eat", "tea", "tan", "ate", "nat", "bat"),
+                    listOf(
+                        listOf("bat"),
+                        listOf("tan", "nat"),
+                        listOf("eat", "tea", "ate"),
+                    )
+                ),
+                Arguments.of(
+                    arrayOf(""),
+                    listOf(
+                        listOf(""),
+                    )
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun palindromeListProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("abc", "car", "ada", "racecar", "cool"),
+                    "ada",
+                ),
+                Arguments.of(
+                    arrayOf("def", "ghi"),
+                    "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun frequencySortProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leetcode",
+                    "eeeltcod",
+                ),
+                Arguments.of(
+                    "tree",
+                    "eetr",
+                ),
+                Arguments.of(
+                    "aaaccc",
+                    "aaaccc",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wordSquareProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    listOf(
+                        "abcd", "bnrt", "crmy", "dtye"
+                    ),
+                    true,
+                ),
+                Arguments.of(
+                    listOf(
+                        "ball", "area", "read", "lady"
+                    ),
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun binaryNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "010",
+                    "001",
+                ),
+                Arguments.of(
+                    "0101",
+                    "1001",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun buddyStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "ab",
+                    "ba",
+                    true,
+                ),
+                Arguments.of(
+                    "ab",
+                    "ab",
+                    false,
+                ),
+                Arguments.of(
+                    "aa",
+                    "aa",
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minimumLengthStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "ca",
+                    2,
+                ),
+                Arguments.of(
+                    "cabaabac",
+                    0,
+                ),
+                Arguments.of(
+                    "aabccabba",
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun customStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "cba",
+                    "abcd",
+                    "cbad",
+                ),
+                Arguments.of(
+                    "bcafg",
+                    "abcd",
+                    "bcad",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun isomorphicStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "egg",
+                    "add",
+                    true,
+                ),
+                Arguments.of(
+                    "foo",
+                    "bar",
+                    false,
+                ),
+                Arguments.of(
+                    "paper",
+                    "title",
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun rotateStepProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "godding",
+                    "gd",
+                    4,
+                ),
+                Arguments.of(
+                    "godding",
+                    "godding",
+                    13,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wonderfulSubstringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "aba",
+                    4L,
+                ),
+                Arguments.of(
+                    "aabb",
+                    9L,
+                ),
+                Arguments.of(
+                    "he",
+                    2L,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun crosswordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "ABCCED",
+                    true,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "SEE",
+                    true,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        charArrayOf('A', 'B', 'C', 'E'),
+                        charArrayOf('S', 'F', 'C', 'S'),
+                        charArrayOf('A', 'D', 'E', 'E'),
+                    ),
+                    "ABCB",
+                    false,
+                )
+            )
+        }
+
+        @JvmStatic
+        fun maxDepthProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "(1+(2*3)+((8)/4))+1",
+                    3,
+                ),
+                Arguments.of(
+                    "(1)+((2))+(((3)))",
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun goodStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leEeetcode",
+                    "leetcode",
+                ),
+                Arguments.of(
+                    "abBAcC",
+                    "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun removeToMakeValidProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "lee(t(c)o)de)",
+                    "lee(t(c)o)de",
+                ),
+                Arguments.of(
+                    "a)b(c)d",
+                    "ab(c)d",
+                ),
+                Arguments.of(
+                    "))((",
+                    "",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun wildcardValidStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "()",
+                    true,
+                ),
+                Arguments.of(
+                    "(*)",
+                    true,
+                ),
+                Arguments.of(
+                    "(*))",
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun kdigitsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "1432219",
+                    3,
+                    "1219",
+                ),
+                Arguments.of(
+                    "10200",
+                    1,
+                    "200",
+                ),
+                Arguments.of(
+                    "10",
+                    2,
+                    "0",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun numberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "0",
+                    true,
+                ),
+                Arguments.of(
+                    "e",
+                    false,
+                ),
+                Arguments.of(
+                    ".",
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun idealStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "acfgbd",
+                    2,
+                    4,
+                ),
+                Arguments.of(
+                    "abcd",
+                    3,
+                    4,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -468,4 +892,166 @@ class StringsTests {
         assertArrayEquals(expected, actual)
     }
 
+    @ParameterizedTest(name = "lengthOfLastWord({0}) = {1}")
+    @MethodSource("wordProvider")
+    fun lengthOfLastWord(word: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.lengthOfLastWord(word)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "judgeCircle({0}) = {1}")
+    @MethodSource("moveProvider")
+    fun judgeCircle(moves: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.judgeCircle(moves)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "tictactoe({0}) = {1}")
+    @MethodSource("ticTacToeProvider")
+    fun tictactoe(moves: Array<IntArray>, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.tictactoe(moves)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "firstUniqChr({0}) = {1}")
+    @MethodSource("uniqueCharProvider")
+    fun firstUniqChar(word: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.firstUniqChar(word)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "groupAnagrams({0}) = {1}")
+    @MethodSource("anagramGroupProvider")
+    fun groupAnagrams(words: Array<String>, expected: List<List<String>>) {
+        val actual = com.willmadison.leetcode.extensions.groupAnagrams(words)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "firstPalindrome({0}) = {1}")
+    @MethodSource("palindromeListProvider")
+    fun firstPalindrome(words: Array<String>, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.firstPalindrome(words)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "frequencySort({0}) = {1}")
+    @MethodSource("frequencySortProvider")
+    @Disabled
+    fun frequencySort(string: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.frequencySort(string)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "validWordSquare({0}) = {1}")
+    @MethodSource("wordSquareProvider")
+    fun validWordSquare(words: List<String>, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.validWordSquare(words)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "maximumOddBinaryNumber({0}) = {1}")
+    @MethodSource("binaryNumberProvider")
+    fun maximumOddBinaryNumber(s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.maximumOddBinaryNumber(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "buddyStrings({0}, {1}) = {2}")
+    @MethodSource("buddyStringProvider")
+    fun buddyStrings(s: String, goal: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.buddyStrings(s, goal)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "minimumLength({0}) = {1}")
+    @MethodSource("minimumLengthStringProvider")
+    fun minimumLength(s: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minimumLength(s)
+        assertEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "customSortString({0}, {1}) = {2}")
+    @MethodSource("customStringProvider")
+    fun customSortString(order: String, s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.customSortString(order, s)
+        val range = 0..minOf(order.length - 1, s.length - 1)
+        assertThat(actual.substring(range)).isEqualTo(expected.substring(range))
+    }
+
+    @ParameterizedTest(name = "isIsomorphic({0}, {1}) = {2}")
+    @MethodSource("isomorphicStringProvider")
+    fun isIsomorphic(s: String, t: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isIsomorphic(s, t)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findRotateSteps({0}, {1}) = {2}")
+    @MethodSource("rotateStepProvider")
+    fun findRotateSteps(ring: String, key: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findRotateSteps(ring, key)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "wonderfulSubstrings({0}) = {1}")
+    @MethodSource("wonderfulSubstringProvider")
+    fun wonderfulSubstrings(word: String, expected: Long) {
+        val actual = com.willmadison.leetcode.extensions.wonderfulSubstrings(word)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "exist({0}, {1}) = {2}")
+    @MethodSource("crosswordProvider")
+    fun exist(board: Array<CharArray>, word: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.exist(board, word)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxDepth({0}) = {1}")
+    @MethodSource("maxDepthProvider")
+    fun maxDepth(s: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxDepth(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "makeGood({0}) = {1}")
+    @MethodSource("goodStringProvider")
+    fun makeGood(s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.makeGood(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minRemoveToMakeValid({0}) = {1}")
+    @MethodSource("removeToMakeValidProvider")
+    fun minRemoveToMakeValid(s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.minRemoveToMakeValid(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "checkValidString({0}) = {1}")
+    @MethodSource("wildcardValidStringProvider")
+    fun checkValidString(s: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.checkValidString(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "removeKdigits({0}, {1}) = {2}")
+    @MethodSource("kdigitsProvider")
+    fun removeKdigits(num: String, k: Int, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.removeKdigits(num, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isNumber{0}) = {1}")
+    @MethodSource("numberProvider")
+    fun isNumber(s: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isNumber(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestIdealString({0}, {1}) = {2}")
+    @MethodSource("idealStringProvider")
+    fun longestIdealString(s: String, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.longestIdealString(s, k)
+        assertThat(actual).isEqualTo(expected)
+    }
 }
