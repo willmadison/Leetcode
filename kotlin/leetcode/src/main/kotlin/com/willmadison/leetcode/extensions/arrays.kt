@@ -1536,4 +1536,25 @@ fun maximumWealth(accounts: Array<IntArray>): Int {
     return wealthByCustomer.values.max()
 }
 
+fun numRescueBoats(people: IntArray, maxWeight: Int): Int {
+    people.sort()
+
+    var numBoats = 0
+
+    var i = people.indices.first
+    var j = people.indices.last
+
+    while (i <= j) {
+        numBoats++
+
+        if (people[i] + people[j] <= maxWeight) {
+            i++
+        }
+
+        j--
+    }
+
+    return numBoats
+}
+
 

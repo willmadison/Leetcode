@@ -1157,6 +1157,27 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun rescueBoatProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2),
+                    3,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3,2,2,1),
+                    3,
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(3,5,3,4),
+                    5,
+                    4,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1586,5 +1607,12 @@ class ArraysTests {
         val actual = com.willmadison.leetcode.extensions.divideArray(intArrayOf(1, 3, 4, 8, 7, 9, 3, 5, 1), 2)
         val expected = arrayOf(intArrayOf(1, 1, 3), intArrayOf(3, 4, 5), intArrayOf(7, 8, 9))
         assertArrayEquals(expected, actual)
+    }
+
+    @ParameterizedTest(name = "numRescueBoats({0}, {1}) = {2}")
+    @MethodSource("rescueBoatProvider")
+    fun numRescueBoats(people: IntArray, maxWeight: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numRescueBoats(people, maxWeight)
+        assertThat(actual).isEqualTo(expected)
     }
 }

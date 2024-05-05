@@ -1,5 +1,6 @@
 package com.willmadison.leetcode.extensions
 
+import com.willmadison.leetcode.ListNode
 import com.willmadison.leetcode.Node
 import com.willmadison.leetcode.Solution
 import com.willmadison.leetcode.TreeNode
@@ -488,6 +489,26 @@ fun sumOfLeftLeaves(root: TreeNode?, isLeft: Boolean = false): Int {
     if (isLeft && root.isLeaf()) return root.`val`
 
     return sumOfLeftLeaves(root.left, true) + sumOfLeftLeaves(root.right)
+}
+
+fun deleteNode(node: ListNode?) {
+    if (node == null) return
+    var prev = node
+    var next = node.next
+
+    while (next != null) {
+        prev?.`val` = next.`val`
+
+        if (next.next == null) {
+            prev?.next = null
+        } else {
+            prev = next
+        }
+
+        next = next.next
+    }
+
+    prev?.next = null
 }
 
 
