@@ -298,3 +298,44 @@ fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
 
     return dummy.next
 }
+
+fun removeNodes(head: ListNode?): ListNode? {
+    val stack = ArrayDeque<ListNode>()
+    var current = head
+
+    if (current == null) return current
+
+    while (current != null) {
+        if (stack.isEmpty()) {
+            stack.push(current)
+        } else {
+            while (stack.isNotEmpty() && stack.peek().`val` < current.`val`) {
+                stack.pop()
+            }
+            stack.push(current)
+        }
+
+        current = current.next
+    }
+
+    var dummy = ListNode(Int.MIN_VALUE)
+
+    while (stack.isNotEmpty()) {
+        val node = stack.pop()
+
+        if (dummy.next == null) {
+            node.next = null
+            dummy.next = node
+        } else {
+            node.next = dummy.next
+            dummy.next = node
+        }
+    }
+
+    return dummy.next
+}
+
+fun main(args: Array<String>) {
+    val head = ListNode(1, ListNode(1, ListNode(1, ListNode(1))))
+    removeNodes(head)
+}
