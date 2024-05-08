@@ -217,7 +217,9 @@ fun confusingNumber(n: Int): Boolean {
     return rotatedDigits != digits
 }
 
-private fun Int.digits(): Collection<Int> {
+internal fun Int.digits(): Collection<Int> {
+    if (this == 0) return listOf(0)
+
     val digits = mutableListOf<Int>()
 
     var v = this

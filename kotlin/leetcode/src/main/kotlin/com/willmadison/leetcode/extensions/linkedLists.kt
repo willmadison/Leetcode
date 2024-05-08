@@ -318,7 +318,7 @@ fun removeNodes(head: ListNode?): ListNode? {
         current = current.next
     }
 
-    var dummy = ListNode(Int.MIN_VALUE)
+    val dummy = ListNode(Int.MIN_VALUE)
 
     while (stack.isNotEmpty()) {
         val node = stack.pop()
@@ -335,7 +335,29 @@ fun removeNodes(head: ListNode?): ListNode? {
     return dummy.next
 }
 
+fun doubled(head: ListNode?): Int {
+    if (head == null) return 0
+
+    val doubledValue = head.`val` * 2 + doubled(head.next)
+
+    head.`val` = doubledValue % 10
+
+    return doubledValue / 10
+}
+
+fun doubleIt(head: ListNode?): ListNode? {
+    var head = head
+    val carry = doubled(head)
+
+     if (carry != 0) {
+        head = ListNode(carry, head)
+    }
+
+    return head
+}
+
 fun main(args: Array<String>) {
-    val head = ListNode(1, ListNode(1, ListNode(1, ListNode(1))))
-    removeNodes(head)
+    val head = ListNode(0)
+    val newHead = doubleIt(head)
+    println(newHead?.`val`)
 }
