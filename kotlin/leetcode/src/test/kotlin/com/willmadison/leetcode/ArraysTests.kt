@@ -1178,6 +1178,42 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun relativeRankProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 4, 3, 2, 1),
+                    arrayOf("Gold Medal", "Silver Medal", "Bronze Medal", "4", "5")
+                ),
+                Arguments.of(
+                    intArrayOf(10,3,8,9,4),
+                    arrayOf("Gold Medal","5","Bronze Medal","Silver Medal","4")
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun happinessProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3),
+                    2,
+                    4L,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1,1),
+                    2,
+                    1L,
+                ),
+                Arguments.of(
+                    intArrayOf(2,3,4,5),
+                    1,
+                    5L,
+                ),
+
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1613,6 +1649,20 @@ class ArraysTests {
     @MethodSource("rescueBoatProvider")
     fun numRescueBoats(people: IntArray, maxWeight: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.numRescueBoats(people, maxWeight)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findRelativeRanks({0}) = {1}")
+    @MethodSource("relativeRankProvider")
+    fun findRelativeRanks(scores: IntArray, expected: Array<String>) {
+        val actual = com.willmadison.leetcode.extensions.findRelativeRanks(scores)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximumHappinessSum({0}, {1}) = {2}")
+    @MethodSource("happinessProvider")
+    fun maximumHappinessSum(happinesses: IntArray, k: Int, expected: Long) {
+        val actual =  com.willmadison.leetcode.extensions.maximumHappinessSum(happinesses, k)
         assertThat(actual).isEqualTo(expected)
     }
 }

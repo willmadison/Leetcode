@@ -1557,4 +1557,42 @@ fun numRescueBoats(people: IntArray, maxWeight: Int): Int {
     return numBoats
 }
 
+fun findRelativeRanks(scores: IntArray): Array<String> {
+    val sortedScores = scores.sorted().reversed()
+    val indicesByScore = mutableMapOf<Int?, Int>()
+
+    for ((i, score) in sortedScores.withIndex()) {
+        indicesByScore[score] = i
+    }
+
+    val placementByIndex = mapOf(
+        0 to "Gold Medal",
+        1 to "Silver Medal",
+        2 to "Bronze Medal"
+    )
+
+    val answers = Array(scores.size) { "" }
+
+    for ((i, score) in scores.withIndex()) {
+        answers[i] = placementByIndex.getOrDefault(indicesByScore[score], (indicesByScore[score]!!+1).toString())
+    }
+
+    return answers
+}
+
+fun maximumHappinessSum(happinesses: IntArray, k: Int): Long {
+    val maxHeap = PriorityQueue<Int>(happinesses.size, Comparator.reverseOrder())
+    maxHeap.addAll(happinesses.asIterable())
+
+    var sum = 0L
+    var turns = 0
+
+    while (turns < k) {
+        val current = maxHeap.remove()
+        sum += maxOf(current - turns++, 0)
+    }
+
+    return sum
+}
+
 
