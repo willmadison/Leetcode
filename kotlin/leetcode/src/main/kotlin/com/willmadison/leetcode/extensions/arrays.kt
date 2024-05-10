@@ -1595,4 +1595,23 @@ fun maximumHappinessSum(happinesses: IntArray, k: Int): Long {
     return sum
 }
 
+fun kthSmallestPrimeFraction(numbers: IntArray, k: Int): IntArray {
+    val compareByQuotient: Comparator<Pair<Int, Int>> = compareBy { it.first.toDouble() / it.second }
+    val minHeap = PriorityQueue(k, compareByQuotient)
+
+    for (i in numbers.indices) {
+        for (j in i+1 until numbers.size) {
+            minHeap.add(Pair(numbers[i], numbers[j]))
+        }
+    }
+
+    var kthSmallest: Pair<Int, Int>  = Pair(Int.MIN_VALUE, Int.MAX_VALUE)
+
+    repeat(k) {
+        kthSmallest = minHeap.remove()
+    }
+
+    return intArrayOf(kthSmallest.first, kthSmallest.second)
+}
+
 

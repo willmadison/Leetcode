@@ -1214,6 +1214,28 @@ class ArraysTests {
 
             )
         }
+
+        @JvmStatic
+        fun numeratorDenominatorProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3,5),
+                    3,
+                    intArrayOf(2,5),
+                ),
+                Arguments.of(
+                    intArrayOf(1,7),
+                    1,
+                    intArrayOf(1,7),
+                ),
+                Arguments.of(
+                    intArrayOf(1,29,47),
+                    1,
+                    intArrayOf(1,47),
+                ),
+
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1663,6 +1685,13 @@ class ArraysTests {
     @MethodSource("happinessProvider")
     fun maximumHappinessSum(happinesses: IntArray, k: Int, expected: Long) {
         val actual =  com.willmadison.leetcode.extensions.maximumHappinessSum(happinesses, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "kthSmallestPrimeFaction({0}, {1}) = {2}")
+    @MethodSource("numeratorDenominatorProvider")
+    fun kthSmallestPrimeFaction(numbers: IntArray, k: Int, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.kthSmallestPrimeFraction(numbers, k)
         assertThat(actual).isEqualTo(expected)
     }
 }
