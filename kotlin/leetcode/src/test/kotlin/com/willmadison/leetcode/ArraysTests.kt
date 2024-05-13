@@ -1,6 +1,7 @@
 package com.willmadison.leetcode
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.data.Offset
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
@@ -1167,12 +1168,12 @@ class ArraysTests {
                     1,
                 ),
                 Arguments.of(
-                    intArrayOf(3,2,2,1),
+                    intArrayOf(3, 2, 2, 1),
                     3,
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(3,5,3,4),
+                    intArrayOf(3, 5, 3, 4),
                     5,
                     4,
                 ),
@@ -1187,8 +1188,8 @@ class ArraysTests {
                     arrayOf("Gold Medal", "Silver Medal", "Bronze Medal", "4", "5")
                 ),
                 Arguments.of(
-                    intArrayOf(10,3,8,9,4),
-                    arrayOf("Gold Medal","5","Bronze Medal","Silver Medal","4")
+                    intArrayOf(10, 3, 8, 9, 4),
+                    arrayOf("Gold Medal", "5", "Bronze Medal", "Silver Medal", "4")
                 ),
             )
         }
@@ -1197,43 +1198,99 @@ class ArraysTests {
         fun happinessProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3),
+                    intArrayOf(1, 2, 3),
                     2,
                     4L,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1,1),
+                    intArrayOf(1, 1, 1, 1),
                     2,
                     1L,
                 ),
                 Arguments.of(
-                    intArrayOf(2,3,4,5),
+                    intArrayOf(2, 3, 4, 5),
                     1,
                     5L,
                 ),
 
-            )
+                )
         }
 
         @JvmStatic
         fun numeratorDenominatorProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3,5),
+                    intArrayOf(1, 2, 3, 5),
                     3,
-                    intArrayOf(2,5),
+                    intArrayOf(2, 5),
                 ),
                 Arguments.of(
-                    intArrayOf(1,7),
+                    intArrayOf(1, 7),
                     1,
-                    intArrayOf(1,7),
+                    intArrayOf(1, 7),
                 ),
                 Arguments.of(
-                    intArrayOf(1,29,47),
+                    intArrayOf(1, 29, 47),
                     1,
-                    intArrayOf(1,47),
+                    intArrayOf(1, 47),
                 ),
 
+                )
+        }
+
+        @JvmStatic
+        fun workerCostProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10, 20, 5),
+                    intArrayOf(70, 50, 30),
+                    2,
+                    105.0
+                ),
+                Arguments.of(
+                    intArrayOf(3, 1, 10, 10, 1),
+                    intArrayOf(4, 8, 2, 2, 7),
+                    3,
+                    30.66667
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun largestLocalProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(9, 9, 8, 1),
+                        intArrayOf(5, 6, 2, 6),
+                        intArrayOf(8, 2, 6, 4),
+                        intArrayOf(6, 2, 2, 2),
+                    ),
+                    arrayOf(
+                        intArrayOf(9, 9),
+                        intArrayOf(8, 6),
+                    ),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun matrixFlipScoreProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0, 1, 1),
+                        intArrayOf(1, 0, 1, 0),
+                        intArrayOf(1, 1, 0, 0),
+                    ),
+                    39,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0)
+                    ),
+                    1,
+                ),
             )
         }
     }
@@ -1684,7 +1741,7 @@ class ArraysTests {
     @ParameterizedTest(name = "maximumHappinessSum({0}, {1}) = {2}")
     @MethodSource("happinessProvider")
     fun maximumHappinessSum(happinesses: IntArray, k: Int, expected: Long) {
-        val actual =  com.willmadison.leetcode.extensions.maximumHappinessSum(happinesses, k)
+        val actual = com.willmadison.leetcode.extensions.maximumHappinessSum(happinesses, k)
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -1692,6 +1749,28 @@ class ArraysTests {
     @MethodSource("numeratorDenominatorProvider")
     fun kthSmallestPrimeFaction(numbers: IntArray, k: Int, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.kthSmallestPrimeFraction(numbers, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
+    @ParameterizedTest(name = "mincostToHireWorkers({0}, {1}, {2}) = {3}")
+    @MethodSource("workerCostProvider")
+    fun mincostToHireWorkers(qualities: IntArray, minWages: IntArray, numWorkers: Int, expected: Double) {
+        val actual = com.willmadison.leetcode.extensions.mincostToHireWorkers(qualities, minWages, numWorkers)
+        assertThat(actual).isCloseTo(expected, Offset.offset(.00001))
+    }
+
+    @ParameterizedTest(name = "largestLocal({0}) = {1}")
+    @MethodSource("largestLocalProvider")
+    fun largestLocal(grid: Array<IntArray>, expected: Array<IntArray>) {
+        val actual = com.willmadison.leetcode.extensions.largestLocal(grid)
+        assertThat(actual.asIterable()).containsExactlyElementsOf(expected.asIterable())
+    }
+
+    @ParameterizedTest(name = "matrixScore({0}) = {1}")
+    @MethodSource("matrixFlipScoreProvider")
+    fun matrixScore(grid: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.matrixScore(grid)
         assertThat(actual).isEqualTo(expected)
     }
 }
