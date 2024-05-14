@@ -332,4 +332,66 @@ fun findMinHeightTrees(n: Int, edges: Array<IntArray>): List<Int> {
     return leaves
 }
 
+// https://leetcode.com/problems/path-with-maximum-gold/?envType=daily-question&envId=2024-05-14
+fun getMaximumGold(grid: Array<IntArray>): Int {
+    var maximumGold = 0
+
+    val numRows = grid.size
+    val numColumns = grid[0].size
+
+    var totalGoldAvailable = 0
+
+    for (row in grid) {
+        for (gold in row) {
+            totalGoldAvailable += gold
+        }
+    }
+
+    for (row in 0 until numRows) {
+        for (col in 0 until numColumns) {
+            if (grid[row][col] != 0) {
+                maximumGold = maxOf(maximumGold, bfsBacktracking(grid, numRows, numColumns, row, col))
+
+                if (maximumGold == totalGoldAvailable) {
+                    return maximumGold
+                }
+            }
+        }
+    }
+
+    return maximumGold
+}
+
+data class State(val location: Location, val goldCollected: Int, val visited: MutableSet<Location>)
+
+fun bfsBacktracking(grid: Array<IntArray>, rows: Int, columns: Int, currentRow: Int, currentColumn: Int): Int {
+    var maxGold = 0
+
+    val visited = mutableSetOf<Location>()
+    visited.add(Location(currentRow, currentColumn))
+
+    val q = ArrayDeque<State>()
+    q.add(State(Location(currentRow, currentColumn), grid[currentRow][currentColumn], visited))
+
+    while (q.isNotEmpty()) {
+        val current = q.remove()
+        val currentLocation = current.location
+
+        maxGold = maxOf(maxGold, current.goldCollected)
+
+        for (neighbor in currentLocation.neighbors()) {
+            if (neighbor.isValid(rows, columns)      &&
+                grid[neighbor.row][neighbor.col] > 0 &&
+                !current.visited.contains(neighbor)) {
+                current.visited.add(neighbor)
+                val deepCopyVisited = HashSet(current.visited)
+                q.add(State(neighbor, grid[neighbor.row][neighbor.col] + current.goldCollected, deepCopyVisited))
+                current.visited.remove(neighbor)
+            }
+        }
+    }
+
+    return maxGold
+}
+
 
