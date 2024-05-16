@@ -142,6 +142,37 @@ class BFSTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun safenessFactorProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    listOf(
+                        listOf(1,0,0),
+                        listOf(0,0,0),
+                        listOf(0,0,1),
+                    ),
+                    0,
+                ),
+                Arguments.of(
+                    listOf(
+                        listOf(0,0,1),
+                        listOf(0,0,0),
+                        listOf(0,0,0),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    listOf(
+                        listOf(0,0,0,1),
+                        listOf(0,0,0,0),
+                        listOf(0,0,0,0),
+                        listOf(1,0,0,0),
+                    ),
+                    2,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "numIslands({0}) = {1}")
@@ -176,6 +207,13 @@ class BFSTests {
     @MethodSource("maxGoldProvider")
     fun getMaximumGold(grid: Array<IntArray>, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.getMaximumGold(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximumSafenessFactor({0}) = {1}")
+    @MethodSource("safenessFactorProvider")
+    fun maximumSafenessFactor(grid: List<List<Int>>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maximumSafenessFactor(grid)
         assertThat(actual).isEqualTo(expected)
     }
 }
