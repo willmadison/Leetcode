@@ -85,7 +85,7 @@ class BFSTests {
                 ),
                 Arguments.of(
                     arrayOf(
-                        "8887","8889","8878","8898","8788","8988","7888","9888"
+                        "8887", "8889", "8878", "8898", "8788", "8988", "7888", "9888"
                     ),
                     "8888",
                     -1,
@@ -99,22 +99,77 @@ class BFSTests {
                 Arguments.of(
                     6,
                     arrayOf(
-                        intArrayOf(3,0),
-                        intArrayOf(3,1),
-                        intArrayOf(3,2),
-                        intArrayOf(3,4),
-                        intArrayOf(5,4),
+                        intArrayOf(3, 0),
+                        intArrayOf(3, 1),
+                        intArrayOf(3, 2),
+                        intArrayOf(3, 4),
+                        intArrayOf(5, 4),
                     ),
-                    listOf(3,4),
+                    listOf(3, 4),
                 ),
                 Arguments.of(
                     4,
                     arrayOf(
-                        intArrayOf(1,0),
-                        intArrayOf(1,2),
-                        intArrayOf(1,3),
+                        intArrayOf(1, 0),
+                        intArrayOf(1, 2),
+                        intArrayOf(1, 3),
                     ),
                     listOf(1),
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxGoldProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 6, 0),
+                        intArrayOf(5, 8, 7),
+                        intArrayOf(0, 9, 0),
+                    ),
+                    24,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 0, 7),
+                        intArrayOf(2, 0, 6),
+                        intArrayOf(3, 4, 5),
+                        intArrayOf(0, 3, 0),
+                        intArrayOf(9, 0, 20),
+                    ),
+                    28,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun safenessFactorProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    listOf(
+                        listOf(1,0,0),
+                        listOf(0,0,0),
+                        listOf(0,0,1),
+                    ),
+                    0,
+                ),
+                Arguments.of(
+                    listOf(
+                        listOf(0,0,1),
+                        listOf(0,0,0),
+                        listOf(0,0,0),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    listOf(
+                        listOf(0,0,0,1),
+                        listOf(0,0,0,0),
+                        listOf(0,0,0,0),
+                        listOf(1,0,0,0),
+                    ),
+                    2,
                 ),
             )
         }
@@ -148,4 +203,17 @@ class BFSTests {
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
+    @ParameterizedTest(name = "getMaximumGold({0}) = {1}")
+    @MethodSource("maxGoldProvider")
+    fun getMaximumGold(grid: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.getMaximumGold(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximumSafenessFactor({0}) = {1}")
+    @MethodSource("safenessFactorProvider")
+    fun maximumSafenessFactor(grid: List<List<Int>>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maximumSafenessFactor(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
 }

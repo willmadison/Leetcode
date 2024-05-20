@@ -407,7 +407,6 @@ fun minOperations(nums: IntArray): Int {
 }
 
 
-
 @Suppress("unused")
 fun findDuplicate(nums: IntArray): Int {
     var slow = nums[0]
@@ -1458,7 +1457,7 @@ fun trap(heights: IntArray): Int {
 
             val distance = i - stack.peek() - 1
             val boundedHeight = minOf(heights[i], heights[stack.peek()]) - heights[top]
-            totalVolume += distance*boundedHeight
+            totalVolume += distance * boundedHeight
         }
         stack.push(i++)
     }
@@ -1475,7 +1474,7 @@ fun maximalRectangle(matrix: Array<CharArray>): Int {
 
     for (i in matrix.indices) {
         for (j in matrix[0].indices) {
-            histogram[j] = if (matrix[i][j] == '1') histogram[j]+1 else 0
+            histogram[j] = if (matrix[i][j] == '1') histogram[j] + 1 else 0
         }
 
         maxArea = maxOf(maxArea, maximalHistogramArea(histogram))
@@ -1509,14 +1508,14 @@ fun islandPerimeter(grid: Array<IntArray>): Int {
 
     for (row in grid.indices) {
         for (col in grid[0].indices) {
-            if (grid[row][col]  == 1) {
+            if (grid[row][col] == 1) {
                 perimeter += 4
 
-                if (row > 0 && grid[row-1][col] == 1) {
+                if (row > 0 && grid[row - 1][col] == 1) {
                     perimeter -= 2
                 }
 
-                if (col > 0 && grid[row][col-1] == 1) {
+                if (col > 0 && grid[row][col - 1] == 1) {
                     perimeter -= 2
                 }
             }
@@ -1574,7 +1573,7 @@ fun findRelativeRanks(scores: IntArray): Array<String> {
     val answers = Array(scores.size) { "" }
 
     for ((i, score) in scores.withIndex()) {
-        answers[i] = placementByIndex.getOrDefault(indicesByScore[score], (indicesByScore[score]!!+1).toString())
+        answers[i] = placementByIndex.getOrDefault(indicesByScore[score], (indicesByScore[score]!! + 1).toString())
     }
 
     return answers
@@ -1600,12 +1599,12 @@ fun kthSmallestPrimeFraction(numbers: IntArray, k: Int): IntArray {
     val minHeap = PriorityQueue(k, compareByQuotient)
 
     for (i in numbers.indices) {
-        for (j in i+1 until numbers.size) {
+        for (j in i + 1 until numbers.size) {
             minHeap.add(Pair(numbers[i], numbers[j]))
         }
     }
 
-    var kthSmallest: Pair<Int, Int>  = Pair(Int.MIN_VALUE, Int.MAX_VALUE)
+    var kthSmallest: Pair<Int, Int> = Pair(Int.MIN_VALUE, Int.MAX_VALUE)
 
     repeat(k) {
         kthSmallest = minHeap.remove()
@@ -1619,4 +1618,98 @@ fun kidsWithCandies(candies: IntArray, extraCandies: Int): List<Boolean> {
     return candies.map { it+extraCandies >= currentMax }
 }
 
+// https://leetcode.com/problems/minimum-cost-to-hire-k-workers/description/?envType=daily-question&envId=2024-05-11
+fun mincostToHireWorkers(qualities: IntArray, minWages: IntArray, numWorkers: Int): Double {
+    var totalCost = Double.MAX_VALUE
+    var currentTotalQuality = 0.0
+
+    val wageToQualityRatios = mutableListOf<Pair<Double, Int>>()
+
+    for (i in qualities.indices) {
+        wageToQualityRatios.add(minWages[i].toDouble() / qualities[i] to qualities[i])
+    }
+
+    wageToQualityRatios.sortBy { it.first }
+
+    val maxHeap = PriorityQueue<Int>(Collections.reverseOrder())
+
+    for (i in qualities.indices) {
+        maxHeap.add(wageToQualityRatios[i].second)
+        currentTotalQuality += wageToQualityRatios[i].second.toDouble()
+
+        if (maxHeap.size > numWorkers) {
+            currentTotalQuality -= maxHeap.remove().toDouble()
+        }
+
+        if (numWorkers == maxHeap.size) {
+            totalCost = minOf(totalCost, currentTotalQuality * wageToQualityRatios[i].first)
+        }
+    }
+
+    return totalCost
+}
+
+fun largestLocal(grid: Array<IntArray>): Array<IntArray> {
+    val result = Array(grid.size - 2) { IntArray(grid.size - 2) }
+
+    for (i in 0 until grid.size - 2) {
+        for (j in 0 until grid.size - 2) {
+            result[i][j] = findMax(grid, i, j)
+        }
+    }
+
+    return result
+}
+
+fun findMax(grid: Array<IntArray>, x: Int, y: Int): Int {
+    var max = 0
+
+    for (i in x until x + 3) {
+        for (j in y until y + 3) {
+            max = maxOf(max, grid[i][j])
+        }
+    }
+
+    return max
+}
+
+fun matrixScore(grid: Array<IntArray>): Int {
+    val numRows = grid.size
+    val numColumns = grid[0].size
+
+    var score = 0
+
+    for (i in 0 until numRows) {
+        if (grid[i][0] == 0) {
+            for (j in 0 until numColumns) {
+                grid[i][j] = 1 - grid[i][j]
+            }
+        }
+    }
+
+    for (j in 1 until numColumns) {
+        var numZeroes = 0
+
+        for (i in 0 until numRows) {
+            if (grid[i][j] == 0) {
+                numZeroes++
+            }
+        }
+
+        if (numZeroes > numRows-numZeroes) {
+            for (i in 0 until numRows) {
+                grid[i][j] = 1 - grid[i][j]
+            }
+        }
+    }
+
+    for (i in 0 until numRows) {
+        for (j in 0 until numColumns) {
+            val columnScore = grid[i][j] shl numColumns-j-1
+            score += columnScore
+        }
+    }
+
+    return score
+}
 

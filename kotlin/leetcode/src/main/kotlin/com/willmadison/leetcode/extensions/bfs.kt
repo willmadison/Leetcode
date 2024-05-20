@@ -295,8 +295,8 @@ fun findMinHeightTrees(n: Int, edges: Array<IntArray>): List<Int> {
     val adjacencyList = mutableMapOf<Int, MutableCollection<Int>>()
 
     for (edge in edges) {
-        var adjacentsA = adjacencyList.getOrPut(edge[0]) { mutableListOf() }
-        var adjacentsB = adjacencyList.getOrPut(edge[1]) { mutableListOf() }
+        val adjacentsA = adjacencyList.getOrPut(edge[0]) { mutableListOf() }
+        val adjacentsB = adjacencyList.getOrPut(edge[1]) { mutableListOf() }
 
         adjacentsA.add(edge[1])
         adjacentsB.add(edge[0])
@@ -332,4 +332,160 @@ fun findMinHeightTrees(n: Int, edges: Array<IntArray>): List<Int> {
     return leaves
 }
 
+// https://leetcode.com/problems/path-with-maximum-gold/?envType=daily-question&envId=2024-05-14
+fun getMaximumGold(grid: Array<IntArray>): Int {
+    var maximumGold = 0
+
+    val numRows = grid.size
+    val numColumns = grid[0].size
+
+    var totalGoldAvailable = 0
+
+    for (row in grid) {
+        for (gold in row) {
+            totalGoldAvailable += gold
+        }
+    }
+
+    for (row in 0 until numRows) {
+        for (col in 0 until numColumns) {
+            if (grid[row][col] != 0) {
+                maximumGold = maxOf(maximumGold, bfsBacktracking(grid, numRows, numColumns, row, col))
+
+                if (maximumGold == totalGoldAvailable) {
+                    return maximumGold
+                }
+            }
+        }
+    }
+
+    return maximumGold
+}
+
+data class State(val location: Location, val goldCollected: Int, val visited: MutableSet<Location>)
+
+fun bfsBacktracking(grid: Array<IntArray>, rows: Int, columns: Int, currentRow: Int, currentColumn: Int): Int {
+    var maxGold = 0
+
+    val visited = mutableSetOf<Location>()
+    visited.add(Location(currentRow, currentColumn))
+
+    val q = ArrayDeque<State>()
+    q.add(State(Location(currentRow, currentColumn), grid[currentRow][currentColumn], visited))
+
+    while (q.isNotEmpty()) {
+        val current = q.remove()
+        val currentLocation = current.location
+
+        maxGold = maxOf(maxGold, current.goldCollected)
+
+        for (neighbor in currentLocation.neighbors()) {
+            if (neighbor.isValid(rows, columns)      &&
+                grid[neighbor.row][neighbor.col] > 0 &&
+                !current.visited.contains(neighbor)) {
+                current.visited.add(neighbor)
+                val deepCopyVisited = HashSet(current.visited)
+                q.add(State(neighbor, grid[neighbor.row][neighbor.col] + current.goldCollected, deepCopyVisited))
+                current.visited.remove(neighbor)
+            }
+        }
+    }
+
+    return maxGold
+}
+
+// https://leetcode.com/problems/find-the-safest-path-in-a-grid/?envType=daily-question&envId=2024-05-15
+fun maximumSafenessFactor(grid: List<List<Int>>): Int {
+    val rows = grid.size
+    val columns = rows
+
+    val safenessMatrix = Array(grid.size) { IntArray(grid.size) }
+
+    val q = ArrayDeque<Location>()
+
+    for (i in 0 until rows) {
+        for (j in 0 until columns) {
+          if (grid[i][j] == 1) {
+              q.add(Location(i, j))
+          }
+
+          safenessMatrix[i][j] = if (grid[i][j] == 1) 0 else -1
+        }
+    }
+
+    while (q.isNotEmpty()) {
+        var size = q.size
+
+        while (size-- > 0) {
+            val current = q.remove()
+
+            for (neighbor in current.neighbors()) {
+                val safeness = safenessMatrix[current.row][current.col]
+
+                if (neighbor.isValid(rows, columns) &&
+                    safenessMatrix[neighbor.row][neighbor.col] == -1) {
+                    safenessMatrix[neighbor.row][neighbor.col] = safeness + 1
+                    q.add(neighbor)
+                }
+            }
+        }
+    }
+
+    var maxSafeness = -1
+
+    var start = 0
+    var end = 0
+
+    for (i in 0 until rows) {
+        for (j in  0 until columns) {
+            end = maxOf(end, safenessMatrix[i][j])
+        }
+    }
+
+    while (start <= end) {
+        val mid = start + (end - start) / 2
+
+        if (isValidSafeness(safenessMatrix, mid)) {
+            maxSafeness = mid
+            start = mid+1
+        } else {
+            end = mid-1
+        }
+    }
+
+    return maxSafeness
+}
+
+fun isValidSafeness(safenessMatrix: Array<IntArray>, minimumSafeness: Int): Boolean {
+    val n = safenessMatrix.size
+
+    if (safenessMatrix[0][0] < minimumSafeness || safenessMatrix[n-1][n-1] < minimumSafeness) {
+        return false
+    }
+
+    val q = ArrayDeque<Location>()
+    q.add(Location(0, 0))
+
+    val visited = mutableSetOf<Location>()
+    visited.add(Location(0,0))
+
+    while (q.isNotEmpty()) {
+        val current = q.remove()
+
+        if (current == Location(n-1, n-1)) {
+            return true
+        }
+
+        for (neighbor in current.neighbors()) {
+            if (neighbor.isValid(n, n) &&
+                !visited.contains(neighbor) &&
+                safenessMatrix[neighbor.row][neighbor.col] >= minimumSafeness) {
+                visited.add(neighbor)
+                q.add(neighbor)
+            }
+        }
+    }
+
+    return false
+}
 

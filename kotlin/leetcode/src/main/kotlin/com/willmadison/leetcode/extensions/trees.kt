@@ -511,6 +511,19 @@ fun deleteNode(node: ListNode?) {
     prev?.next = null
 }
 
+// https://leetcode.com/problems/evaluate-boolean-binary-tree/?envType=daily-question&envId=2024-05-16
+fun evaluateTree(node: TreeNode?): Boolean {
+    if (node == null) return false
+
+    if (node.isLeaf()) return node.`val` != 0
+
+    return when (node.`val`) {
+        2 -> evaluateTree(node.left) || evaluateTree(node.right)
+        3 -> evaluateTree(node.left) && evaluateTree(node.right)
+        else -> false
+    }
+}
+
 
 
 
