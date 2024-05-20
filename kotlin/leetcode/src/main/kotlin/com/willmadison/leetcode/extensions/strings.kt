@@ -986,3 +986,22 @@ class Version(v: String): Comparable<Version> {
         return 0
     }
 }
+
+fun gcdOfStrings(str1: String, str2: String): String {
+    val lengthComparator: Comparator<String> = compareBy<String> { it.length }.reversed()
+    val maxHeap = PriorityQueue(lengthComparator)
+
+    val i = 0
+
+    for (j in 0 until str1.length-2) {
+        val substring = str1.substring(i..j)
+
+        if (str1.isDivisibleBy(substring) && str2.isDivisibleBy(substring)) {
+            maxHeap.add(substring)
+        }
+    }
+
+    return if (maxHeap.isNotEmpty()) maxHeap.remove() else ""
+}
+
+fun String.isDivisibleBy(substring: String) = this.replace(substring, "") == ""

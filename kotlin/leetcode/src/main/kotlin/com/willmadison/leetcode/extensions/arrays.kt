@@ -1614,4 +1614,9 @@ fun kthSmallestPrimeFraction(numbers: IntArray, k: Int): IntArray {
     return intArrayOf(kthSmallest.first, kthSmallest.second)
 }
 
+fun kidsWithCandies(candies: IntArray, extraCandies: Int): List<Boolean> {
+    val currentMax = candies.max()
+    return candies.map { it+extraCandies >= currentMax }
+}
+
 

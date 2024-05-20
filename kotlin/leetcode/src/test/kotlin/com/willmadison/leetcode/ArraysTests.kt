@@ -1236,6 +1236,27 @@ class ArraysTests {
 
             )
         }
+
+        @JvmStatic
+        fun candyman(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,3,5,1,3),
+                    3,
+                    listOf(true,true,true,false,true),
+                ),
+                Arguments.of(
+                    intArrayOf(4,2,1,1,2),
+                    1,
+                    listOf(true,false,false,false,false),
+                ),
+                Arguments.of(
+                    intArrayOf(12,1,12),
+                    10,
+                    listOf(true,false,true),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1692,6 +1713,13 @@ class ArraysTests {
     @MethodSource("numeratorDenominatorProvider")
     fun kthSmallestPrimeFaction(numbers: IntArray, k: Int, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.kthSmallestPrimeFraction(numbers, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "kidsWithCandies({0}, {1}) = {2}")
+    @MethodSource("candyman")
+    fun kidsWithCandies(candies: IntArray, extraCandies: Int, expected: List<Boolean>) {
+        val actual = com.willmadison.leetcode.extensions.kidsWithCandies(candies, extraCandies)
         assertThat(actual).isEqualTo(expected)
     }
 }

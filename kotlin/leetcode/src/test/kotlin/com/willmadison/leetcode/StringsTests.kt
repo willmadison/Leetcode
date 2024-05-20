@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -790,6 +791,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun gcdStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "ABCABC",
+                    "ABC",
+                    "ABC",
+                ),
+                Arguments.of(
+                    "ABABAB",
+                    "ABAB",
+                    "AB",
+                ),
+                Arguments.of(
+                    "LEET",
+                    "CODE",
+                    "",
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1088,5 +1110,10 @@ class StringsTests {
         assertThat(actual).isEqualTo(expected)
     }
 
-
+    @ParameterizedTest(name = "gcdOfStrings({0}, {1}) = {2}")
+    @MethodSource("gcdStringProvider")
+    fun gcdOfStrings(str1: String, str2: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.gcdOfStrings(str1, str2)
+        assertThat(actual).isEqualTo(expected)
+    }
 }
