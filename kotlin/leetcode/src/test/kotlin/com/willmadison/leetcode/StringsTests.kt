@@ -812,6 +812,25 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun partitioningProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "aab",
+                    listOf(
+                        listOf("a", "a", "b"),
+                        listOf("aa", "b"),
+                    )
+                ),
+                Arguments.of(
+                    "a",
+                    listOf(
+                        listOf("a"),
+                    )
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1115,5 +1134,12 @@ class StringsTests {
     fun gcdOfStrings(str1: String, str2: String, expected: String) {
         val actual = com.willmadison.leetcode.extensions.gcdOfStrings(str1, str2)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "partition({0}) = {1}")
+    @MethodSource("partitioningProvider")
+    fun partition(s: String, expected: List<List<String>>) {
+        val actual = com.willmadison.leetcode.extensions.partition(s)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }

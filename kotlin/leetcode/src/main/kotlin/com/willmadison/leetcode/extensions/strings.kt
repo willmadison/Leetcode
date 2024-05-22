@@ -1005,3 +1005,34 @@ fun gcdOfStrings(str1: String, str2: String): String {
 }
 
 fun String.isDivisibleBy(substring: String) = this.replace(substring, "") == ""
+
+// TODO: Study backtracking and DP
+// https://leetcode.com/problems/palindrome-partitioning/editorial/?envType=daily-question&envId=2024-05-22
+fun partition(s: String): List<List<String>> {
+    val length = s.length
+    val dp = Array(length) { Array(length) { false } }
+    val result = mutableListOf<List<String>>()
+
+    substringDFS(result, s, 0, mutableListOf(), dp)
+
+    return result
+}
+
+fun substringDFS(
+    result: MutableList<List<String>>,
+    s: String,
+    start: Int,
+    current: MutableList<String>,
+    dp: Array<Array<Boolean>>
+) {
+    if (start >= s.length) result.add(current.toMutableList())
+
+    for (end in start until s.length) {
+        if (s[start] == s[end] && (end-start <= 2 || dp[start+1][end-1])) {
+            dp[start][end] = true
+            current.add(s.substring(start, end+1))
+            substringDFS(result, s, end+1, current, dp)
+            current.removeLast()
+        }
+    }
+}

@@ -126,7 +126,6 @@ private fun TreeNode?.leaves(): Collection<TreeNode> {
 
 private fun TreeNode?.isLeaf() = this != null && this.left == null && this.right == null
 
-
 data class NodeLevel(val node: TreeNode, val level: Int = 0)
 
 fun isEvenOddTree(root: TreeNode?): Boolean {
