@@ -6,6 +6,7 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
 
 
 // https://leetcode.com/problems/two-sum/
@@ -1713,3 +1714,30 @@ fun matrixScore(grid: Array<IntArray>): Int {
     return score
 }
 
+fun subsets(nums: IntArray): List<List<Int>> {
+    val numSubsets = 2.0.pow(nums.size.toDouble()).toInt()
+
+    val subsets = mutableListOf<List<Int>>()
+
+    for (i in 0 until numSubsets) {
+        subsets.add(determineSubset(i, nums))
+    }
+    
+    return subsets
+}
+
+fun determineSubset(i: Int, nums: IntArray): List<Int> {
+    if (i == 0) return emptyList()
+    
+    val subset = mutableListOf<Int>()
+    
+    for ((index, number) in nums.withIndex()) {
+        if (bitSet(i, index)) {
+            subset.add(number)   
+        }
+    }
+    
+    return subset
+}
+
+fun bitSet(number: Int, bit: Int) = number and (1 shl bit) != 0

@@ -419,3 +419,13 @@ fun productExceptSelf(nums: IntArray): IntArray {
 
     return answer
 }
+
+fun subsetXORSum(nums: IntArray): Int {
+    var result = 0
+
+    for (num in nums) {
+        result = result or num
+    }
+
+    return result shl (nums.size - 1)
+}
