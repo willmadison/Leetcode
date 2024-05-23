@@ -1616,7 +1616,7 @@ fun kthSmallestPrimeFraction(numbers: IntArray, k: Int): IntArray {
 
 fun kidsWithCandies(candies: IntArray, extraCandies: Int): List<Boolean> {
     val currentMax = candies.max()
-    return candies.map { it+extraCandies >= currentMax }
+    return candies.map { it + extraCandies >= currentMax }
 }
 
 // https://leetcode.com/problems/minimum-cost-to-hire-k-workers/description/?envType=daily-question&envId=2024-05-11
@@ -1697,7 +1697,7 @@ fun matrixScore(grid: Array<IntArray>): Int {
             }
         }
 
-        if (numZeroes > numRows-numZeroes) {
+        if (numZeroes > numRows - numZeroes) {
             for (i in 0 until numRows) {
                 grid[i][j] = 1 - grid[i][j]
             }
@@ -1706,7 +1706,7 @@ fun matrixScore(grid: Array<IntArray>): Int {
 
     for (i in 0 until numRows) {
         for (j in 0 until numColumns) {
-            val columnScore = grid[i][j] shl numColumns-j-1
+            val columnScore = grid[i][j] shl numColumns - j - 1
             score += columnScore
         }
     }
@@ -1722,22 +1722,48 @@ fun subsets(nums: IntArray): List<List<Int>> {
     for (i in 0 until numSubsets) {
         subsets.add(determineSubset(i, nums))
     }
-    
+
     return subsets
 }
 
 fun determineSubset(i: Int, nums: IntArray): List<Int> {
     if (i == 0) return emptyList()
-    
+
     val subset = mutableListOf<Int>()
-    
+
     for ((index, number) in nums.withIndex()) {
         if (bitSet(i, index)) {
-            subset.add(number)   
+            subset.add(number)
         }
     }
-    
+
     return subset
 }
 
 fun bitSet(number: Int, bit: Int) = number and (1 shl bit) != 0
+
+fun beautifulSubsets(nums: IntArray, k: Int): Int {
+    return countBeautifulSubsets(nums, k, 0, 0)
+}
+
+fun countBeautifulSubsets(nums: IntArray, difference: Int, index: Int, mask: Int): Int {
+    if (index == nums.size) return if (mask > 0) 1 else 0
+
+    var isBeautiful = true
+
+    var j = 0
+
+    while (j < index && isBeautiful) {
+        isBeautiful = ((1 shl j) and mask) == 0 || abs(nums[j]-nums[index]) != difference
+        j++
+    }
+
+    val skip = countBeautifulSubsets(nums, difference, index+1, mask)
+    var take = 0
+
+    if (isBeautiful) {
+        take = countBeautifulSubsets(nums, difference, index+1, mask + (1 shl index))
+    }
+
+    return skip + take
+}

@@ -1314,6 +1314,22 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun beautifulSubsetProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,4,6),
+                    2,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    1,
+                    1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1799,6 +1815,13 @@ class ArraysTests {
     @MethodSource("matrixFlipScoreProvider")
     fun matrixScore(grid: Array<IntArray>, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.matrixScore(grid)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "beautifulSubsets({0}, {1}) = {2}")
+    @MethodSource("beautifulSubsetProvider")
+    fun beautifulSubsets(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.beautifulSubsets(nums, k)
         assertThat(actual).isEqualTo(expected)
     }
 }
