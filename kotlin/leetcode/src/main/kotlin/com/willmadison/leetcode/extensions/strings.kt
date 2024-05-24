@@ -1036,3 +1036,57 @@ fun substringDFS(
         }
     }
 }
+
+// https://leetcode.com/problems/maximum-score-words-formed-by-letters/?envType=daily-question&envId=2024-05-24
+fun maxScoreWords(words: Array<String>, letters: CharArray, scores: IntArray): Int {
+    val characterFrequencies = IntArray(26) { 0 }
+    val numWords = words.size
+
+    for (letter in letters) {
+        characterFrequencies[letter.code - 'a'.code]++
+    }
+
+    var maxScore = 0
+
+    fun isValidWord(subsetLetters: IntArray): Boolean {
+        for (c in 0 until 26) {
+            if (characterFrequencies[c] < subsetLetters[c]) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    fun check(w: Int, words: Array<String>, scores: IntArray, subsetLetters: IntArray, totalScore: Int) {
+        var score = totalScore
+
+        if (w == -1) {
+            maxScore = maxOf(maxScore, score)
+            return
+        }
+
+        check(w-1, words, scores, subsetLetters, score)
+        val length = words[w].length
+
+        for (i in 0 until length) {
+            val c = words[w][i].code - 'a'.code
+            subsetLetters[c]++
+            score += scores[c]
+        }
+
+        if (isValidWord(subsetLetters)) {
+            check(w-1, words, scores, subsetLetters, score)
+        }
+
+        for (i in 0 until length) {
+            val c = words[w][i].code - 'a'.code
+            subsetLetters[c]--
+            score -= scores[c]
+        }
+    }
+
+    check(numWords-1, words, scores, IntArray(26), 0)
+
+    return maxScore
+}

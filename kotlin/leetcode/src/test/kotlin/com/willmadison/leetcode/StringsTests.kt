@@ -831,6 +831,24 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxScoreWordsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("dog", "cat", "dad", "good"),
+                    charArrayOf('a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'),
+                    intArrayOf(1, 0, 9, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    23,
+                ),
+                Arguments.of(
+                    arrayOf("xxxz", "ax", "bx", "cx"),
+                    charArrayOf('z', 'a', 'b', 'c', 'x', 'x', 'x'),
+                    intArrayOf(4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10),
+                    27,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1141,5 +1159,12 @@ class StringsTests {
     fun partition(s: String, expected: List<List<String>>) {
         val actual = com.willmadison.leetcode.extensions.partition(s)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "maxScoreWords({0}, {1}, {2}) = {3}")
+    @MethodSource("maxScoreWordsProvider")
+    fun maxScoreWords(words: Array<String>, letters: CharArray, score: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxScoreWords(words, letters, score)
+        assertThat(actual).isEqualTo(expected)
     }
 }
