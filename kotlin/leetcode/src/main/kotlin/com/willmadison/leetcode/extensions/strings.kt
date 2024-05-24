@@ -1067,6 +1067,7 @@ fun maxScoreWords(words: Array<String>, letters: CharArray, scores: IntArray): I
         }
 
         check(w-1, words, scores, subsetLetters, score)
+
         val length = words[w].length
 
         for (i in 0 until length) {
