@@ -849,6 +849,22 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun wordBreakProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "catsanddog",
+                    listOf("cat", "cats", "and", "sand", "dog"),
+                    listOf("cats and dog", "cat sand dog"),
+                ),
+                Arguments.of(
+                    "pineapplepenapple",
+                    listOf("apple","pen","applepen","pine","pineapple"),
+                    listOf("pine apple pen apple","pineapple pen apple","pine applepen apple"),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1166,5 +1182,12 @@ class StringsTests {
     fun maxScoreWords(words: Array<String>, letters: CharArray, score: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxScoreWords(words, letters, score)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "wordBreak({0}, {1}) = {2}")
+    @MethodSource("wordBreakProvider")
+    fun wordBreak(s: String, dictionary: List<String>, expected: List<String>) {
+        val actual = com.willmadison.leetcode.extensions.wordBreak(s, dictionary)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }

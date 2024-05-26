@@ -391,7 +391,6 @@ fun tictactoe(moves: Array<IntArray>): String {
 }
 
 
-
 // https://leetcode.com/problems/robot-return-to-origin/
 fun judgeCircle(moves: String): Boolean {
     val position = Point(0, 0)
@@ -806,10 +805,11 @@ fun isNumber(s: String): Boolean {
         when {
             c.isDigit() -> sawDigit = true
             c == '+' || c == '-' -> {
-                if (i > 0 && s[i-1] != 'e' && s[i-1] != 'E') {
+                if (i > 0 && s[i - 1] != 'e' && s[i - 1] != 'E') {
                     return false
                 }
             }
+
             c == 'e' || c == 'E' -> {
                 if (sawExponent || !sawDigit) {
                     return false
@@ -817,12 +817,14 @@ fun isNumber(s: String): Boolean {
                 sawExponent = true
                 sawDigit = false
             }
+
             c == '.' -> {
                 if (sawDecimal || sawExponent) {
                     return false
                 }
                 sawDecimal = true
             }
+
             else -> {
                 return false
             }
@@ -878,12 +880,12 @@ fun longestIdealString(s: String, k: Int): Int {
         var best = 0
 
         for (prev in 0 until 26) {
-            if (abs(prev-current) <= k) {
+            if (abs(prev - current) <= k) {
                 best = maxOf(best, dp[prev])
             }
         }
 
-        dp[current] = maxOf(dp[current], best+1)
+        dp[current] = maxOf(dp[current], best + 1)
         length = maxOf(length, dp[current])
     }
 
@@ -892,7 +894,7 @@ fun longestIdealString(s: String, k: Int): Int {
 
 // https://leetcode.com/problems/freedom-trail/?envType=daily-question&envId=2024-04-30
 fun findRotateSteps(ring: String, key: String): Int {
-    val bestSteps = Array(ring.length) { IntArray(key.length+1) }
+    val bestSteps = Array(ring.length) { IntArray(key.length + 1) }
 
     for (row in bestSteps) {
         Arrays.fill(row, Int.MAX_VALUE)
@@ -902,13 +904,15 @@ fun findRotateSteps(ring: String, key: String): Int {
         bestSteps[i][key.length] = 0
     }
 
-    for (keyIndex in key.length-1 downTo 0) {
+    for (keyIndex in key.length - 1 downTo 0) {
         for (ringIndex in ring.indices) {
             for (charIndex in ring.indices) {
                 if (ring[charIndex] == key[keyIndex]) {
-                    bestSteps[ringIndex][keyIndex] = minOf(bestSteps[ringIndex][keyIndex],
+                    bestSteps[ringIndex][keyIndex] = minOf(
+                        bestSteps[ringIndex][keyIndex],
                         1 + countSteps(ringIndex, charIndex, ring.length) +
-                        bestSteps[charIndex][keyIndex+1])
+                                bestSteps[charIndex][keyIndex + 1]
+                    )
                 }
             }
         }
@@ -918,7 +922,7 @@ fun findRotateSteps(ring: String, key: String): Int {
 }
 
 fun countSteps(current: Int, next: Int, length: Int): Int {
-    val stepsBetween = abs(current-next)
+    val stepsBetween = abs(current - next)
     val stepsAround = length - stepsBetween
 
     return minOf(stepsBetween, stepsAround)
@@ -939,7 +943,7 @@ fun wonderfulSubstrings(word: String): Long {
 
         mask = mask xor (1 shl bit)
 
-        wonderfuls += countsByBitmask.getOrPut(mask) {0}.toLong()
+        wonderfuls += countsByBitmask.getOrPut(mask) { 0 }.toLong()
         countsByBitmask[mask] = countsByBitmask.getOrElse(mask) { 0 } + 1
 
         for (oddCharacter in 0..9) {
@@ -959,7 +963,7 @@ fun reversePrefix(word: String, ch: Char): String {
     }
 
     val prefix = word.substring(0..end)
-    return prefix.reversed() + word.substring(end+1)
+    return prefix.reversed() + word.substring(end + 1)
 }
 
 // https://leetcode.com/problems/compare-version-numbers/description/?envType=daily-question&envId=2024-05-03
@@ -967,7 +971,7 @@ fun compareVersion(version1: String, version2: String): Int {
     return Version(version1).compareTo(Version(version2))
 }
 
-class Version(v: String): Comparable<Version> {
+class Version(v: String) : Comparable<Version> {
     private val parts = v.split(".").map { it.trimStart('0') }.map { it.ifEmpty { "0" } }
 
     override fun compareTo(other: Version): Int {
@@ -993,7 +997,7 @@ fun gcdOfStrings(str1: String, str2: String): String {
 
     val i = 0
 
-    for (j in 0 until str1.length-2) {
+    for (j in 0 until str1.length - 2) {
         val substring = str1.substring(i..j)
 
         if (str1.isDivisibleBy(substring) && str2.isDivisibleBy(substring)) {
@@ -1028,10 +1032,10 @@ fun substringDFS(
     if (start >= s.length) result.add(current.toMutableList())
 
     for (end in start until s.length) {
-        if (s[start] == s[end] && (end-start <= 2 || dp[start+1][end-1])) {
+        if (s[start] == s[end] && (end - start <= 2 || dp[start + 1][end - 1])) {
             dp[start][end] = true
-            current.add(s.substring(start, end+1))
-            substringDFS(result, s, end+1, current, dp)
+            current.add(s.substring(start, end + 1))
+            substringDFS(result, s, end + 1, current, dp)
             current.removeLast()
         }
     }
@@ -1066,7 +1070,7 @@ fun maxScoreWords(words: Array<String>, letters: CharArray, scores: IntArray): I
             return
         }
 
-        check(w-1, words, scores, subsetLetters, score)
+        check(w - 1, words, scores, subsetLetters, score)
 
         val length = words[w].length
 
@@ -1077,7 +1081,7 @@ fun maxScoreWords(words: Array<String>, letters: CharArray, scores: IntArray): I
         }
 
         if (isValidWord(subsetLetters)) {
-            check(w-1, words, scores, subsetLetters, score)
+            check(w - 1, words, scores, subsetLetters, score)
         }
 
         for (i in 0 until length) {
@@ -1087,7 +1091,71 @@ fun maxScoreWords(words: Array<String>, letters: CharArray, scores: IntArray): I
         }
     }
 
-    check(numWords-1, words, scores, IntArray(26), 0)
+    check(numWords - 1, words, scores, IntArray(26), 0)
 
     return maxScore
+}
+
+fun wordBreak(string: String, validWords: List<String>): List<String> {
+    val uniqueWords = validWords.toSet()
+    val results = mutableListOf<String>()
+
+    fun backtrack(
+        s: String, words: Set<String>,
+        currentSentence: StringBuilder,
+        sentences: MutableList<String>, startIndex: Int
+    ) {
+        if (startIndex == s.length) {
+            sentences.add(currentSentence.toString().trim())
+            return
+        }
+
+        for (endIndex in startIndex + 1..s.length) {
+            val word = s.substring(startIndex, endIndex)
+
+            if (words.contains(word)) {
+                val currentLength = currentSentence.length
+                currentSentence.append(word).append(" ")
+                backtrack(s, words, currentSentence, sentences, endIndex)
+                currentSentence.setLength(currentLength)
+            }
+        }
+
+    }
+
+    backtrack(string, uniqueWords, StringBuilder(), results, 0)
+
+    return results
+}
+
+fun checkRecord(n: Int): Int {
+    var MODULO = 1000000007
+
+    val memo = Array(n + 1) { Array(2) { IntArray(3) { -1 } } }
+
+    fun eligibleCombinations(recordLength: Int,
+                             totalAbsences: Int,
+                             consecutiveLates: Int): Int {
+        if (totalAbsences >= 2 || consecutiveLates >= 3) {
+            return 0
+        }
+
+        if (recordLength == 0) return 1
+
+        if (memo[recordLength][totalAbsences][consecutiveLates] != -1) {
+            return memo[recordLength][totalAbsences][consecutiveLates]
+        }
+
+        var count = 0
+
+        count = eligibleCombinations(recordLength-1, totalAbsences, 0) % MODULO
+        count = (count + eligibleCombinations(recordLength-1, totalAbsences+1, 0)) % MODULO
+        count = (count + eligibleCombinations(recordLength-1, totalAbsences, consecutiveLates+1)) % MODULO
+
+        memo[recordLength][totalAbsences][consecutiveLates] = count
+
+        return count
+    }
+
+    return eligibleCombinations(n, 0, 0)
 }
