@@ -1754,16 +1754,61 @@ fun countBeautifulSubsets(nums: IntArray, difference: Int, index: Int, mask: Int
     var j = 0
 
     while (j < index && isBeautiful) {
-        isBeautiful = ((1 shl j) and mask) == 0 || abs(nums[j]-nums[index]) != difference
+        isBeautiful = ((1 shl j) and mask) == 0 || abs(nums[j] - nums[index]) != difference
         j++
     }
 
-    val skip = countBeautifulSubsets(nums, difference, index+1, mask)
+    val skip = countBeautifulSubsets(nums, difference, index + 1, mask)
     var take = 0
 
     if (isBeautiful) {
-        take = countBeautifulSubsets(nums, difference, index+1, mask + (1 shl index))
+        take = countBeautifulSubsets(nums, difference, index + 1, mask + (1 shl index))
     }
 
     return skip + take
+}
+
+fun specialArray(nums: IntArray): Int {
+    nums.sort()
+    val max = nums.last()
+
+    for (value in 1..max) {
+        var i = nums.binarySearch(value)
+        val index = nums.indexOf(value)
+
+        if (i < 0) {
+            i = -(i + 1)
+        }
+
+        if (index != -1) {
+            i = minOf(i, index)
+        }
+
+        if (nums.size - i == value) {
+            return value
+        }
+    }
+
+    return -1
+}
+
+fun equalSubstring(s: String, t: String, maxCost: Int): Int {
+    val n = s.length
+
+    var maxLength = 0
+    var start = 0
+    var currentCost = 0
+
+    for (i in 0 until n) {
+        currentCost += abs(s[i].code - t[i].code)
+
+        while (currentCost > maxCost) {
+            currentCost -= abs(s[start].code-t[start].code)
+            start++
+        }
+
+        maxLength = maxOf(maxLength, i-start+1)
+    }
+
+    return maxLength
 }

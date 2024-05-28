@@ -1235,28 +1235,28 @@ class ArraysTests {
                     intArrayOf(1, 47),
                 ),
 
-            )
+                )
         }
 
         @JvmStatic
         fun candyman(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,5,1,3),
+                    intArrayOf(2, 3, 5, 1, 3),
                     3,
-                    listOf(true,true,true,false,true),
+                    listOf(true, true, true, false, true),
                 ),
                 Arguments.of(
-                    intArrayOf(4,2,1,1,2),
+                    intArrayOf(4, 2, 1, 1, 2),
                     1,
-                    listOf(true,false,false,false,false),
+                    listOf(true, false, false, false, false),
                 ),
                 Arguments.of(
-                    intArrayOf(12,1,12),
+                    intArrayOf(12, 1, 12),
                     10,
-                    listOf(true,false,true),
+                    listOf(true, false, true),
                 ),
-                )
+            )
         }
 
         @JvmStatic
@@ -1319,7 +1319,7 @@ class ArraysTests {
         fun beautifulSubsetProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,4,6),
+                    intArrayOf(2, 4, 6),
                     2,
                     4,
                 ),
@@ -1327,6 +1327,133 @@ class ArraysTests {
                     intArrayOf(1),
                     1,
                     1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun specialArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 5),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(0, 0),
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(0, 4, 3, 0, 4),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 9, 7, 8, 3, 8, 6, 6),
+                    6,
+                ),
+                Arguments.of(
+                    intArrayOf(
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ),
+                    100,
                 ),
             )
         }
@@ -1822,6 +1949,13 @@ class ArraysTests {
     @MethodSource("beautifulSubsetProvider")
     fun beautifulSubsets(nums: IntArray, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.beautifulSubsets(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "specialArray({0}) = {1}")
+    @MethodSource("specialArrayProvider")
+    fun specialArray(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.specialArray(nums)
         assertThat(actual).isEqualTo(expected)
     }
 }
