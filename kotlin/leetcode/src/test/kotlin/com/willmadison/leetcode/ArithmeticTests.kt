@@ -3,6 +3,7 @@ package com.willmadison.leetcode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -307,6 +308,24 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun binaryReductionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "1101",
+                    6,
+                ),
+                Arguments.of(
+                    "10",
+                    1,
+                ),
+                Arguments.of(
+                    "1",
+                    0,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -418,6 +437,13 @@ class ArithmeticTests {
     @MethodSource("tribonacciProvider")
     fun tribonacci(n: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.tribonacci(n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numSteps({0}) = {1}")
+    @MethodSource("binaryReductionProvider")
+    fun numSteps(s: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numSteps(s)
         assertThat(actual).isEqualTo(expected)
     }
 }

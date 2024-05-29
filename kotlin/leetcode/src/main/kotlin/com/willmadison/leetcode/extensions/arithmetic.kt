@@ -429,3 +429,23 @@ fun subsetXORSum(nums: IntArray): Int {
 
     return result shl (nums.size - 1)
 }
+
+fun numSteps(s: String): Int {
+    var operations = 0
+    var carry = 0
+
+    for (i in s.indices.reversed()) {
+        if (i == 0) break
+
+        val digit = s[i].code - '0'.code + carry
+
+        if (digit % 2 == 1) {
+            operations += 2
+            carry = 1
+        } else {
+            operations++
+        }
+    }
+
+    return operations + carry
+}

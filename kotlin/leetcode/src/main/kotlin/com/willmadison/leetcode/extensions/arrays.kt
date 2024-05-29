@@ -1799,15 +1799,15 @@ fun equalSubstring(s: String, t: String, maxCost: Int): Int {
     var start = 0
     var currentCost = 0
 
-    for (i in 0 until n) {
-        currentCost += abs(s[i].code - t[i].code)
+    for (end in 0 until n) {
+        currentCost += abs(s[end].code - t[end].code)
 
         while (currentCost > maxCost) {
             currentCost -= abs(s[start].code-t[start].code)
             start++
         }
 
-        maxLength = maxOf(maxLength, i-start+1)
+        maxLength = maxOf(maxLength, end-start+1)
     }
 
     return maxLength
