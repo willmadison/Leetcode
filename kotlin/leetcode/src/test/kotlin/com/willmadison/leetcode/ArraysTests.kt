@@ -1350,110 +1350,19 @@ class ArraysTests {
                     intArrayOf(3, 9, 7, 8, 3, 8, 6, 6),
                     6,
                 ),
+            )
+        }
+
+        @JvmStatic
+        fun tripletProvider(): Stream<Arguments> {
+            return Stream.of(
                 Arguments.of(
-                    intArrayOf(
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
-                    ),
-                    100,
+                    intArrayOf(2,3,1,6,7),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1,1,1),
+                    10,
                 ),
             )
         }
@@ -1956,6 +1865,13 @@ class ArraysTests {
     @MethodSource("specialArrayProvider")
     fun specialArray(nums: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.specialArray(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countTriplets({0}) = {1}")
+    @MethodSource("tripletProvider")
+    fun countTriplets(a: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.countTriplets(a)
         assertThat(actual).isEqualTo(expected)
     }
 }

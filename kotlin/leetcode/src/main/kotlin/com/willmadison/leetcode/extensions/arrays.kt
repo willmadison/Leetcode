@@ -1812,3 +1812,24 @@ fun equalSubstring(s: String, t: String, maxCost: Int): Int {
 
     return maxLength
 }
+
+fun countTriplets(a: IntArray): Int {
+    val prefixes = IntArray(a.size+1) { if (it == 0) 0 else a[it-1] }
+    val n = prefixes.size
+
+    for (i in 1 until n) {
+        prefixes[i] = prefixes[i] xor prefixes[i-1]
+    }
+
+    var count = 0
+
+    for (start in 0 until n) {
+        for (end in start+1 until n) {
+            if (prefixes[start] == prefixes[end]) {
+                count += end - start - 1
+            }
+        }
+    }
+
+    return count
+}
