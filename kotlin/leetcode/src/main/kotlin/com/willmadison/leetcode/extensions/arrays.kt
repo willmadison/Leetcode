@@ -1833,3 +1833,8 @@ fun countTriplets(a: IntArray): Int {
 
     return count
 }
+
+fun singleNumber(nums: IntArray): IntArray {
+    val countsByNumber = nums.asIterable().groupingBy { it }.eachCount()
+    return countsByNumber.entries.filter { it.value == 1 }.map { it.key }.toIntArray()
+}

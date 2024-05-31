@@ -1366,6 +1366,24 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun singleNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,1,3,2,5),
+                    intArrayOf(3,5),
+                ),
+                Arguments.of(
+                    intArrayOf(-1,0),
+                    intArrayOf(-1,0),
+                ),
+                Arguments.of(
+                    intArrayOf(1,0),
+                    intArrayOf(1,0),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1873,5 +1891,12 @@ class ArraysTests {
     fun countTriplets(a: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.countTriplets(a)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "singleNumber({0}) = {1}")
+    @MethodSource("singleNumberProvider")
+    fun singleNumber(nums: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.singleNumber(nums)
+        assertThat(actual.asIterable()).containsExactlyInAnyOrderElementsOf(expected.asIterable())
     }
 }
