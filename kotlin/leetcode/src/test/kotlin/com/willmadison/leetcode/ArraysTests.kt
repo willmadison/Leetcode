@@ -1384,6 +1384,20 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun scoreStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "hello",
+                    13,
+                ),
+                Arguments.of(
+                    "zaz",
+                    50,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1898,5 +1912,12 @@ class ArraysTests {
     fun singleNumber(nums: IntArray, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.singleNumber(nums)
         assertThat(actual.asIterable()).containsExactlyInAnyOrderElementsOf(expected.asIterable())
+    }
+
+    @ParameterizedTest(name = "scoreOfString({0}) = {1}")
+    @MethodSource("scoreStringProvider")
+    fun scoreOfString(s: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.scoreOfString(s)
+        assertThat(actual).isEqualTo(expected)
     }
 }

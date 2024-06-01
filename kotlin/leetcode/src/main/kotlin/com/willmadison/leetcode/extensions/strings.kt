@@ -1133,9 +1133,11 @@ fun checkRecord(n: Int): Int {
 
     val memo = Array(n + 1) { Array(2) { IntArray(3) { -1 } } }
 
-    fun eligibleCombinations(recordLength: Int,
-                             totalAbsences: Int,
-                             consecutiveLates: Int): Int {
+    fun eligibleCombinations(
+        recordLength: Int,
+        totalAbsences: Int,
+        consecutiveLates: Int
+    ): Int {
         if (totalAbsences >= 2 || consecutiveLates >= 3) {
             return 0
         }
@@ -1148,9 +1150,9 @@ fun checkRecord(n: Int): Int {
 
         var count = 0
 
-        count = eligibleCombinations(recordLength-1, totalAbsences, 0) % MODULO
-        count = (count + eligibleCombinations(recordLength-1, totalAbsences+1, 0)) % MODULO
-        count = (count + eligibleCombinations(recordLength-1, totalAbsences, consecutiveLates+1)) % MODULO
+        count = eligibleCombinations(recordLength - 1, totalAbsences, 0) % MODULO
+        count = (count + eligibleCombinations(recordLength - 1, totalAbsences + 1, 0)) % MODULO
+        count = (count + eligibleCombinations(recordLength - 1, totalAbsences, consecutiveLates + 1)) % MODULO
 
         memo[recordLength][totalAbsences][consecutiveLates] = count
 
@@ -1158,4 +1160,14 @@ fun checkRecord(n: Int): Int {
     }
 
     return eligibleCombinations(n, 0, 0)
+}
+
+fun scoreOfString(s: String): Int {
+    var score = 0
+
+    for (i in 0..s.length - 2) {
+        score += abs(s[i].code - s[i + 1].code)
+    }
+
+    return score
 }
