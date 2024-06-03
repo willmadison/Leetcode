@@ -1171,3 +1171,27 @@ fun scoreOfString(s: String): Int {
 
     return score
 }
+
+fun reverseString(s: CharArray): Unit {
+    var start = 0
+    var end = s.size - 1
+
+    while (start <= end) {
+        val temp = s[start]
+        s[start] = s[end]
+        s[end] = temp
+        start++
+        end--
+    }
+}
+
+fun appendCharacters(s: String, t: String): Int {
+    var first = 0
+    var longestPrefix = 0
+
+    while (first < s.length && longestPrefix < t.length) {
+        if (s[first++] == t[longestPrefix]) longestPrefix++
+    }
+
+    return t.length - longestPrefix
+}

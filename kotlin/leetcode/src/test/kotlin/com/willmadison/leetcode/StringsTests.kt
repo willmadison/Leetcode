@@ -865,6 +865,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun characterAppendProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "coaching",
+                    "coding",
+                    4,
+                ),
+                Arguments.of(
+                    "abcde",
+                    "a",
+                    0,
+                ),
+                Arguments.of(
+                    "z",
+                    "abcde",
+                    5,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1189,5 +1210,12 @@ class StringsTests {
     fun wordBreak(s: String, dictionary: List<String>, expected: List<String>) {
         val actual = com.willmadison.leetcode.extensions.wordBreak(s, dictionary)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "appendCharacters({0}, {1}) = {2}")
+    @MethodSource("characterAppendProvider")
+    fun appendCharacters(s: String, t: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.appendCharacters(s, t)
+        assertThat(actual).isEqualTo(expected)
     }
 }
