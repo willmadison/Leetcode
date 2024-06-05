@@ -3,7 +3,6 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Location
 import com.willmadison.leetcode.Point
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.math.abs
 
 fun longestPalindrome(value: String): Int {
@@ -1194,4 +1193,39 @@ fun appendCharacters(s: String, t: String): Int {
     }
 
     return t.length - longestPrefix
+}
+
+fun commonChars(words: Array<String>): List<String> {
+    val commonCharacters = mutableListOf<String>()
+    val commonCharacterCounts = Array(26) { 0 }
+    val currentCharacterCounts = Array(26) { 0 }
+
+    for (c in words.first()) {
+        commonCharacterCounts[c.code - 'a'.code]++
+    }
+
+    for (i in 1 until words.size) {
+        Arrays.fill(currentCharacterCounts, 0)
+
+        for (c in words[i]) {
+            currentCharacterCounts[c.code - 'a'.code]++
+        }
+
+        for (letter in 0..25) {
+            commonCharacterCounts[letter] = minOf(commonCharacterCounts[letter],
+                currentCharacterCounts[letter])
+        }
+    }
+
+    for (letter in 0..25) {
+        val instances = commonCharacterCounts[letter]
+
+        if (instances > 0) {
+           for (i in 1..instances) {
+               commonCharacters.add(('a'.code + letter).toChar().toString())
+           }
+        }
+    }
+
+    return commonCharacters
 }

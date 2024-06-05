@@ -886,6 +886,20 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun commonCharWordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("bella","label","roller"),
+                    listOf("e", "l", "l"),
+                ),
+                Arguments.of(
+                    arrayOf("cool","lock","cook"),
+                    listOf("c", "o"),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1217,5 +1231,12 @@ class StringsTests {
     fun appendCharacters(s: String, t: String, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.appendCharacters(s, t)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "commonChars({0}) = {1}")
+    @MethodSource("commonCharWordProvider")
+    fun commonChars(words: Array<String>, expected: List<String>) {
+        val actual = com.willmadison.leetcode.extensions.commonChars(words)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }
