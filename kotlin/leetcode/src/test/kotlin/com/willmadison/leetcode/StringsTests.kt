@@ -860,8 +860,8 @@ class StringsTests {
                 ),
                 Arguments.of(
                     "pineapplepenapple",
-                    listOf("apple","pen","applepen","pine","pineapple"),
-                    listOf("pine apple pen apple","pineapple pen apple","pine applepen apple"),
+                    listOf("apple", "pen", "applepen", "pine", "pineapple"),
+                    listOf("pine apple pen apple", "pineapple pen apple", "pine applepen apple"),
                 ),
             )
         }
@@ -891,15 +891,38 @@ class StringsTests {
         fun commonCharWordProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    arrayOf("bella","label","roller"),
+                    arrayOf("bella", "label", "roller"),
                     listOf("e", "l", "l"),
                 ),
                 Arguments.of(
-                    arrayOf("cool","lock","cook"),
+                    arrayOf("cool", "lock", "cook"),
                     listOf("c", "o"),
                 ),
             )
         }
+
+        @JvmStatic
+        fun replaceWordsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    listOf("cat", "bat", "rat"),
+                    "the cattle was rattled by the battery",
+                    "the cat was rat by the bat",
+                ),
+                Arguments.of(
+                    listOf("a", "b", "c"),
+                    "aadsfasf absbs bbab cadsfafs",
+                    "a a b c",
+                ),
+                Arguments.of(
+                    listOf("catt", "cat", "bat", "rat"),
+                    "the cattle was rattled by the battery",
+                    "the cat was rat by the bat",
+                ),
+            )
+        }
+
+
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1238,5 +1261,12 @@ class StringsTests {
     fun commonChars(words: Array<String>, expected: List<String>) {
         val actual = com.willmadison.leetcode.extensions.commonChars(words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "replaceWords({0}, {1}) = {2}")
+    @MethodSource("replaceWordsProvider")
+    fun replaceWords(dictionary: List<String>, sentence: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.replaceWords(dictionary, sentence)
+        assertThat(actual).isEqualTo(expected)
     }
 }

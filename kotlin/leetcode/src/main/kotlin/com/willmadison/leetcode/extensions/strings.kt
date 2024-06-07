@@ -1212,8 +1212,10 @@ fun commonChars(words: Array<String>): List<String> {
         }
 
         for (letter in 0..25) {
-            commonCharacterCounts[letter] = minOf(commonCharacterCounts[letter],
-                currentCharacterCounts[letter])
+            commonCharacterCounts[letter] = minOf(
+                commonCharacterCounts[letter],
+                currentCharacterCounts[letter]
+            )
         }
     }
 
@@ -1221,11 +1223,37 @@ fun commonChars(words: Array<String>): List<String> {
         val instances = commonCharacterCounts[letter]
 
         if (instances > 0) {
-           for (i in 1..instances) {
-               commonCharacters.add(('a'.code + letter).toChar().toString())
-           }
+            for (i in 1..instances) {
+                commonCharacters.add(('a'.code + letter).toChar().toString())
+            }
         }
     }
 
     return commonCharacters
+}
+
+fun replaceWords(dictionary: List<String>, sentence: String): String {
+    val sb = StringBuilder()
+
+    val roots = dictionary.sortedBy { it.length }
+
+    for (word in sentence.split(" ")) {
+        var found = false
+
+        for (root in roots) {
+            if (word.startsWith(root)) {
+                found = true
+                sb.append(root)
+                break
+            }
+        }
+
+        if (!found) {
+            sb.append(word)
+        }
+
+        sb.append(" ")
+    }
+
+    return sb.toString().trim()
 }

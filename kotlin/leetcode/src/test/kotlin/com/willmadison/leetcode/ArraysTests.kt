@@ -1357,11 +1357,11 @@ class ArraysTests {
         fun tripletProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,1,6,7),
+                    intArrayOf(2, 3, 1, 6, 7),
                     4,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1,1,1),
+                    intArrayOf(1, 1, 1, 1, 1),
                     10,
                 ),
             )
@@ -1371,16 +1371,16 @@ class ArraysTests {
         fun singleNumberProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,1,3,2,5),
-                    intArrayOf(3,5),
+                    intArrayOf(1, 2, 1, 3, 2, 5),
+                    intArrayOf(3, 5),
                 ),
                 Arguments.of(
-                    intArrayOf(-1,0),
-                    intArrayOf(-1,0),
+                    intArrayOf(-1, 0),
+                    intArrayOf(-1, 0),
                 ),
                 Arguments.of(
-                    intArrayOf(1,0),
-                    intArrayOf(1,0),
+                    intArrayOf(1, 0),
+                    intArrayOf(1, 0),
                 ),
             )
         }
@@ -1395,6 +1395,27 @@ class ArraysTests {
                 Arguments.of(
                     "zaz",
                     50,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun straightHandProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 6, 2, 3, 4, 7, 8),
+                    3,
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4, 5),
+                    4,
+                    false,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4, 5, 6),
+                    2,
+                    true,
                 ),
             )
         }
@@ -1918,6 +1939,13 @@ class ArraysTests {
     @MethodSource("scoreStringProvider")
     fun scoreOfString(s: String, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.scoreOfString(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isNStraightHand({0}, {1}) = {2}")
+    @MethodSource("straightHandProvider")
+    fun isNStraightHand(hand: IntArray, groupSize: Int, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isNStraightHand(hand, groupSize)
         assertThat(actual).isEqualTo(expected)
     }
 }

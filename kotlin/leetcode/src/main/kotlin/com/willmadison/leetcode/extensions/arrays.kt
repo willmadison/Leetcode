@@ -1838,3 +1838,27 @@ fun singleNumber(nums: IntArray): IntArray {
     val countsByNumber = nums.asIterable().groupingBy { it }.eachCount()
     return countsByNumber.entries.filter { it.value == 1 }.map { it.key }.toIntArray()
 }
+
+fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {
+    if (hand.size % groupSize != 0) return false
+
+    val countsByCard = hand.asIterable().groupingBy { it }.eachCount()
+
+    val sortedCountsByCard = TreeMap(countsByCard)
+
+    while (sortedCountsByCard.isNotEmpty()) {
+        val currentCard = sortedCountsByCard.keys.first()
+
+        for (i in 0 until groupSize) {
+            if (!sortedCountsByCard.containsKey(currentCard + i)) return false
+
+            sortedCountsByCard[currentCard+i] = sortedCountsByCard[currentCard+i]!! - 1
+
+            if (sortedCountsByCard[currentCard+i] == 0) {
+                sortedCountsByCard.remove(currentCard+i)
+            }
+        }
+    }
+
+    return true
+}
