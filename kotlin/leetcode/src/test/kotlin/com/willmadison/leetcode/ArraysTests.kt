@@ -1419,6 +1419,61 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun subarraySumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(23, 2, 4, 6, 7),
+                    6,
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(23, 2, 6, 4, 7),
+                    6,
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(23, 2, 6, 4, 7),
+                    13,
+                    false,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun subarrayDivByKProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(4, 5, 0, -2, -3, 1),
+                    5,
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(5),
+                    9,
+                    0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun heightProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 1, 4, 2, 1, 3),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(5, 1, 2, 3, 4),
+                    5,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,3,4,5),
+                    0,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -1948,4 +2003,26 @@ class ArraysTests {
         val actual = com.willmadison.leetcode.extensions.isNStraightHand(hand, groupSize)
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest(name = "checkSubarraySum({0}, {1}) = {2}")
+    @MethodSource("subarraySumProvider")
+    fun checkSubarraySum(nums: IntArray, k: Int, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.checkSubarraySum(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "subarraysDivByK({0}, {1}) = {2}")
+    @MethodSource("subarrayDivByKProvider")
+    fun subarraysDivByK(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.subarraysDivByK(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "subarraysDivByK({0}, {1}) = {2}")
+    @MethodSource("heightProvider")
+    fun heightChecker(heights: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.heightChecker(heights)
+        assertThat(actual).isEqualTo(expected)
+    }
+
 }

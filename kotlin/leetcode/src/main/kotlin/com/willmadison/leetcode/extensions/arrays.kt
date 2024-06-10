@@ -1862,3 +1862,46 @@ fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {
 
     return true
 }
+
+fun checkSubarraySum(nums: IntArray, k: Int): Boolean {
+    var prefixMod = 0
+    val modulosSeen = mutableMapOf<Int, Int>(
+        0 to -1
+    )
+
+    for (i in nums.indices) {
+        prefixMod = (prefixMod + nums[i]) % k
+
+        if (modulosSeen.containsKey(prefixMod)) {
+            if (i - modulosSeen[prefixMod]!! > 1) {
+                return true
+            }
+        } else {
+            modulosSeen[prefixMod] = i
+        }
+    }
+
+    return false
+}
+
+fun subarraysDivByK(nums: IntArray, k: Int): Int {
+    val moduloGroups = IntArray(k)
+    moduloGroups[0] = 1
+
+    var prefixMod = 0
+    var numSubarrays = 0
+
+    for (n in nums) {
+        prefixMod = (prefixMod + n % k + k) % k
+
+        numSubarrays += moduloGroups[prefixMod]
+        moduloGroups[prefixMod]++
+    }
+
+    return numSubarrays
+}
+
+fun heightChecker(heights: IntArray): Int {
+    val expected = heights.sorted()
+    return heights.indices.count() { expected[it] != heights[it] }
+}
