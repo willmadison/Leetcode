@@ -1905,3 +1905,14 @@ fun heightChecker(heights: IntArray): Int {
     val expected = heights.sorted()
     return heights.indices.count() { expected[it] != heights[it] }
 }
+
+fun relativeSortArray(arr1: IntArray, arr2: IntArray): IntArray {
+    var (present, unaccountedFor) = arr1.partition { arr2.indexOf(it) != -1 }
+    unaccountedFor = unaccountedFor.sorted()
+
+    val result = present.sortedBy { arr2.indexOf(it) }.toMutableList()
+
+    result.addAll(unaccountedFor)
+
+    return result.toIntArray()
+}

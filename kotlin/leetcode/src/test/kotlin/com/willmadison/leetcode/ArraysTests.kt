@@ -1469,8 +1469,24 @@ class ArraysTests {
                     5,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,3,4,5),
+                    intArrayOf(1, 2, 3, 4, 5),
                     0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun relativeSortArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19),
+                    intArrayOf(2, 1, 4, 3, 9, 6),
+                    intArrayOf(2, 2, 2, 1, 4, 3, 3, 9, 6, 7, 19),
+                ),
+                Arguments.of(
+                    intArrayOf(28, 6, 22, 8, 44, 17),
+                    intArrayOf(22, 28, 8, 6),
+                    intArrayOf(22, 28, 8, 6, 17, 44),
                 ),
             )
         }
@@ -2023,6 +2039,14 @@ class ArraysTests {
     fun heightChecker(heights: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.heightChecker(heights)
         assertThat(actual).isEqualTo(expected)
+    }
+
+
+    @ParameterizedTest(name = "relativeSortArray({0}, {1}) = {2}")
+    @MethodSource("relativeSortArrayProvider")
+    fun relativeSortArray(arr1: IntArray, arr2: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.relativeSortArray(arr1, arr2)
+        assertThat(actual.asIterable()).containsExactlyElementsOf(expected.asIterable())
     }
 
 }
