@@ -1916,3 +1916,10 @@ fun relativeSortArray(arr1: IntArray, arr2: IntArray): IntArray {
 
     return result.toIntArray()
 }
+
+fun minMovesToSeat(seats: IntArray, students: IntArray): Int {
+    seats.sort()
+    students.sort()
+
+    return seats.indices.sumOf { abs(seats[it] - students[it]) }
+}

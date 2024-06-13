@@ -1490,6 +1490,27 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun studentSeatProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3, 1, 5),
+                    intArrayOf(2, 7, 4),
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 1, 5, 9),
+                    intArrayOf(1, 3, 2, 6),
+                    7,
+                ),
+                Arguments.of(
+                    intArrayOf(2, 2, 6, 6),
+                    intArrayOf(1, 3, 2, 6),
+                    4,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2049,4 +2070,10 @@ class ArraysTests {
         assertThat(actual.asIterable()).containsExactlyElementsOf(expected.asIterable())
     }
 
+    @ParameterizedTest(name = "minMovesToSeat({0}, {1}) = {2}")
+    @MethodSource("studentSeatProvider")
+    fun minMovesToSeat(seats: IntArray, students: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minMovesToSeat(seats, students)
+        assertThat(actual).isEqualTo(expected)
+    }
 }
