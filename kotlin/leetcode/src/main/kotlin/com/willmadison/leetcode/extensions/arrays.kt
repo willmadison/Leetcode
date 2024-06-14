@@ -1803,28 +1803,28 @@ fun equalSubstring(s: String, t: String, maxCost: Int): Int {
         currentCost += abs(s[end].code - t[end].code)
 
         while (currentCost > maxCost) {
-            currentCost -= abs(s[start].code-t[start].code)
+            currentCost -= abs(s[start].code - t[start].code)
             start++
         }
 
-        maxLength = maxOf(maxLength, end-start+1)
+        maxLength = maxOf(maxLength, end - start + 1)
     }
 
     return maxLength
 }
 
 fun countTriplets(a: IntArray): Int {
-    val prefixes = IntArray(a.size+1) { if (it == 0) 0 else a[it-1] }
+    val prefixes = IntArray(a.size + 1) { if (it == 0) 0 else a[it - 1] }
     val n = prefixes.size
 
     for (i in 1 until n) {
-        prefixes[i] = prefixes[i] xor prefixes[i-1]
+        prefixes[i] = prefixes[i] xor prefixes[i - 1]
     }
 
     var count = 0
 
     for (start in 0 until n) {
-        for (end in start+1 until n) {
+        for (end in start + 1 until n) {
             if (prefixes[start] == prefixes[end]) {
                 count += end - start - 1
             }
@@ -1852,10 +1852,10 @@ fun isNStraightHand(hand: IntArray, groupSize: Int): Boolean {
         for (i in 0 until groupSize) {
             if (!sortedCountsByCard.containsKey(currentCard + i)) return false
 
-            sortedCountsByCard[currentCard+i] = sortedCountsByCard[currentCard+i]!! - 1
+            sortedCountsByCard[currentCard + i] = sortedCountsByCard[currentCard + i]!! - 1
 
-            if (sortedCountsByCard[currentCard+i] == 0) {
-                sortedCountsByCard.remove(currentCard+i)
+            if (sortedCountsByCard[currentCard + i] == 0) {
+                sortedCountsByCard.remove(currentCard + i)
             }
         }
     }
@@ -1922,4 +1922,43 @@ fun minMovesToSeat(seats: IntArray, students: IntArray): Int {
     students.sort()
 
     return seats.indices.sumOf { abs(seats[it] - students[it]) }
+}
+
+fun minIncrementForUnique(nums: IntArray): Int {
+    nums.sort()
+
+    val countsByValue = nums.asIterable().groupingBy { it }.eachCount().toMutableMap()
+
+    if (countsByValue.values.count { it > 1 } == 0) {
+        return 0
+    }
+
+    // Note: May need to be smarter about how/when we choose candidates to increment...
+    val dupes = countsByValue.entries.filter { it.value > 1 }
+
+    var moves = 0
+
+    for (dupe in dupes) {
+        val num = dupe.key
+        val occurrences = dupe.value
+        countsByValue[num] = 1
+
+        for (occurrence in 2..occurrences) {
+            var candidate = num
+            var placed = false
+
+            while (!placed) {
+                candidate++
+                moves++
+
+                if (!countsByValue.containsKey(candidate)) {
+                    countsByValue[candidate] = 1
+                    placed = true
+                }
+            }
+        }
+
+    }
+
+    return moves
 }

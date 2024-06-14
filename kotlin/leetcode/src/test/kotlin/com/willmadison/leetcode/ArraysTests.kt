@@ -1511,6 +1511,20 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun minIncrementForUniqueProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 2, 1, 2, 1, 7),
+                    6,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2074,6 +2088,13 @@ class ArraysTests {
     @MethodSource("studentSeatProvider")
     fun minMovesToSeat(seats: IntArray, students: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minMovesToSeat(seats, students)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minIncrementForUnique({0}) = {1}")
+    @MethodSource("minIncrementForUniqueProvider")
+    fun minIncrementForUnique(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minIncrementForUnique(nums)
         assertThat(actual).isEqualTo(expected)
     }
 }
