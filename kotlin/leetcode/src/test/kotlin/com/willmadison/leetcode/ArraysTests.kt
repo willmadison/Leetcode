@@ -1525,6 +1525,47 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maximizedCapitalProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    2,
+                    0,
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(0, 1, 1),
+                    4,
+                ),
+                Arguments.of(
+                    3,
+                    0,
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(0, 1, 2),
+                    6,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minPatchesProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 3),
+                    6,
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 5, 10),
+                    20,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 2),
+                    5,
+                    0,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2095,6 +2136,20 @@ class ArraysTests {
     @MethodSource("minIncrementForUniqueProvider")
     fun minIncrementForUnique(nums: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minIncrementForUnique(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findMaximizedCapital({0}, {1}, {2}, {3}) = {4}")
+    @MethodSource("maximizedCapitalProvider")
+    fun findMaximizedCapital(k: Int, w: Int, profits: IntArray, capital: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findMaximizedCapital(k, w, profits, capital)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minPatches({0}, {1}) = {2}")
+    @MethodSource("minPatchesProvider")
+    fun minPatches(nums: IntArray, n: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minPatches(nums, n)
         assertThat(actual).isEqualTo(expected)
     }
 }

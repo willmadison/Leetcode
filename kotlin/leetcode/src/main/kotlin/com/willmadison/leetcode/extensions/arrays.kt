@@ -1962,3 +1962,55 @@ fun minIncrementForUnique(nums: IntArray): Int {
 
     return moves
 }
+
+private data class Project(val capital: Int, val profit: Int)
+
+fun findMaximizedCapital(k: Int, w: Int, profits: IntArray, capital: IntArray): Int {
+    val compareByCapitalRequirement: Comparator<Project> = compareBy<Project> { it.capital }
+
+    var projects = mutableListOf<Project>()
+
+    for (i in profits.indices) {
+        projects.add(Project(capital[i], profits[i]))
+    }
+
+    projects = projects.sortedWith(compareByCapitalRequirement).toMutableList()
+
+    var totalCapital = w
+
+    val q = PriorityQueue<Int>(Collections.reverseOrder())
+
+    var current = 0
+
+    for (i in 0 until k) {
+        while (current < projects.size && projects[current].capital <= totalCapital) {
+            q.add(projects[current++].profit)
+        }
+
+        if (q.isEmpty()) {
+            break
+        }
+
+        totalCapital += q.remove()
+    }
+
+    return totalCapital
+}
+
+fun minPatches(nums: IntArray, n: Int): Int {
+    var patches = 0
+    var i = 0
+
+    var misses = 1L
+
+    while (misses <= n) {
+        if (i < nums.size && nums[i] <= misses) {
+            misses += nums[i++]
+        } else {
+            misses += misses
+            patches++
+        }
+    }
+
+    return patches
+}
