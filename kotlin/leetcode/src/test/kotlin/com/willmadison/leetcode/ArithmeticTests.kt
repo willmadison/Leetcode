@@ -326,6 +326,20 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun judgeSquareSumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    3,
+                    false,
+                ),
+                Arguments.of(
+                    5,
+                    true,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -444,6 +458,13 @@ class ArithmeticTests {
     @MethodSource("binaryReductionProvider")
     fun numSteps(s: String, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.numSteps(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "judgeSquareSum({0}) = {1}")
+    @MethodSource("judgeSquareSumProvider")
+    fun judgeSquareSum(c: Int, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.judgeSquareSum(c)
         assertThat(actual).isEqualTo(expected)
     }
 }

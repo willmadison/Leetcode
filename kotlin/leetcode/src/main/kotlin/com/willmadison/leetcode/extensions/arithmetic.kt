@@ -449,3 +449,16 @@ fun numSteps(s: String): Int {
 
     return operations + carry
 }
+
+fun judgeSquareSum(c: Int): Boolean {
+    for (a in 0..sqrt(c.toDouble()).toInt()) {
+        val b2 = c - a*a
+        val b = sqrt(b2.toDouble()).toInt()
+
+        if (b2 == b*b) {
+            return true
+        }
+    }
+
+    return false
+}
