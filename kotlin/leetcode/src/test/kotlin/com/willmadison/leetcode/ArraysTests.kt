@@ -1566,6 +1566,30 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun profitAssignmentProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 4, 6, 8, 10),
+                    intArrayOf(10, 20, 30, 40, 50),
+                    intArrayOf(4, 5, 6, 7),
+                    100,
+                ),
+                Arguments.of(
+                    intArrayOf(85, 47, 57),
+                    intArrayOf(24, 66, 99),
+                    intArrayOf(40, 25, 25),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(68,35,52,47,86),
+                    intArrayOf(67,17,1,81,3),
+                    intArrayOf(92,10,85,84,82),
+                    324,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2150,6 +2174,13 @@ class ArraysTests {
     @MethodSource("minPatchesProvider")
     fun minPatches(nums: IntArray, n: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minPatches(nums, n)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxProfitAssignment({0}, {1}, {2}) = {3}")
+    @MethodSource("profitAssignmentProvider")
+    fun maxProfitAssignment(difficulties: IntArray, profits: IntArray, workers: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxProfitAssignment(difficulties, profits, workers)
         assertThat(actual).isEqualTo(expected)
     }
 }

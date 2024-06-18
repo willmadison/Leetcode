@@ -2014,3 +2014,29 @@ fun minPatches(nums: IntArray, n: Int): Int {
 
     return patches
 }
+
+private data class Assignment(val difficulty: Int, val profit: Int)
+
+fun maxProfitAssignment(difficulties: IntArray, profits: IntArray, workers: IntArray): Int {
+    val decreasingProfitability = compareBy<Assignment> { it.profit }.reversed()
+
+    var assignments = mutableListOf<Assignment>()
+
+    for (i in difficulties.indices) {
+        assignments.add(Assignment(difficulties[i], profits[i]))
+    }
+
+    assignments = assignments.sortedWith(decreasingProfitability).toMutableList()
+
+    var totalProfit = 0
+
+    for (ability in workers) {
+        try {
+            val assignment = assignments.first { it.difficulty <= ability }
+            totalProfit += assignment.profit
+        } catch (ignore: Exception) {
+        }
+    }
+
+    return totalProfit
+}
