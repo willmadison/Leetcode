@@ -2040,3 +2040,49 @@ fun maxProfitAssignment(difficulties: IntArray, profits: IntArray, workers: IntA
 
     return totalProfit
 }
+
+fun minDays(bloomDay: IntArray, numBouquets: Int, flowersPerBouquet: Int): Int {
+    if (bloomDay.size < numBouquets * flowersPerBouquet) return -1
+
+    var start = 0
+    var end = 0
+
+    for (day in bloomDay) {
+        end = maxOf(day, end)
+    }
+
+    var minimumDays = -1
+
+    while (start <= end) {
+        val mid = (start + end) / 2
+
+        if (getNumBouquets(bloomDay, mid, flowersPerBouquet) >= numBouquets) {
+            minimumDays = mid
+            end = mid - 1
+        } else {
+            start = mid + 1
+        }
+    }
+
+    return minimumDays
+}
+
+private fun getNumBouquets(bloomDay: IntArray, mid: Int, flowerPerBouquet: Int): Int {
+    var numBouquets = 0
+    var count = 0
+
+    for (i in bloomDay.indices) {
+        if (bloomDay[i] <= mid) {
+            count++
+        } else {
+            count = 0
+        }
+
+        if (count == flowerPerBouquet) {
+            numBouquets++
+            count = 0
+        }
+    }
+
+    return numBouquets
+}

@@ -1583,10 +1583,34 @@ class ArraysTests {
                     0,
                 ),
                 Arguments.of(
-                    intArrayOf(68,35,52,47,86),
-                    intArrayOf(67,17,1,81,3),
-                    intArrayOf(92,10,85,84,82),
+                    intArrayOf(68, 35, 52, 47, 86),
+                    intArrayOf(67, 17, 1, 81, 3),
+                    intArrayOf(92, 10, 85, 84, 82),
                     324,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minDaysProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 10, 3, 10, 2),
+                    3,
+                    1,
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 10, 3, 10, 2),
+                    3,
+                    2,
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(7, 7, 7, 7, 12, 7, 7),
+                    2,
+                    3,
+                    12,
                 ),
             )
         }
@@ -2181,6 +2205,13 @@ class ArraysTests {
     @MethodSource("profitAssignmentProvider")
     fun maxProfitAssignment(difficulties: IntArray, profits: IntArray, workers: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxProfitAssignment(difficulties, profits, workers)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minDays({0}, {1}, {2}) = {3}")
+    @MethodSource("minDaysProvider")
+    fun minDays(bloomDay: IntArray, m: Int, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minDays(bloomDay, m, k)
         assertThat(actual).isEqualTo(expected)
     }
 }
