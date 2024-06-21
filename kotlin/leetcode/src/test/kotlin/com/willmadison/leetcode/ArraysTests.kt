@@ -1614,6 +1614,40 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxDistanceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4, 7),
+                    3,
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(5, 4, 3, 2, 1, 1000000000),
+                    2,
+                    999999999,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxSatisfactionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 0, 1, 2, 1, 1, 7, 5),
+                    intArrayOf(0, 1, 0, 1, 0, 1, 0, 1),
+                    3,
+                    16,
+                ),
+                Arguments.of(
+                    intArrayOf(1),
+                    intArrayOf(0),
+                    1,
+                    1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2212,6 +2246,20 @@ class ArraysTests {
     @MethodSource("minDaysProvider")
     fun minDays(bloomDay: IntArray, m: Int, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minDays(bloomDay, m, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxDistance({0}, {1}) = {2}")
+    @MethodSource("maxDistanceProvider")
+    fun maxDistance(basketPositions: IntArray, numBalls: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxDistance(basketPositions, numBalls)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxSatisfied({0}, {1}, {2}) = {3}")
+    @MethodSource("maxSatisfactionProvider")
+    fun maxSatisfied(customers: IntArray, grumpy: IntArray, minutes: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxSatisfied(customers, grumpy, minutes)
         assertThat(actual).isEqualTo(expected)
     }
 }

@@ -3,10 +3,7 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Location
 import com.willmadison.leetcode.Point
 import java.util.*
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
+import kotlin.math.*
 
 
 // https://leetcode.com/problems/two-sum/
@@ -2085,4 +2082,72 @@ private fun getNumBouquets(bloomDay: IntArray, mid: Int, flowerPerBouquet: Int):
     }
 
     return numBouquets
+}
+
+fun maxDistance(basketPositions: IntArray, numBalls: Int): Int {
+    var maxDistance = 0
+    basketPositions.sort()
+    val n = basketPositions.size
+
+    var low = 1
+    var high = ceil(basketPositions[n - 1] / (numBalls - 1.0)).toInt()
+
+    while (low <= high) {
+        val mid = low + (high - low) / 2
+
+        if (canPlaceBalls(mid, basketPositions, numBalls)) {
+            maxDistance = mid
+            low = mid + 1
+        } else {
+            high = mid - 1
+        }
+    }
+
+    return maxDistance
+}
+
+fun canPlaceBalls(x: Int, basketPositions: IntArray, numBalls: Int): Boolean {
+    var previousBallPosition = basketPositions[0]
+    var ballsPlaced = 1
+
+    var i = 1
+
+    while (i < basketPositions.size && ballsPlaced < numBalls) {
+        val currentPosition = basketPositions[i]
+
+        if (currentPosition - previousBallPosition >= x) {
+            ballsPlaced++
+            previousBallPosition = currentPosition
+        }
+
+        i++
+    }
+
+    return ballsPlaced == numBalls
+}
+
+fun maxSatisfied(customers: IntArray, grumpy: IntArray, minutes: Int): Int {
+    val n = customers.size
+    var unrealizedCustomers = 0
+
+    for (i in 0..<minutes) {
+        unrealizedCustomers += customers[i] * grumpy[i]
+    }
+
+    var maxUnrealizedCustomers = unrealizedCustomers
+
+    for (i in minutes..<n) {
+        unrealizedCustomers += customers[i] * grumpy[i]
+        unrealizedCustomers -= customers[i - minutes] * grumpy[i - minutes]
+
+        maxUnrealizedCustomers = maxOf(maxUnrealizedCustomers, unrealizedCustomers)
+    }
+
+    var totalPotentialCustomers = maxUnrealizedCustomers
+
+    for (i in customers.indices) {
+        totalPotentialCustomers += customers[i] * (1-grumpy[i])
+    }
+
+    return totalPotentialCustomers
 }
