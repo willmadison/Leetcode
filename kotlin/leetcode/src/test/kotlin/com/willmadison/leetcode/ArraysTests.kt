@@ -1648,6 +1648,71 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun niceSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 1, 2, 1, 1),
+                    3,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(2, 4, 6),
+                    1,
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(2, 2, 2, 1, 2, 2, 1, 2, 2, 2),
+                    2,
+                    16,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun longestSubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(8, 2, 4, 7),
+                    4,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(10, 1, 2, 4, 7, 2),
+                    5,
+                    4,
+                ),
+                Arguments.of(
+                    intArrayOf(4, 2, 2, 2, 4, 4, 2, 2),
+                    0,
+                    3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minKBitFlipProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0, 1, 0),
+                    1,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 1, 0),
+                    2,
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(0,0,0,1,0,1,1,0),
+                    3,
+                    3,
+                ),
+            )
+        }
+
+
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2260,6 +2325,27 @@ class ArraysTests {
     @MethodSource("maxSatisfactionProvider")
     fun maxSatisfied(customers: IntArray, grumpy: IntArray, minutes: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxSatisfied(customers, grumpy, minutes)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numberOfSubarrays({0}, {1}) = {2}")
+    @MethodSource("niceSubarrayProvider")
+    fun numberOfSubarrays(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numberOfSubarrays(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestSubarray({0}, {1}) = {2}")
+    @MethodSource("longestSubarrayProvider")
+    fun longestSubarray(nums: IntArray, limit: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.longestSubarrayB(nums, limit)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minKBitFlips({0}, {1}) = {2}")
+    @MethodSource("minKBitFlipProvider")
+    fun minKBitFlips(nums: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minKBitFlips(nums, k)
         assertThat(actual).isEqualTo(expected)
     }
 }

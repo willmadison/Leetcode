@@ -2146,8 +2146,126 @@ fun maxSatisfied(customers: IntArray, grumpy: IntArray, minutes: Int): Int {
     var totalPotentialCustomers = maxUnrealizedCustomers
 
     for (i in customers.indices) {
-        totalPotentialCustomers += customers[i] * (1-grumpy[i])
+        totalPotentialCustomers += customers[i] * (1 - grumpy[i])
     }
 
     return totalPotentialCustomers
+}
+
+fun numberOfSubarrays(nums: IntArray, k: Int): Int {
+    var currentSum = 0
+    var subarrays = 0
+
+    val prefixSums = mutableMapOf(currentSum to 1)
+
+    for (i in nums.indices) {
+        currentSum += nums[i] % 2
+
+        if (prefixSums.containsKey(currentSum - k)) {
+            subarrays += prefixSums[currentSum - k]!!
+        }
+
+        prefixSums[currentSum] = prefixSums.getOrDefault(currentSum, 0) + 1
+    }
+
+    return subarrays
+}
+
+fun longestSubarray(nums: IntArray, limit: Int): Int {
+    var start = 0
+
+    val localMaxima = ArrayDeque<Int>()
+    val localMinima = ArrayDeque<Int>()
+
+    var numSubarrays = 0
+
+    for (end in nums.indices) {
+        if (localMinima.isEmpty() || nums[end] < localMinima.peek()) {
+            localMinima.push(nums[end])
+        }
+
+        if (localMaxima.isEmpty() || nums[end] > localMaxima.peek()) {
+            localMaxima.push(nums[end])
+        }
+
+        var localMax = localMaxima.peek()
+        var localMin = localMinima.peek()
+
+        while (abs(localMax - localMin) > limit) {
+            val candidate = nums[start++]
+
+            if (localMaxima.peek() == candidate) {
+                localMaxima.pop()
+            }
+
+            if (localMinima.peek() == candidate) {
+                localMinima.pop()
+            }
+
+            localMax = if (localMaxima.isNotEmpty()) localMaxima.peek() else nums[end]
+            localMin = if (localMinima.isNotEmpty()) localMinima.peek() else nums[end]
+        }
+
+        numSubarrays++
+    }
+
+    return numSubarrays
+}
+
+fun longestSubarrayB(nums: IntArray, limit: Int): Int {
+    val maxHeap = PriorityQueue { a: IntArray, b: IntArray -> b[0] - a[0] }
+    val minHeap: PriorityQueue<IntArray> = PriorityQueue<IntArray>(
+        Comparator.comparingInt { a -> a[0] }
+    )
+
+    var left = 0
+    var maxLength = 0
+
+    for (right in nums.indices) {
+        maxHeap.offer(intArrayOf(nums[right], right))
+        minHeap.offer(intArrayOf(nums[right], right))
+
+        while (maxHeap.peek()[0] - minHeap.peek()!![0] > limit) {
+            left = (min(maxHeap.peek()[1].toDouble(), minHeap.peek()!![1].toDouble()) + 1).toInt()
+
+            while (maxHeap.peek()[1] < left) {
+                maxHeap.poll()
+            }
+            while (minHeap.peek()!![1] < left) {
+                minHeap.poll()
+            }
+        }
+
+        maxLength = max(maxLength.toDouble(), (right - left + 1).toDouble()).toInt()
+    }
+
+    return maxLength
+}
+
+fun minKBitFlips(nums: IntArray, k: Int): Int {
+    val n = nums.size
+    val flipQueue = ArrayDeque<Int>()
+
+    var flipped = 0
+    var result = 0
+
+    for (i in nums.indices) {
+        if (i >= k) {
+            flipped = flipped xor flipQueue.poll()!!
+        }
+
+        if (flipped == nums[i]) {
+            if (i + k > n) {
+                return -1
+            }
+
+            flipQueue.offer(1)
+            flipped = flipped xor 1
+            result += 1
+        } else {
+            flipQueue.offer(0)
+        }
+    }
+
+    return result
 }
