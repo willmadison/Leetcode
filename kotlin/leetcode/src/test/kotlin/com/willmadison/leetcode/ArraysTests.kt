@@ -1712,6 +1712,56 @@ class ArraysTests {
             )
         }
 
+        @JvmStatic
+        fun centerStarProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2),
+                        intArrayOf(2, 3),
+                        intArrayOf(4, 2),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2),
+                        intArrayOf(5, 1),
+                        intArrayOf(1, 3),
+                        intArrayOf(1, 4),
+                    ),
+                    1,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun importanceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    5,
+                    arrayOf(
+                        intArrayOf(0, 1),
+                        intArrayOf(1, 2),
+                        intArrayOf(2, 3),
+                        intArrayOf(0, 2),
+                        intArrayOf(1, 3),
+                        intArrayOf(2, 4),
+                    ),
+                    43L,
+                ),
+                Arguments.of(
+                    5,
+                    arrayOf(
+                        intArrayOf(0, 3),
+                        intArrayOf(2, 4),
+                        intArrayOf(1, 3)
+                    ),
+                    20L,
+                ),
+            )
+        }
+
 
     }
 
@@ -2346,6 +2396,20 @@ class ArraysTests {
     @MethodSource("minKBitFlipProvider")
     fun minKBitFlips(nums: IntArray, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minKBitFlips(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findCenter({0}) = {1}")
+    @MethodSource("centerStarProvider")
+    fun findCenter(edges: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findCenter(edges)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maximumImportance({0}, {1}) = {2}")
+    @MethodSource("importanceProvider")
+    fun maximumImportance(n: Int, roads: Array<IntArray>, expected: Long) {
+        val actual = com.willmadison.leetcode.extensions.maximumImportance(n, roads)
         assertThat(actual).isEqualTo(expected)
     }
 }

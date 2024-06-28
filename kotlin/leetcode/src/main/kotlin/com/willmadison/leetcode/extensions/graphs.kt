@@ -58,3 +58,56 @@ fun maxSumOfNodes(index: Int, isEven: Int, nums: IntArray, k: Int, memo: Array<L
 
     return memo[index][isEven]
 }
+
+fun findCenter(edges: Array<IntArray>): Int {
+    val adjacencyList = mutableMapOf<Int, MutableSet<Int>>()
+
+    for (edge in edges) {
+        var adjacents = adjacencyList.getOrPut(edge[0]) { mutableSetOf() }
+        adjacents.add(edge[1])
+
+        adjacents = adjacencyList.getOrPut(edge[1]) { mutableSetOf() }
+        adjacents.add(edge[0])
+    }
+
+    val n = adjacencyList.keys.max()
+
+    return adjacencyList.entries.first() { it.value.size == n-1 }.key
+}
+
+fun maximumImportance(n: Int, roads: Array<IntArray>): Long {
+    val adjacencyList = mutableMapOf<Int, MutableSet<Int>>()
+
+    for (road in roads) {
+        var adjacents = adjacencyList.getOrPut(road[0]) { mutableSetOf() }
+        adjacents.add(road[1])
+
+        adjacents = adjacencyList.getOrPut(road[1]) { mutableSetOf() }
+        adjacents.add(road[0])
+    }
+
+    val compareByDensity: Comparator<Map.Entry<Int, MutableSet<Int>>> = compareBy<Map.Entry<Int, MutableSet<Int>>> { it.value.size }.reversed()
+
+    val pq = PriorityQueue(n, compareByDensity)
+
+    for (entry in adjacencyList) {
+        pq.add(entry)
+    }
+
+    var value = n
+
+    val scoresByNode = mutableMapOf<Int, Int>()
+
+    while (pq.isNotEmpty()) {
+        val road = pq.remove()
+        scoresByNode[road.key] = value--
+    }
+
+    var maxImportance = 0L
+
+    for (road in roads) {
+        maxImportance += scoresByNode[road[0]]!! + scoresByNode[road[1]]!!
+    }
+
+    return maxImportance
+}
