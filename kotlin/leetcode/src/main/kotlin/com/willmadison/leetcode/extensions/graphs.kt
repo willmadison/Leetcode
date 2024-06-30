@@ -3,7 +3,6 @@ package com.willmadison.leetcode.extensions
 import com.willmadison.leetcode.Node
 import com.willmadison.leetcode.Solution
 import java.util.*
-import kotlin.math.max
 
 
 // https://leetcode.com/problems/clone-graph
@@ -110,4 +109,125 @@ fun maximumImportance(n: Int, roads: Array<IntArray>): Long {
     }
 
     return maxImportance
+}
+
+fun getAncestors(n: Int, edges: Array<IntArray>): List<List<Int>> {
+    val adjacencyList = mutableListOf<MutableList<Int>>()
+
+    for (i in 0 until n) {
+        adjacencyList.add(mutableListOf())
+    }
+
+    for (edge in edges) {
+        val from = edge[0]
+        val to = edge[1]
+
+        adjacencyList[to].add(from)
+    }
+
+    val ancestry = mutableListOf<MutableList<Int>>()
+
+    for (i in 0 until n) {
+        val ancestors = mutableListOf<Int>()
+        val visited = mutableSetOf<Int>()
+
+        findChildren(i, adjacencyList, visited)
+
+        for (node in 0 until n) {
+            if (node == i) continue
+            if (visited.contains(node)) ancestors.add(node)
+        }
+
+        ancestry.add(ancestors)
+    }
+
+    return ancestry
+}
+
+fun findChildren(i: Int, adjacencyList: MutableList<MutableList<Int>>, visited: MutableSet<Int>) {
+    visited.add(i)
+
+    for (neighbor in adjacencyList[i]) {
+        if (!visited.contains(neighbor)) {
+            findChildren(neighbor, adjacencyList, visited)
+        }
+    }
+}
+
+fun maxNumEdgesToRemove(n: Int, edges: Array<IntArray>): Int {
+    val Alice = UnionFind(n)
+    val Bob = UnionFind(n)
+
+    var edgesRequired = 0
+
+    for (edge in edges) {
+        if (edge[0] == 3) {
+            edgesRequired += (Alice.performUnion(edge[1], edge[2]) or Bob.performUnion(edge[1], edge[2]))
+        }
+    }
+
+    for (edge in edges) {
+        if (edge[0] == 1) {
+            edgesRequired += Alice.performUnion(edge[1], edge[2])
+        } else if (edge[0] == 2) {
+            edgesRequired += Bob.performUnion(edge[1], edge[2])
+        }
+    }
+
+    if (Alice.isConnected && Bob.isConnected) {
+        return edges.size - edgesRequired
+    }
+
+    return -1
+}
+
+private class UnionFind(
+    var components: Int
+) {
+    var representative: IntArray
+    var componentSize: IntArray
+
+    init {
+        components = components
+        representative = IntArray(components + 1)
+        componentSize = IntArray(components + 1)
+
+        for (i in 0..components) {
+            representative[i] = i
+            componentSize[i] = 1
+        }
+    }
+
+    fun findRepresentative(x: Int): Int {
+        if (representative[x] == x) {
+            return x
+        }
+
+        return findRepresentative(representative[x]).also { representative[x] = it }
+    }
+
+    fun performUnion(x: Int, y: Int): Int {
+        var x = x
+        var y = y
+        x = findRepresentative(x)
+        y = findRepresentative(y)
+
+        if (x == y) {
+            return 0
+        }
+
+        if (componentSize[x] > componentSize[y]) {
+            componentSize[x] += componentSize[y]
+            representative[y] = x
+        } else {
+            componentSize[y] += componentSize[x]
+            representative[x] = y
+        }
+
+        components--
+        return 1
+    }
+
+    val isConnected: Boolean
+        get() = components == 1
 }
