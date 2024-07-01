@@ -16,15 +16,15 @@ class ArithmeticTests {
         fun maxKProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(-1,2,-3,3),
+                    intArrayOf(-1, 2, -3, 3),
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(-1,10,6,7,-7,1),
+                    intArrayOf(-1, 10, 6, 7, -7, 1),
                     7,
                 ),
                 Arguments.of(
-                    intArrayOf(-10,8,6,7,-2,-3),
+                    intArrayOf(-10, 8, 6, 7, -2, -3),
                     -1,
                 ),
             )
@@ -283,12 +283,12 @@ class ArithmeticTests {
         fun minOperationProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,1,3,4),
+                    intArrayOf(2, 1, 3, 4),
                     1,
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(2,0,2,0),
+                    intArrayOf(2, 0, 2, 0),
                     0,
                     0,
                 ),
@@ -336,6 +336,20 @@ class ArithmeticTests {
                 ),
                 Arguments.of(
                     5,
+                    true,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun consecutiveOddProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2, 6, 4, 1),
+                    false,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 34, 3, 4, 5, 7, 23, 12),
                     true,
                 ),
             )
@@ -465,6 +479,13 @@ class ArithmeticTests {
     @MethodSource("judgeSquareSumProvider")
     fun judgeSquareSum(c: Int, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.judgeSquareSum(c)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "threeConsecutiveOdds({0}) = {1}")
+    @MethodSource("consecutiveOddProvider")
+    fun threeConsecutiveOdds(nums: IntArray, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.threeConsecutiveOdds(nums)
         assertThat(actual).isEqualTo(expected)
     }
 }

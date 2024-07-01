@@ -462,3 +462,21 @@ fun judgeSquareSum(c: Int): Boolean {
 
     return false
 }
+
+fun threeConsecutiveOdds(nums: IntArray): Boolean {
+    var (start, end) = 0 to 2
+
+    while (end < nums.size) {
+        val slice = nums.slice(start..end)
+        val numOdds = slice.count { it % 2 != 0 }
+
+        if (numOdds == 3) {
+            return true
+        }
+
+        start++
+        end++
+    }
+
+    return false
+}
