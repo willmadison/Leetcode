@@ -2269,3 +2269,22 @@ fun minKBitFlips(nums: IntArray, k: Int): Int {
 
     return result
 }
+
+fun intersect(nums1: IntArray, nums2: IntArray): IntArray {
+    val countsByValue1 = nums1.asIterable().groupingBy { it }.eachCount()
+    val countsByValue2 = nums2.asIterable().groupingBy { it }.eachCount()
+
+    val sharedValues = countsByValue1.keys.intersect(countsByValue2.keys)
+
+    val rawIntersection = mutableListOf<Int>()
+
+    for (value in sharedValues) {
+        val occurrences = minOf(countsByValue1[value]!!, countsByValue2[value]!!)
+
+        for (i in 0 until occurrences) {
+            rawIntersection.add(value)
+        }
+    }
+
+    return rawIntersection.toIntArray()
+}

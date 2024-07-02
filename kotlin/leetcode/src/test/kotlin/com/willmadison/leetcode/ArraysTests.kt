@@ -923,6 +923,22 @@ class ArraysTests {
         }
 
         @JvmStatic
+        fun intersectProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1, 2, 2, 1),
+                    intArrayOf(2, 2),
+                    intArrayOf(2, 2),
+                ),
+                Arguments.of(
+                    intArrayOf(4, 9, 5),
+                    intArrayOf(9, 4, 9, 8, 4),
+                    intArrayOf(4, 9),
+                ),
+            )
+        }
+
+        @JvmStatic
         fun sumSubarrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
@@ -1761,8 +1777,6 @@ class ArraysTests {
                 ),
             )
         }
-
-
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2406,10 +2420,11 @@ class ArraysTests {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @ParameterizedTest(name = "maximumImportance({0}, {1}) = {2}")
-    @MethodSource("importanceProvider")
-    fun maximumImportance(n: Int, roads: Array<IntArray>, expected: Long) {
-        val actual = com.willmadison.leetcode.extensions.maximumImportance(n, roads)
-        assertThat(actual).isEqualTo(expected)
+   @ParameterizedTest(name = "intersect({0}, {1}) = {2}")
+    @MethodSource("intersectProvider")
+    fun intersect(nums1: IntArray, nums2: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.intersect(nums1, nums2)
+        assertThat(actual.asIterable()).containsExactlyInAnyOrderElementsOf(expected.asIterable())
     }
+
 }
