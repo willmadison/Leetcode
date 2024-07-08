@@ -354,6 +354,38 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun waterBottleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    9,
+                    3,
+                    13,
+                ),
+                Arguments.of(
+                    15,
+                    4,
+                    19,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun winnerProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    5,
+                    2,
+                    3,
+                ),
+                Arguments.of(
+                    6,
+                    5,
+                    1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -488,4 +520,20 @@ class ArithmeticTests {
         val actual = com.willmadison.leetcode.extensions.threeConsecutiveOdds(nums)
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest(name = "numWaterBottles({0}, {1}) = {2}")
+    @MethodSource("waterBottleProvider")
+    fun numWaterBottles(numBottles: Int, numExchange: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numWaterBottles(numBottles, numExchange)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findTheWinner({0}, {1}) = {2}")
+    @MethodSource("winnerProvider")
+    fun findTheWinner(n: Int, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.findTheWinner(n, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
 }

@@ -480,3 +480,36 @@ fun threeConsecutiveOdds(nums: IntArray): Boolean {
 
     return false
 }
+
+fun numWaterBottles(numBottles: Int, numExchange: Int): Int {
+    var bottlesDrank = numBottles
+
+    var numEmpties = numBottles
+
+    while (numEmpties >= numExchange) {
+        val fullBottles = numEmpties / numExchange
+        val remainder = numEmpties % numExchange
+        bottlesDrank += fullBottles
+        numEmpties = fullBottles + remainder
+    }
+
+    return bottlesDrank
+}
+
+fun findTheWinner(n: Int, k: Int): Int {
+    val deque = ArrayDeque<Int>()
+
+    for (i in 1..n) {
+        deque.add(i)
+    }
+
+    while (deque.size > 1) {
+        for (i in 0 until k-1) {
+            deque.add(deque.remove())
+        }
+
+        deque.remove()
+    }
+
+    return deque.peek()
+}
