@@ -368,7 +368,7 @@ func TestAverageWaitingTime(t *testing.T) {
 	}
 }
 
-func TestCanPLaceFlowers(t *testing.T) {
+func TestCanPlaceFlowers(t *testing.T) {
 	cases := []struct {
 		given struct {
 			flowerbed []int
@@ -421,6 +421,29 @@ func TestCanPLaceFlowers(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("canPlaceFlowers(%v, %v): %v", tc.given.flowerbed, tc.given.n, tc.expected), func(t *testing.T) {
 			actual := canPlaceFlowers(tc.given.flowerbed, tc.given.n)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestReverseVowels(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected string
+	}{
+		{
+			"hello",
+			"holle",
+		},
+		{
+			"leetcode",
+			"leotcede",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("reverseVowels(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := reverseVowels(tc.given)
 			assert.Equal(t, tc.expected, actual)
 		})
 	}

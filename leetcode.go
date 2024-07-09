@@ -610,3 +610,32 @@ func canPlaceFlowers(flowerbed []int, n int) bool {
 
 	return flowersPlaced >= n
 }
+
+// https://leetcode.com/problems/reverse-vowels-of-a-string/description/?envType=study-plan-v2&envId=leetcode-75
+
+func reverseVowels(s string) string {
+	vowels := []rune{}
+
+	var buf bytes.Buffer
+
+	for _, v := range s {
+		switch v {
+		case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U':
+			vowels = append(vowels, v)
+		}
+	}
+
+	current := len(vowels) - 1
+
+	for _, v := range s {
+		switch v {
+		case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U':
+			buf.WriteRune(vowels[current])
+			current--
+		default:
+			buf.WriteRune(v)
+		}
+	}
+
+	return buf.String()
+}
