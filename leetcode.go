@@ -565,11 +565,11 @@ func averageWaitingTime(customers [][]int) float64 {
 		prepTime := customer[1]
 		arrivalTime := customer[0]
 
-		if arrivalTime <= clock {
-			clock += prepTime
-		} else {
-			clock = arrivalTime + prepTime
+		if arrivalTime > clock {
+			clock = arrivalTime
 		}
+
+		clock += prepTime
 
 		waitTime := clock - arrivalTime
 
