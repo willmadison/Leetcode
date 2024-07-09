@@ -590,3 +590,23 @@ func sum(nums []int) int {
 
 	return s
 }
+
+// https://leetcode.com/problems/can-place-flowers/submissions/1315608799/?envType=study-plan-v2&envId=leetcode-75
+
+func canPlaceFlowers(flowerbed []int, n int) bool {
+	flowersPlaced := 0
+
+	for location := range flowerbed {
+		if flowerbed[location] == 0 {
+			leftEmpty := location == 0 || flowerbed[location-1] == 0
+			rightEmpty := location == len(flowerbed)-1 || flowerbed[location+1] == 0
+
+			if leftEmpty && rightEmpty {
+				flowerbed[location] = 1
+				flowersPlaced++
+			}
+		}
+	}
+
+	return flowersPlaced >= n
+}

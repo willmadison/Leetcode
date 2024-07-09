@@ -367,3 +367,61 @@ func TestAverageWaitingTime(t *testing.T) {
 		})
 	}
 }
+
+func TestCanPLaceFlowers(t *testing.T) {
+	cases := []struct {
+		given struct {
+			flowerbed []int
+			n         int
+		}
+		expected bool
+	}{
+		{
+			struct {
+				flowerbed []int
+				n         int
+			}{
+				[]int{1, 0, 0, 0, 1},
+				1,
+			},
+			true,
+		},
+		{
+			struct {
+				flowerbed []int
+				n         int
+			}{
+				[]int{1, 0, 0, 0, 1},
+				2,
+			},
+			false,
+		},
+		{
+			struct {
+				flowerbed []int
+				n         int
+			}{
+				[]int{1, 0, 0, 0, 0, 0, 1},
+				2,
+			},
+			true,
+		},
+		{
+			struct {
+				flowerbed []int
+				n         int
+			}{
+				[]int{0, 0, 1, 0, 1},
+				1,
+			},
+			true,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("canPlaceFlowers(%v, %v): %v", tc.given.flowerbed, tc.given.n, tc.expected), func(t *testing.T) {
+			actual := canPlaceFlowers(tc.given.flowerbed, tc.given.n)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
