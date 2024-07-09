@@ -448,3 +448,30 @@ func TestReverseVowels(t *testing.T) {
 		})
 	}
 }
+
+func TestReverseWords(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected string
+	}{
+		{
+			"the sky is blue",
+			"blue is sky the",
+		},
+		{
+			"  hello world  ",
+			"world hello",
+		},
+		{
+			"a good   example",
+			"example good a",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("reverseWords(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := reverseWords(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -635,6 +636,30 @@ func reverseVowels(s string) string {
 		default:
 			buf.WriteRune(v)
 		}
+	}
+
+	return buf.String()
+}
+
+// https://leetcode.com/problems/reverse-words-in-a-string/description/?envType=study-plan-v2&envId=leetcode-75
+
+func reverseWords(s string) string {
+	rawString := strings.TrimSpace(s)
+
+	words := strings.Fields(rawString)
+
+	var buf bytes.Buffer
+
+	i := len(words) - 1
+
+	for i >= 0 {
+		buf.WriteString(words[i])
+
+		if i > 0 {
+			buf.WriteRune(' ')
+		}
+
+		i--
 	}
 
 	return buf.String()
