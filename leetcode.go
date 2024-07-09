@@ -555,3 +555,38 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 
 	return result
 }
+
+func averageWaitingTime(customers [][]int) float64 {
+	waitTimes := []int{}
+
+	clock := customers[0][0]
+
+	for _, customer := range customers {
+		prepTime := customer[1]
+		arrivalTime := customer[0]
+
+		if arrivalTime <= clock {
+			clock += prepTime
+		} else {
+			clock = arrivalTime + prepTime
+		}
+
+		waitTime := clock - arrivalTime
+
+		waitTimes = append(waitTimes, waitTime)
+	}
+
+	totalWaitingTime := sum(waitTimes)
+
+	return float64(totalWaitingTime) / float64(len(customers))
+}
+
+func sum(nums []int) int {
+	s := 0
+
+	for _, n := range nums {
+		s += n
+	}
+
+	return s
+}

@@ -344,3 +344,26 @@ func TestAddTwoNumbers(t *testing.T) {
 		})
 	}
 }
+
+func TestAverageWaitingTime(t *testing.T) {
+	cases := []struct {
+		customers [][]int
+		expected  float64
+	}{
+		{
+			[][]int{{1, 2}, {2, 5}, {4, 3}},
+			5.0,
+		},
+		{
+			[][]int{{5, 2}, {5, 4}, {10, 3}, {20, 1}},
+			3.25,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("averageWaitingTime(%v): %v", tc.customers, tc.expected), func(t *testing.T) {
+			actual := averageWaitingTime(tc.customers)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
