@@ -502,3 +502,80 @@ func TestMinOperations(t *testing.T) {
 		})
 	}
 }
+
+func TestProductExceptSelf(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected []int
+	}{
+		{
+			[]int{1, 2, 3, 4},
+			[]int{24, 12, 8, 6},
+		},
+		{
+			[]int{-1, 1, 0, -3, 3},
+			[]int{0, 0, 9, 0, 0},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("productExceptSelf(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := productExceptSelf(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestIncreasingTriplet(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected bool
+	}{
+		{
+			[]int{1, 2, 3, 4},
+			true,
+		},
+		{
+			[]int{-1, 1, 0, -3, 3},
+			true,
+		},
+		{
+			[]int{5, 4, 3, 2, 1},
+			false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("increasingTriplet(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := increasingTriplet(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestCompress(t *testing.T) {
+	cases := []struct {
+		given    []byte
+		expected int
+	}{
+		{
+			[]byte{'a', 'a', 'b', 'b', 'c', 'c', 'c'},
+			6,
+		},
+		{
+			[]byte{'a'},
+			1,
+		},
+		{
+			[]byte{'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'},
+			4,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("compress(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := compress(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

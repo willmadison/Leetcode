@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -681,4 +682,85 @@ func minOperations(logs []string) int {
 	}
 
 	return depth
+}
+
+func productExceptSelf(nums []int) []int {
+	answer := make([]int, len(nums))
+
+	answer[0] = 1
+
+	for i := 1; i < len(nums); i++ {
+		answer[i] = nums[i-1] * answer[i-1]
+	}
+
+	rightProduct := 1
+
+	for i := len(nums) - 1; i >= 0; i-- {
+		answer[i] = answer[i] * rightProduct
+		rightProduct *= nums[i]
+	}
+
+	return answer
+}
+
+func increasingTriplet(nums []int) bool {
+	firstNumber := math.MaxInt64
+	secondNumber := math.MaxInt64
+
+	for _, n := range nums {
+		if n <= firstNumber {
+			firstNumber = n
+		} else if n <= secondNumber {
+			secondNumber = n
+		} else {
+			return true
+		}
+	}
+
+	return false
+}
+
+func compress(chars []byte) int {
+	var buf bytes.Buffer
+
+	if len(chars) > 0 {
+		count := 1
+		lastCharacter := chars[0]
+
+		for i := 1; i < len(chars); i++ {
+			if chars[i] == lastCharacter {
+				count++
+			} else {
+				buf.WriteByte(lastCharacter)
+
+				if count > 1 {
+					buf.WriteString(strconv.Itoa(count))
+				}
+
+				count = 1
+				lastCharacter = chars[i]
+			}
+		}
+
+		if count > 0 {
+			buf.WriteByte(lastCharacter)
+
+			if count > 1 {
+				buf.WriteString(strconv.Itoa(count))
+			}
+		}
+
+	}
+
+	compressed := buf.String()
+
+	if len(compressed) > 0 && len(compressed) <= len(chars) {
+		for i, c := range compressed {
+			chars[i] = byte(c)
+		}
+
+		return len(compressed)
+	}
+
+	return len(chars)
 }
