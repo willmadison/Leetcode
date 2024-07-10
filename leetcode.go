@@ -664,3 +664,21 @@ func reverseWords(s string) string {
 
 	return buf.String()
 }
+
+func minOperations(logs []string) int {
+	var depth int
+
+	for _, log := range logs {
+		switch log {
+		case "./":
+		case "../":
+			if depth > 0 {
+				depth--
+			}
+		default:
+			depth++
+		}
+	}
+
+	return depth
+}

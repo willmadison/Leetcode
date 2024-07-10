@@ -475,3 +475,30 @@ func TestReverseWords(t *testing.T) {
 		})
 	}
 }
+
+func TestMinOperations(t *testing.T) {
+	cases := []struct {
+		given    []string
+		expected int
+	}{
+		{
+			[]string{"d1/", "d2/", "../", "d21/", "./"},
+			2,
+		},
+		{
+			[]string{"d1/", "d2/", "./", "d3/", "../", "d31/"},
+			3,
+		},
+		{
+			[]string{"d1/", "../", "../", "../"},
+			0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minOperations(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := minOperations(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
