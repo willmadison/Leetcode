@@ -579,3 +579,49 @@ func TestCompress(t *testing.T) {
 		})
 	}
 }
+
+func TestIsSubsequence(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s, t string
+		}
+		expected bool
+	}{
+		/*
+			{
+				struct {
+					s, t string
+				}{
+					s: "abc",
+					t: "ahbgdc",
+				},
+				true,
+			},
+			{
+				struct {
+					s, t string
+				}{
+					s: "axc",
+					t: "ahbgdc",
+				},
+				false,
+			},
+		*/
+		{
+			struct {
+				s, t string
+			}{
+				s: "bb",
+				t: "ahbgdc",
+			},
+			false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("isSubsequence(%v, %v): %v", tc.given.s, tc.given.t, tc.expected), func(t *testing.T) {
+			actual := isSubsequence(tc.given.s, tc.given.t)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

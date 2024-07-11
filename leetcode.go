@@ -764,3 +764,69 @@ func compress(chars []byte) int {
 
 	return len(chars)
 }
+
+func moveZeroes(nums []int) {
+	current := 0
+
+	var numZeroes int
+
+	for _, n := range nums {
+		if n == 0 {
+			numZeroes++
+		} else {
+			nums[current] = n
+			current++
+		}
+	}
+
+	for i := len(nums) - numZeroes; i < len(nums); i++ {
+		nums[i] = 0
+	}
+}
+
+func isSubsequence(s, t string) bool {
+	indicesByCharacter := map[rune][]int{}
+
+	for i, c := range t {
+		if _, present := indicesByCharacter[c]; !present {
+			indicesByCharacter[c] = []int{}
+		}
+
+		indicesByCharacter[c] = append(indicesByCharacter[c], i)
+	}
+
+	sIndices := []int{}
+
+	for _, c := range s {
+		if indices, present := indicesByCharacter[c]; !present {
+			return false
+		} else {
+			if len(indices) == 1 || len(sIndices) == 0 {
+				sIndices = append(sIndices, indices[0])
+
+				if len(indices) == 1 {
+					delete(indicesByCharacter, c)
+				}
+			} else {
+				var found bool
+				index := -1
+
+				for _, i := range indices {
+					if i > sIndices[len(sIndices)-1] {
+						index = i
+						found = true
+						break
+					}
+				}
+
+				if !found {
+					return false
+				}
+
+				sIndices = append(sIndices, index)
+			}
+		}
+	}
+
+	return sort.IntsAreSorted(sIndices)
+}
