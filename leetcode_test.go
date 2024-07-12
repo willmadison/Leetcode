@@ -587,26 +587,24 @@ func TestIsSubsequence(t *testing.T) {
 		}
 		expected bool
 	}{
-		/*
-			{
-				struct {
-					s, t string
-				}{
-					s: "abc",
-					t: "ahbgdc",
-				},
-				true,
+		{
+			struct {
+				s, t string
+			}{
+				s: "abc",
+				t: "ahbgdc",
 			},
-			{
-				struct {
-					s, t string
-				}{
-					s: "axc",
-					t: "ahbgdc",
-				},
-				false,
+			true,
+		},
+		{
+			struct {
+				s, t string
+			}{
+				s: "axc",
+				t: "ahbgdc",
 			},
-		*/
+			false,
+		},
 		{
 			struct {
 				s, t string
@@ -621,6 +619,96 @@ func TestIsSubsequence(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("isSubsequence(%v, %v): %v", tc.given.s, tc.given.t, tc.expected), func(t *testing.T) {
 			actual := isSubsequence(tc.given.s, tc.given.t)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestReverseSubstring(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected string
+	}{
+		{
+			given:    "(abcd)",
+			expected: "dcba",
+		},
+		{
+			given:    "(u(love)i)",
+			expected: "iloveu",
+		},
+		{
+			given:    "(ed(et(oc))el)",
+			expected: "leetcode",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("reverseParenthesis(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := reverseParentheses(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestMaximumGain(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s    string
+			x, y int
+		}
+		expected int
+	}{
+		{
+			struct {
+				s    string
+				x, y int
+			}{
+				s: "cdbcbbaaabab",
+				x: 4,
+				y: 5,
+			},
+			19,
+		},
+		{
+			struct {
+				s    string
+				x, y int
+			}{
+				s: "aabbaaxybbaabb",
+				x: 5,
+				y: 4,
+			},
+			20,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("maximumGain(%v, %v, %v): %v", tc.given.s, tc.given.x, tc.given.y, tc.expected), func(t *testing.T) {
+			actual := maximumGain(tc.given.s, tc.given.x, tc.given.y)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestMaxArea(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected int
+	}{
+		{
+			[]int{1, 8, 6, 2, 5, 4, 8, 3, 7},
+			49,
+		},
+		{
+			[]int{1, 1},
+			1,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("maxArea(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := maxArea(tc.given)
 			assert.Equal(t, tc.expected, actual)
 		})
 	}

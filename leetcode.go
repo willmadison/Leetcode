@@ -830,3 +830,168 @@ func isSubsequence(s, t string) bool {
 
 	return sort.IntsAreSorted(sIndices)
 }
+
+type Stack[C any] interface {
+	Push(value C)
+	Pop() (C, error)
+	Peek() (C, error)
+	Size() int
+}
+
+type stack[C any] struct {
+	data []C
+	size int
+}
+
+func NewStack[C any]() Stack[C] {
+	return &stack[C]{data: []C{}}
+}
+
+func (s *stack[C]) Push(value C) {
+	s.data = append(s.data, value)
+	s.size += 1
+}
+
+func (s *stack[C]) Pop() (C, error) {
+	if s.size > 0 {
+		value := s.data[s.size-1]
+		s.size -= 1
+		s.data = s.data[:s.size]
+		return value, nil
+	}
+
+	var zero C
+
+	return zero, errors.New("No Such Element")
+}
+
+func (s *stack[C]) Peek() (C, error) {
+	if s.size > 0 {
+		value := s.data[s.size-1]
+		return value, nil
+	}
+
+	var zero C
+
+	return zero, errors.New("No Such Element")
+}
+
+func (s *stack[C]) String() string {
+	return fmt.Sprintf("%v", s.data)
+}
+
+func (s *stack[C]) Size() int {
+	return s.size
+}
+
+func reverseParentheses(s string) string {
+	result := s
+
+	parenLocaleStack := NewStack[int]()
+
+	for i, c := range s {
+		switch c {
+		case '(':
+			parenLocaleStack.Push(i)
+		case ')':
+			openingLocale, _ := parenLocaleStack.Pop()
+			target := result[openingLocale+1 : i]
+			reversed := reverse(target)
+			result = result[0:openingLocale+1] + reversed + result[i:]
+		default:
+		}
+	}
+
+	result = strings.ReplaceAll(result, "(", "")
+	result = strings.ReplaceAll(result, ")", "")
+
+	return result
+}
+
+func reverse(s string) string {
+	var buf bytes.Buffer
+
+	for i := len(s) - 1; i >= 0; i-- {
+		buf.WriteByte(s[i])
+	}
+
+	return buf.String()
+}
+
+func maximumGain(s string, x, y int) int {
+	var totalScore int
+
+	highPriorityPair := "ab"
+
+	if y > x {
+		highPriorityPair = "ba"
+	}
+
+	lowPriorityPair := "ba"
+
+	if highPriorityPair == "ba" {
+		lowPriorityPair = "ab"
+	}
+
+	firstPassResult := removeSubstring(s, highPriorityPair)
+	pairsRemoved := (len(s) - len(firstPassResult)) / 2
+
+	totalScore += pairsRemoved * max(x, y)
+
+	secondPassResult := removeSubstring(firstPassResult, lowPriorityPair)
+	pairsRemoved = (len(firstPassResult) - len(secondPassResult)) / 2
+
+	totalScore += pairsRemoved * min(x, y)
+
+	return totalScore
+}
+
+func removeSubstring(s, toRemove string) string {
+	runeStack := NewStack[rune]()
+	_ = runeStack
+
+	for _, c := range s {
+		top, err := runeStack.Peek()
+
+		if c == rune(toRemove[1]) && err == nil && top == rune(toRemove[0]) {
+			runeStack.Pop()
+		} else {
+			runeStack.Push(c)
+		}
+	}
+
+	var sb strings.Builder
+
+	runes := []rune{}
+
+	for runeStack.Size() > 0 {
+		top, _ := runeStack.Pop()
+		runes = append(runes, top)
+	}
+
+	for i := len(runes) - 1; i >= 0; i-- {
+		sb.WriteRune(runes[i])
+	}
+
+	return sb.String()
+}
+
+// https://leetcode.com/problems/container-with-most-water/submissions/1318910954/?envType=study-plan-v2&envId=leetcode-75
+func maxArea(heights []int) int {
+	var area int
+	left, right := 0, len(heights)-1
+
+	for left < right {
+		width := right - left
+
+		area = max(area, min(heights[left], heights[right])*width)
+
+		if heights[left] <= heights[right] {
+			left++
+		} else {
+			right--
+		}
+	}
+
+	return area
+}
