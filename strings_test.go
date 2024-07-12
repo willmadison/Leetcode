@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -95,5 +96,76 @@ func TestRegExMatching(t *testing.T) {
 			t.Errorf("for isMatch(%v, %v) - got %v, expected: %v", tc.given, tc.pattern,
 				actual, tc.expected)
 		}
+	}
+}
+
+func TestIsSubsequence(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s, t string
+		}
+		expected bool
+	}{
+		{
+			struct {
+				s, t string
+			}{
+				s: "abc",
+				t: "ahbgdc",
+			},
+			true,
+		},
+		{
+			struct {
+				s, t string
+			}{
+				s: "axc",
+				t: "ahbgdc",
+			},
+			false,
+		},
+		{
+			struct {
+				s, t string
+			}{
+				s: "bb",
+				t: "ahbgdc",
+			},
+			false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("isSubsequence(%v, %v): %v", tc.given.s, tc.given.t, tc.expected), func(t *testing.T) {
+			actual := isSubsequence(tc.given.s, tc.given.t)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestReverseSubstring(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected string
+	}{
+		{
+			given:    "(abcd)",
+			expected: "dcba",
+		},
+		{
+			given:    "(u(love)i)",
+			expected: "iloveu",
+		},
+		{
+			given:    "(ed(et(oc))el)",
+			expected: "leetcode",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("reverseParenthesis(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := reverseParentheses(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
 	}
 }
