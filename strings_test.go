@@ -169,3 +169,30 @@ func TestReverseSubstring(t *testing.T) {
 		})
 	}
 }
+
+func TestCountOfAtoms(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected string
+	}{
+		{
+			given:    "H2O",
+			expected: "H2O",
+		},
+		{
+			given:    "Mg(OH)2",
+			expected: "H2MgO2",
+		},
+		{
+			given:    "K4(ON(SO3)2)2",
+			expected: "K4N2O14S4",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("countOfAtoms(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := countOfAtoms(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

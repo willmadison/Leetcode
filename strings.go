@@ -3,7 +3,9 @@ package leetcode
 import (
 	"bytes"
 	"sort"
+	"strconv"
 	"strings"
+	"unicode"
 )
 
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
@@ -240,4 +242,100 @@ func reverse(s string) string {
 	}
 
 	return buf.String()
+}
+
+func countOfAtoms(formula string) string {
+	var parseFormula func(string) map[string]int
+
+	var i int
+	parseFormula = func(f string) map[string]int {
+		currentCountsByAtom := map[string]int{}
+
+		for i < len(f) && f[i] != ')' {
+			if f[i] == '(' {
+				i++
+				nestedCount := parseFormula(f)
+
+				for atom, count := range nestedCount {
+					if _, present := currentCountsByAtom[atom]; !present {
+						currentCountsByAtom[atom] = 0
+					}
+
+					currentCountsByAtom[atom] += count
+				}
+			} else {
+				var currentAtomSb strings.Builder
+				currentAtomSb.WriteByte(f[i])
+				i++
+
+				for i < len(f) && unicode.IsLower(rune(f[i])) {
+					currentAtomSb.WriteByte(f[i])
+					i++
+				}
+
+				var currentCountSb strings.Builder
+
+				for i < len(f) && unicode.IsDigit(rune(f[i])) {
+					currentCountSb.WriteByte(f[i])
+					i++
+				}
+
+				currentAtom := currentAtomSb.String()
+				currentCount := 1
+
+				if currentCountSb.Len() > 0 {
+					currentCount, _ = strconv.Atoi(currentCountSb.String())
+				}
+
+				if _, present := currentCountsByAtom[currentAtom]; !present {
+					currentCountsByAtom[currentAtom] = 0
+				}
+				currentCountsByAtom[currentAtom] += currentCount
+			}
+		}
+
+		i++
+		var multiplierSb strings.Builder
+
+		for i < len(f) && unicode.IsDigit(rune(f[i])) {
+			multiplierSb.WriteByte(f[i])
+			i++
+		}
+
+		if multiplierSb.Len() > 0 {
+			multiplier, _ := strconv.Atoi(multiplierSb.String())
+
+			for atom := range currentCountsByAtom {
+				currentCountsByAtom[atom] *= multiplier
+			}
+		}
+
+		return currentCountsByAtom
+	}
+
+	atoms := []string{}
+
+	countsByAtom := parseFormula(formula)
+
+	for atom := range countsByAtom {
+		atoms = append(atoms, atom)
+	}
+
+	sort.Slice(atoms, func(i, j int) bool {
+		return atoms[i] < atoms[j]
+	})
+
+	var sb strings.Builder
+
+	for _, atom := range atoms {
+		count := countsByAtom[atom]
+
+		sb.WriteString(atom)
+
+		if count > 1 {
+			sb.WriteString(strconv.Itoa(count))
+		}
+	}
+
+	return sb.String()
 }
