@@ -1721,7 +1721,7 @@ class ArraysTests {
                     -1,
                 ),
                 Arguments.of(
-                    intArrayOf(0,0,0,1,0,1,1,0),
+                    intArrayOf(0, 0, 0, 1, 0, 1, 1, 0),
                     3,
                     3,
                 ),
@@ -1774,6 +1774,24 @@ class ArraysTests {
                         intArrayOf(1, 3)
                     ),
                     20L,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun minDifferenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 3, 2, 4),
+                    0,
+                ),
+                Arguments.of(
+                    intArrayOf(1, 5, 0, 10, 14),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3, 100, 20),
+                    0,
                 ),
             )
         }
@@ -2420,11 +2438,18 @@ class ArraysTests {
         assertThat(actual).isEqualTo(expected)
     }
 
-   @ParameterizedTest(name = "intersect({0}, {1}) = {2}")
+    @ParameterizedTest(name = "intersect({0}, {1}) = {2}")
     @MethodSource("intersectProvider")
     fun intersect(nums1: IntArray, nums2: IntArray, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.intersect(nums1, nums2)
         assertThat(actual.asIterable()).containsExactlyInAnyOrderElementsOf(expected.asIterable())
+    }
+
+    @ParameterizedTest(name = "minDifference({0}) = {1}")
+    @MethodSource("minDifferenceProvider")
+    fun minDifference(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minDifference(nums)
+        assertThat(actual).isEqualTo(expected)
     }
 
 }

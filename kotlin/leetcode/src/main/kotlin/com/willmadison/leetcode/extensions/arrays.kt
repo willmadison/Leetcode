@@ -2288,3 +2288,24 @@ fun intersect(nums1: IntArray, nums2: IntArray): IntArray {
 
     return rawIntersection.toIntArray()
 }
+
+fun minDifference(nums: IntArray): Int {
+    val n = nums.size
+
+    if (n <= 4) return 0
+
+    nums.sort()
+
+    var minDifference = Int.MAX_VALUE
+
+    var left = 0
+    var right = n - 4
+
+    while (left < 4) {
+        minDifference = minOf(minDifference, nums[right] - nums[left])
+        left++
+        right++
+    }
+
+    return minDifference
+}
