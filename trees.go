@@ -6,11 +6,7 @@ type TreeNode struct {
 }
 
 func createBinaryTree(descriptions [][]int) *TreeNode {
-	type nodeMetadata struct {
-		parent *TreeNode
-		isLeft bool
-	}
-	metadataByNode := map[*TreeNode]nodeMetadata{}
+	ancestryByNode := map[*TreeNode]*TreeNode{}
 	nodesByValue := map[int]*TreeNode{}
 
 	for _, description := range descriptions {
@@ -37,13 +33,13 @@ func createBinaryTree(descriptions [][]int) *TreeNode {
 			parentNode.Right = node
 		}
 
-		metadataByNode[node] = nodeMetadata{parent: parentNode, isLeft: isLeft}
+		ancestryByNode[node] = parentNode
 	}
 
 	var root *TreeNode
 
 	for _, n := range nodesByValue {
-		if _, present := metadataByNode[n]; !present {
+		if _, present := ancestryByNode[n]; !present {
 			root = n
 			break
 		}
