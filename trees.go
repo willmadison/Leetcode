@@ -1,5 +1,7 @@
 package leetcode
 
+import "strings"
+
 type TreeNode struct {
 	Val         int
 	Left, Right *TreeNode
@@ -46,4 +48,118 @@ func createBinaryTree(descriptions [][]int) *TreeNode {
 	}
 
 	return root
+}
+
+type pathEntry struct {
+	node      *TreeNode
+	direction string
+}
+
+func getDirections(root *TreeNode, start, dest int) string {
+	startNode := findNode(root, start)
+
+	ancestryByNode := populateAncestry(root)
+
+	q := NewQueue[*TreeNode]()
+	q.Enqueue(startNode)
+
+	visited := map[*TreeNode]struct{}{}
+
+	path := map[*TreeNode]pathEntry{}
+
+	visited[startNode] = struct{}{}
+
+	for q.Size() > 0 {
+		current, _ := q.Dequeue()
+
+		if current.Val == dest {
+			return retracePath(current, path)
+		}
+
+		if parent, present := ancestryByNode[current.Val]; present {
+			if _, seen := visited[parent]; !seen {
+				q.Enqueue(parent)
+				path[parent] = pathEntry{current, "U"}
+				visited[parent] = struct{}{}
+			}
+		}
+
+		if _, seen := visited[current.Left]; !seen && current.Left != nil {
+			q.Enqueue(current.Left)
+			path[current.Left] = pathEntry{current, "L"}
+			visited[current.Left] = struct{}{}
+		}
+
+		if _, seen := visited[current.Right]; !seen && current.Right != nil {
+			q.Enqueue(current.Right)
+			path[current.Right] = pathEntry{current, "R"}
+			visited[current.Right] = struct{}{}
+		}
+	}
+
+	return ""
+}
+
+func findNode(node *TreeNode, needle int) *TreeNode {
+	if node == nil {
+		return nil
+	}
+
+	if node.Val == needle {
+		return node
+	}
+
+	result := findNode(node.Left, needle)
+
+	if result != nil {
+		return result
+	}
+
+	return findNode(node.Right, needle)
+}
+
+func populateAncestry(root *TreeNode) map[int]*TreeNode {
+	ancestryByNode := map[int]*TreeNode{}
+
+	var doPopulateAncestry func(*TreeNode)
+
+	doPopulateAncestry = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+
+		if n.Left != nil {
+			ancestryByNode[n.Left.Val] = n
+			doPopulateAncestry(n.Left)
+		}
+
+		if n.Right != nil {
+			ancestryByNode[n.Right.Val] = n
+			doPopulateAncestry(n.Right)
+		}
+	}
+
+	doPopulateAncestry(root)
+
+	return ancestryByNode
+}
+
+func retracePath(node *TreeNode, path map[*TreeNode]pathEntry) string {
+	nodePath := []string{}
+
+	current, present := path[node]
+
+	for present {
+		nodePath = append(nodePath, current.direction)
+		node = path[node].node
+		current, present = path[node]
+	}
+
+	var pathSb strings.Builder
+
+	for i := len(nodePath) - 1; i >= 0; i-- {
+		pathSb.WriteString(nodePath[i])
+	}
+
+	return pathSb.String()
 }
