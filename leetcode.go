@@ -462,3 +462,48 @@ func maxArea(heights []int) int {
 
 	return area
 }
+
+func survivedRobotsHealths(positions, healths []int, directions string) []int {
+	robotStack := NewStack[int]()
+	indices := []int{}
+
+	for i := range positions {
+		indices = append(indices, i)
+	}
+
+	sort.Slice(indices, func(i, j int) bool {
+		return positions[indices[i]] < positions[indices[j]]
+	})
+
+	for _, i := range indices {
+		if directions[i] == 'R' {
+			robotStack.Push(i)
+		} else {
+			for robotStack.Size() > 0 && healths[i] > 0 {
+				top, _ := robotStack.Pop()
+
+				if healths[top] > healths[i] {
+					healths[top]--
+					healths[i] = 0
+					robotStack.Push(top)
+				} else if healths[top] < healths[i] {
+					healths[i]--
+					healths[top] = 0
+				} else {
+					healths[i] = 0
+					healths[top] = 0
+				}
+			}
+		}
+	}
+
+	result := []int{}
+
+	for i := range indices {
+		if healths[i] > 0 {
+			result = append(result, healths[i])
+		}
+	}
+
+	return result
+}

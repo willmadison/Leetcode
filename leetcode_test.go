@@ -417,3 +417,62 @@ func TestMaxArea(t *testing.T) {
 		})
 	}
 }
+
+func TestSurvivedRobotsHealths(t *testing.T) {
+	cases := []struct {
+		given struct {
+			positions  []int
+			healths    []int
+			directions string
+		}
+		expected []int
+	}{
+		/*
+			{
+				struct {
+					positions  []int
+					healths    []int
+					directions string
+				}{
+					positions:  []int{5, 4, 3, 2, 1},
+					healths:    []int{2, 17, 9, 15, 10},
+					directions: "RRRRR",
+				},
+				[]int{2, 17, 9, 15, 10},
+			},
+		*/
+		{
+			struct {
+				positions  []int
+				healths    []int
+				directions string
+			}{
+				positions:  []int{3, 5, 2, 6},
+				healths:    []int{10, 10, 15, 12},
+				directions: "RLRL",
+			},
+			[]int{14},
+		},
+		/*
+			{
+				struct {
+					positions  []int
+					healths    []int
+					directions string
+				}{
+					positions:  []int{13, 3},
+					healths:    []int{17, 2},
+					directions: "LR",
+				},
+				[]int{16},
+			},
+		*/
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("survivedRobotsHealths(%v, %v, %v): %v", tc.given.positions, tc.given.healths, tc.given.directions, tc.expected), func(t *testing.T) {
+			actual := survivedRobotsHealths(tc.given.positions, tc.given.healths, tc.given.directions)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
