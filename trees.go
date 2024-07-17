@@ -1,6 +1,8 @@
 package leetcode
 
-import "strings"
+import (
+	"strings"
+)
 
 type TreeNode struct {
 	Val         int
@@ -162,4 +164,45 @@ func retracePath(node *TreeNode, path map[*TreeNode]pathEntry) string {
 	}
 
 	return pathSb.String()
+}
+
+func delNodes(root *TreeNode, valuesToDelete []int) []*TreeNode {
+	deletionLookup := map[int]struct{}{}
+
+	for _, value := range valuesToDelete {
+		deletionLookup[value] = struct{}{}
+	}
+
+	orphaned := []*TreeNode{}
+
+	root, orphaned = handleDeletion(root, deletionLookup, orphaned)
+
+	if root != nil {
+		orphaned = append(orphaned, root)
+	}
+
+	return orphaned
+}
+
+func handleDeletion(node *TreeNode, deletionLookup map[int]struct{}, orphaned []*TreeNode) (*TreeNode, []*TreeNode) {
+	if node == nil {
+		return nil, orphaned
+	}
+
+	node.Left, orphaned = handleDeletion(node.Left, deletionLookup, orphaned)
+	node.Right, orphaned = handleDeletion(node.Right, deletionLookup, orphaned)
+
+	if _, markedForDeletion := deletionLookup[node.Val]; markedForDeletion {
+		if node.Left != nil {
+			orphaned = append(orphaned, node.Left)
+		}
+
+		if node.Right != nil {
+			orphaned = append(orphaned, node.Right)
+		}
+
+		return nil, orphaned
+	}
+
+	return node, orphaned
 }

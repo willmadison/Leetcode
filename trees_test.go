@@ -95,3 +95,52 @@ func TestGetDirections(t *testing.T) {
 		})
 	}
 }
+
+func TestDelNodes(t *testing.T) {
+	nineteenNode := &TreeNode{
+		Val: 19,
+	}
+
+	twentyNode := &TreeNode{
+		Val: 20,
+		Left: &TreeNode{
+			Val: 15,
+		},
+		Right: &TreeNode{
+			Val: 17,
+		},
+	}
+
+	cases := []struct {
+		given struct {
+			root     *TreeNode
+			toDelete []int
+		}
+		expected []*TreeNode
+	}{
+		{
+			given: struct {
+				root     *TreeNode
+				toDelete []int
+			}{
+				root: &TreeNode{
+					Val:  50,
+					Left: twentyNode,
+					Right: &TreeNode{
+						Val:  80,
+						Left: nineteenNode,
+					},
+				},
+				toDelete: []int{80, 50},
+			},
+			expected: []*TreeNode{nineteenNode, twentyNode},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("delNodes(%v, %v): %v", tc.given.root, tc.given.toDelete, tc.expected), func(t *testing.T) {
+			actual := delNodes(tc.given.root, tc.given.toDelete)
+			assert.ElementsMatch(t, tc.expected, actual)
+		})
+	}
+}

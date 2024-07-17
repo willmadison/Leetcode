@@ -37,7 +37,7 @@ func (q *queue[C]) Dequeue() (C, error) {
 
 	var zero C
 
-	return zero, errors.New("No Such Element")
+	return zero, errors.New("no such element")
 }
 
 func (q *queue[C]) Peek() (C, error) {
@@ -48,7 +48,7 @@ func (q *queue[C]) Peek() (C, error) {
 
 	var zero C
 
-	return zero, errors.New("No Such Element")
+	return zero, errors.New("no such element")
 }
 
 func (q *queue[C]) String() string {
@@ -90,7 +90,7 @@ func (s *stack[C]) Pop() (C, error) {
 
 	var zero C
 
-	return zero, errors.New("No Such Element")
+	return zero, errors.New("no such element")
 }
 
 func (s *stack[C]) Peek() (C, error) {
@@ -101,7 +101,7 @@ func (s *stack[C]) Peek() (C, error) {
 
 	var zero C
 
-	return zero, errors.New("No Such Element")
+	return zero, errors.New("no such element")
 }
 
 func (s *stack[C]) String() string {
