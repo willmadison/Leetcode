@@ -476,3 +476,26 @@ func TestSurvivedRobotsHealths(t *testing.T) {
 		})
 	}
 }
+
+func TestLuckyNumbers(t *testing.T) {
+	cases := []struct {
+		given    [][]int
+		expected []int
+	}{
+		{
+			[][]int{
+				{3, 7, 8},
+				{9, 11, 13},
+				{15, 16, 17},
+			},
+			[]int{15},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("luckyNumbers(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := luckyNumbers(tc.given)
+			assert.ElementsMatch(t, tc.expected, actual)
+		})
+	}
+}

@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"math"
 	"strings"
 )
 
@@ -205,4 +206,70 @@ func handleDeletion(node *TreeNode, deletionLookup map[int]struct{}, orphaned []
 	}
 
 	return node, orphaned
+}
+
+func luckyNumbers(matrix [][]int) []int {
+	minimumByRow := map[int]int{}
+	maximumByColumn := map[int]int{}
+
+	for row, values := range matrix {
+		min := determineMinimum(values)
+		minimumByRow[row] = min
+	}
+
+	columns := [][]int{}
+
+	for i := 0; i < len(matrix[0]); i++ {
+		columns = append(columns, []int{})
+	}
+
+	for column := range columns {
+		for row := range matrix {
+			columns[column] = append(columns[column], matrix[row][column])
+		}
+
+		maximum := determineMaximum(columns[column])
+		maximumByColumn[column] = maximum
+	}
+
+	luckies := []int{}
+
+	for row := range matrix {
+		for col := range matrix[row] {
+			min := minimumByRow[row]
+			max := maximumByColumn[col]
+
+			isLucky := min == max
+
+			if isLucky {
+				luckies = append(luckies, min)
+			}
+		}
+	}
+
+	return luckies
+}
+
+func determineMinimum(values []int) int {
+	min := math.MaxInt64
+
+	for _, n := range values {
+		if n < min {
+			min = n
+		}
+	}
+
+	return min
+}
+
+func determineMaximum(values []int) int {
+	maximum := math.MinInt64
+
+	for _, n := range values {
+		if n > maximum {
+			maximum = n
+		}
+	}
+
+	return maximum
 }
