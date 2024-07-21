@@ -334,8 +334,6 @@ func topologicalSort(edges [][]int, n int) []int {
 
 		visited[node] = 2
 		order = append(order, node)
-
-		return
 	}
 
 	for i := 1; i <= n; i++ {
