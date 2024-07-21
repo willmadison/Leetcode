@@ -499,3 +499,46 @@ func TestLuckyNumbers(t *testing.T) {
 		})
 	}
 }
+
+func TestBuildMatrix(t *testing.T) {
+	cases := []struct {
+		given struct {
+			k             int
+			rowConditions [][]int
+			colConditions [][]int
+		}
+		expected [][]int
+	}{
+		{
+			struct {
+				k             int
+				rowConditions [][]int
+				colConditions [][]int
+			}{
+				k:             3,
+				rowConditions: [][]int{{1, 2}, {3, 2}},
+				colConditions: [][]int{{2, 1}, {3, 2}},
+			},
+			[][]int{{3, 0, 0}, {0, 0, 1}, {0, 2, 0}},
+		},
+		{
+			struct {
+				k             int
+				rowConditions [][]int
+				colConditions [][]int
+			}{
+				k:             3,
+				rowConditions: [][]int{{1, 2}, {2, 3}, {3, 1}, {2, 3}},
+				colConditions: [][]int{{2, 1}},
+			},
+			[][]int{},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("buildMatrix(%v, %v, %v): %v", tc.given.k, tc.given.rowConditions, tc.given.colConditions, tc.expected), func(t *testing.T) {
+			actual := buildMatrix(tc.given.k, tc.given.rowConditions, tc.given.colConditions)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

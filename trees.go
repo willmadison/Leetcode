@@ -273,3 +273,84 @@ func determineMaximum(values []int) int {
 
 	return maximum
 }
+
+func buildMatrix(k int, rowConditions [][]int, colConditions [][]int) [][]int {
+	rowOrder := topologicalSort(rowConditions, k)
+	colOrder := topologicalSort(colConditions, k)
+
+	if len(rowOrder) == 0 || len(colOrder) == 0 {
+		return [][]int{}
+	}
+
+	matrix := make([][]int, k)
+
+	for i := 0; i < k; i++ {
+		matrix[i] = make([]int, k)
+	}
+
+	for i := 0; i < k; i++ {
+		for j := 0; j < k; j++ {
+			if rowOrder[i] == colOrder[j] {
+				matrix[i][j] = rowOrder[i]
+			}
+		}
+	}
+
+	return matrix
+}
+
+func topologicalSort(edges [][]int, n int) []int {
+	var adjacencyList [][]int
+
+	for i := 0; i <= n; i++ {
+		adjacencyList = append(adjacencyList, []int{})
+	}
+
+	for _, edge := range edges {
+		adjacencyList[edge[0]] = append(adjacencyList[edge[0]], edge[1])
+	}
+
+	order := []int{}
+	visited := make([]int, n+1)
+	var cycleDetected bool
+
+	var dfs func(int)
+
+	dfs = func(node int) {
+		visited[node] = 1
+
+		for _, neighbor := range adjacencyList[node] {
+			if visited[neighbor] == 0 {
+				dfs(neighbor)
+
+				if cycleDetected {
+					return
+				}
+			} else if visited[neighbor] == 1 {
+				cycleDetected = true
+				return
+			}
+		}
+
+		visited[node] = 2
+		order = append(order, node)
+
+		return
+	}
+
+	for i := 1; i <= n; i++ {
+		if visited[i] == 0 {
+			dfs(i)
+
+			if cycleDetected {
+				return []int{}
+			}
+		}
+	}
+
+	for i, j := 0, len(order)-1; i < j; i, j = i+1, j-1 {
+		order[i], order[j] = order[j], order[i]
+	}
+
+	return order
+}
