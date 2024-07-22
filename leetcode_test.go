@@ -542,3 +542,123 @@ func TestBuildMatrix(t *testing.T) {
 		})
 	}
 }
+
+func TestSortPeople(t *testing.T) {
+	cases := []struct {
+		given struct {
+			names   []string
+			heights []int
+		}
+		expected []string
+	}{
+		{
+			struct {
+				names   []string
+				heights []int
+			}{
+				[]string{"Mary", "John", "Emma"},
+				[]int{180, 165, 170},
+			},
+			[]string{"Mary", "Emma", "John"},
+		},
+		{
+			struct {
+				names   []string
+				heights []int
+			}{
+				[]string{"Alice", "Bob", "Bob"},
+				[]int{155, 185, 150},
+			},
+			[]string{"Bob", "Alice", "Bob"},
+		},
+		{
+			struct {
+				names   []string
+				heights []int
+			}{
+				[]string{"IEO", "Sgizfdfrims", "QTASHKQ", "Vk", "RPJOFYZUBFSIYp", "EPCFFt", "VOYGWWNCf", "WSpmqvb"},
+				[]int{17233, 32521, 14087, 42738, 46669, 65662, 43204, 8224},
+			},
+			[]string{"EPCFFt", "RPJOFYZUBFSIYp", "VOYGWWNCf", "Vk", "Sgizfdfrims", "IEO", "QTASHKQ", "WSpmqvb"},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("sortPeople(%v, %v): %v", tc.given.names, tc.given.heights, tc.expected), func(t *testing.T) {
+			actual := sortPeople(tc.given.names, tc.given.heights)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestRemoveElement(t *testing.T) {
+	cases := []struct {
+		given struct {
+			nums []int
+			val  int
+		}
+		expected int
+	}{
+		{
+			struct {
+				nums []int
+				val  int
+			}{
+				[]int{3, 2, 2, 3},
+				3,
+			},
+			2,
+		},
+		{
+			struct {
+				nums []int
+				val  int
+			}{
+				[]int{0, 1, 2, 2, 3, 0, 4, 2},
+				2,
+			},
+			5,
+		},
+		{
+			struct {
+				nums []int
+				val  int
+			}{
+				[]int{1},
+				1,
+			},
+			0,
+		},
+		{
+			struct {
+				nums []int
+				val  int
+			}{
+				[]int{3, 3},
+				3,
+			},
+			0,
+		},
+		{
+			struct {
+				nums []int
+				val  int
+			}{
+				[]int{2, 2, 3},
+				2,
+			},
+			1,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("removeElement(%v, %v): %v", tc.given.nums, tc.given.val, tc.expected), func(t *testing.T) {
+			actual := removeElement(tc.given.nums, tc.given.val)
+			assert.Equal(t, tc.expected, actual)
+
+			for i := 0; i < tc.expected; i++ {
+				assert.NotEqual(t, tc.given.nums[i], tc.given.val)
+			}
+		})
+	}
+}

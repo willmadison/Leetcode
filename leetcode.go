@@ -507,3 +507,49 @@ func survivedRobotsHealths(positions, healths []int, directions string) []int {
 
 	return result
 }
+
+func sortPeople(names []string, heights []int) []string {
+	type person struct {
+		name   string
+		height int
+	}
+
+	people := []person{}
+
+	for i, name := range names {
+		people = append(people, person{name, heights[i]})
+	}
+
+	sort.Slice(people, func(i, j int) bool {
+		return people[i].height > people[j].height
+	})
+
+	sortedNames := []string{}
+
+	for _, person := range people {
+		sortedNames = append(sortedNames, person.name)
+	}
+
+	return sortedNames
+}
+
+func removeElement(nums []int, val int) int {
+	if len(nums) == 1 && nums[0] == val {
+		return 0
+	}
+
+	replacementIndex := len(nums) - 1
+
+	for i, n := range nums {
+		for replacementIndex >= 0 && nums[replacementIndex] == val {
+			replacementIndex--
+		}
+
+		if n == val && i <= replacementIndex {
+			nums[i], nums[replacementIndex] = nums[replacementIndex], nums[i]
+			replacementIndex--
+		}
+	}
+
+	return replacementIndex + 1
+}
