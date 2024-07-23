@@ -662,3 +662,22 @@ func TestRemoveElement(t *testing.T) {
 		})
 	}
 }
+
+func TestFrequencySort(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected []int
+	}{
+		{
+			given:    []int{1, 1, 2, 2, 2, 3},
+			expected: []int{3, 1, 1, 2, 2, 2},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("frequencySort(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := frequencySort(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

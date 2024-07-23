@@ -553,3 +553,46 @@ func removeElement(nums []int, val int) int {
 
 	return replacementIndex + 1
 }
+
+func frequencySort(nums []int) []int {
+	countsByNumber := map[int]int{}
+
+	for _, n := range nums {
+		countsByNumber[n]++
+	}
+
+	sort.Slice(nums, func(i, j int) bool {
+		if countsByNumber[nums[i]] == countsByNumber[nums[j]] {
+			return nums[i] > nums[j]
+		}
+
+		return countsByNumber[nums[i]] < countsByNumber[nums[j]]
+	})
+
+	return nums
+}
+
+func mySqrt(x int) int {
+	if x < 2 {
+		return x
+	}
+
+	value := 1
+	left, right := 2, x/2
+
+	for left <= right {
+		midpoint := left + (right-left)/2
+		value = midpoint * midpoint
+
+		switch {
+		case value > x:
+			right = midpoint - 1
+		case value < x:
+			left = midpoint + 1
+		default:
+			return midpoint
+		}
+	}
+
+	return right
+}
