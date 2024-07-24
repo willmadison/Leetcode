@@ -596,3 +596,72 @@ func mySqrt(x int) int {
 
 	return right
 }
+
+func sortJumbled(mapping []int, nums []int) []int {
+	mappedValues := mapNumbers(mapping, nums)
+	indexOfLookup := map[int]int{}
+
+	for i, num := range nums {
+		indexOfLookup[num] = i
+	}
+
+	sort.Slice(nums, func(i, j int) bool {
+		if mappedValues[nums[i]] == mappedValues[nums[j]] {
+			return indexOfLookup[nums[i]] < indexOfLookup[nums[j]]
+		}
+
+		return mappedValues[nums[i]] < mappedValues[nums[j]]
+	})
+
+	return nums
+}
+
+func mapNumbers(mapping []int, nums []int) map[int]int {
+	mappedValues := map[int]int{}
+
+	for _, num := range nums {
+		mappedValues[num] = doMapping(mapping, num)
+	}
+
+	return mappedValues
+}
+
+func doMapping(mapping []int, num int) int {
+	digits := getDigits(num)
+
+	var sb strings.Builder
+
+	for _, digit := range digits {
+		sb.WriteString(strconv.Itoa(mapping[digit]))
+	}
+
+	mapped, _ := strconv.Atoi(sb.String())
+
+	return mapped
+}
+
+func getDigits(num int) []int {
+	if num == 0 {
+		return []int{0}
+	}
+
+	digits := []int{}
+
+	i := num
+
+	for i > 0 {
+		digit := i % 10
+		digits = append(digits, digit)
+		i /= 10
+	}
+
+	left, right := 0, len(digits)-1
+
+	for left < right {
+		digits[left], digits[right] = digits[right], digits[left]
+		left++
+		right--
+	}
+
+	return digits
+}
