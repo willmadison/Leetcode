@@ -599,17 +599,8 @@ func mySqrt(x int) int {
 
 func sortJumbled(mapping []int, nums []int) []int {
 	mappedValues := mapNumbers(mapping, nums)
-	indexOfLookup := map[int]int{}
 
-	for i, num := range nums {
-		indexOfLookup[num] = i
-	}
-
-	sort.Slice(nums, func(i, j int) bool {
-		if mappedValues[nums[i]] == mappedValues[nums[j]] {
-			return indexOfLookup[nums[i]] < indexOfLookup[nums[j]]
-		}
-
+	sort.SliceStable(nums, func(i, j int) bool {
 		return mappedValues[nums[i]] < mappedValues[nums[j]]
 	})
 
