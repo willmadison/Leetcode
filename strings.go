@@ -339,3 +339,23 @@ func countOfAtoms(formula string) string {
 
 	return sb.String()
 }
+
+func minimumDeletions(s string) int {
+	n := len(s)
+	runeStack := NewStack[rune]()
+
+	var deletions int
+
+	for i := 0; i < n; i++ {
+		top, err := runeStack.Peek()
+
+		if err == nil && top == 'b' && s[i] == 'a' {
+			runeStack.Pop()
+			deletions++
+		} else {
+			runeStack.Push(rune(s[i]))
+		}
+	}
+
+	return deletions
+}

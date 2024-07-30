@@ -196,3 +196,26 @@ func TestCountOfAtoms(t *testing.T) {
 		})
 	}
 }
+
+func TestMinimumDeletions(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected int
+	}{
+		{
+			given:    "aababbab",
+			expected: 2,
+		},
+		{
+			given:    "bbaaaaabb",
+			expected: 2,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minimumDeletions(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := minimumDeletions(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
