@@ -33,3 +33,39 @@ func TestNumTeams(t *testing.T) {
 		})
 	}
 }
+
+func TestMinHeightShelves(t *testing.T) {
+	cases := []struct {
+		given struct {
+			books      [][]int
+			shelfWidth int
+		}
+		expected int
+	}{
+		{
+			struct {
+				books      [][]int
+				shelfWidth int
+			}{
+				[][]int{
+					{1, 1},
+					{2, 3},
+					{2, 3},
+					{1, 1},
+					{1, 1},
+					{1, 1},
+					{1, 2},
+				},
+				4,
+			},
+			6,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minHeightShelves(%v, %v) = %v", tc.given.books, tc.given.shelfWidth, tc.expected), func(t *testing.T) {
+			actual := minHeightShelves(tc.given.books, tc.given.shelfWidth)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

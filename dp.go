@@ -34,3 +34,46 @@ func numTeams(ratings []int) int {
 
 	return teams
 }
+
+func minHeightShelves(books [][]int, shelfWidth int) int {
+
+	memo := make([][]int, len(books))
+
+	for i := range memo {
+		memo[i] = make([]int, shelfWidth+1)
+	}
+
+	var helper func(i, remainingShelfWidth, maxHeight int) int
+
+	helper = func(i, remainingShelfWidth, maxHeight int) int {
+		currentBook := books[i]
+		updatedMaxHeight := max(maxHeight, currentBook[1])
+
+		if i == len(books)-1 {
+			if remainingShelfWidth >= currentBook[0] {
+				return updatedMaxHeight
+			}
+
+			return maxHeight + currentBook[1]
+		}
+
+		if memo[i][remainingShelfWidth] != 0 {
+			return memo[i][remainingShelfWidth]
+		} else {
+			option1Height := maxHeight + helper(i+1, shelfWidth-currentBook[0], currentBook[1])
+
+			if remainingShelfWidth >= currentBook[0] {
+				option2Height := helper(i+1, remainingShelfWidth-currentBook[0], updatedMaxHeight)
+
+				memo[i][remainingShelfWidth] = min(option1Height, option2Height)
+
+				return memo[i][remainingShelfWidth]
+			}
+
+			memo[i][remainingShelfWidth] = option1Height
+			return memo[i][remainingShelfWidth]
+		}
+	}
+
+	return helper(0, shelfWidth, 0)
+}
