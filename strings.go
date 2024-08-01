@@ -359,3 +359,23 @@ func minimumDeletions(s string) int {
 
 	return deletions
 }
+
+func countSeniors(details []string) int {
+	var numSeniors int
+
+	var extractAge = func(s string) int {
+		rawAge := s[11:13]
+		i, _ := strconv.Atoi(rawAge)
+		return i
+	}
+
+	for _, detail := range details {
+		age := extractAge(detail)
+
+		if age > 60 {
+			numSeniors++
+		}
+	}
+
+	return numSeniors
+}
