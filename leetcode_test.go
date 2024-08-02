@@ -729,3 +729,34 @@ func TestSortJumbled(t *testing.T) {
 		})
 	}
 }
+
+func TestMinSwaps(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected int
+	}{
+		{
+			[]int{0, 1, 0, 1, 1, 0, 0},
+			1,
+		},
+		{
+			[]int{0, 1, 1, 1, 0, 0, 1, 1, 0},
+			2,
+		},
+		{
+			[]int{0, 1, 1, 1, 1, 0, 0},
+			0,
+		},
+		{
+			[]int{1, 1, 0, 0, 1},
+			0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minSwaps(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := minSwaps(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

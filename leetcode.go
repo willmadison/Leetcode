@@ -656,3 +656,27 @@ func getDigits(num int) []int {
 
 	return digits
 }
+
+func minSwaps(nums []int) int {
+	minSwaps := math.MaxInt64
+
+	numOnes := sum(nums)
+
+	onesInWindow := nums[0]
+	var end int
+
+	for start := 0; start < len(nums); start++ {
+		if start != 0 {
+			onesInWindow -= nums[start-1]
+		}
+
+		for end-start+1 < numOnes {
+			end++
+			onesInWindow += nums[end%len(nums)]
+		}
+
+		minSwaps = min(minSwaps, numOnes-onesInWindow)
+	}
+
+	return minSwaps
+}
