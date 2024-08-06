@@ -760,3 +760,112 @@ func TestMinSwaps(t *testing.T) {
 		})
 	}
 }
+
+func TestCanBeEqual(t *testing.T) {
+	cases := []struct {
+		given struct {
+			target, source []int
+		}
+		expected bool
+	}{
+		{
+			struct {
+				target, source []int
+			}{
+				target: []int{1, 2, 3, 4},
+				source: []int{2, 4, 1, 3},
+			},
+			true,
+		},
+		{
+			struct {
+				target, source []int
+			}{
+				target: []int{3, 7, 9},
+				source: []int{3, 7, 11},
+			},
+			false,
+		},
+		{
+			struct {
+				target, source []int
+			}{
+				target: []int{7},
+				source: []int{7},
+			},
+			true,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("canBeEqual(%v, %v): %v", tc.given.target, tc.given.source, tc.expected), func(t *testing.T) {
+			actual := canBeEqual(tc.given.target, tc.given.source)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestKthDistinct(t *testing.T) {
+	cases := []struct {
+		given struct {
+			strings []string
+			k       int
+		}
+		expected string
+	}{
+		{
+			struct {
+				strings []string
+				k       int
+			}{
+				strings: []string{"d", "b", "c", "b", "c", "a"},
+				k:       2,
+			},
+			"a",
+		},
+		{
+			struct {
+				strings []string
+				k       int
+			}{
+				strings: []string{"aaa", "aa", "a"},
+				k:       1,
+			},
+			"aaa",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("kthDistinct(%v, %v): %v", tc.given.strings, tc.given.k, tc.expected), func(t *testing.T) {
+			actual := kthDistinct(tc.given.strings, tc.given.k)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestMinimumPushes(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected int
+	}{
+		{
+			"abcde",
+			5,
+		},
+		{
+			"xyzxyzxyzxyz",
+			12,
+		},
+		{
+			"aabbccddeeffgghhiiiiii",
+			24,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minimumPushes(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := minimumPushes(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

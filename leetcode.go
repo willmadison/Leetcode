@@ -680,3 +680,125 @@ func minSwaps(nums []int) int {
 
 	return minSwaps
 }
+
+func canBeEqual(target, source []int) bool {
+	frequencies := map[int]int{}
+
+	for _, i := range target {
+		frequencies[i]++
+	}
+
+	for _, i := range source {
+		frequencies[i]--
+
+		if frequencies[i] == 0 {
+			delete(frequencies, i)
+		}
+	}
+
+	return len(frequencies) == 0
+}
+
+type slicePriorityQueue [][]int
+
+func (pq slicePriorityQueue) Len() int { return len(pq) }
+
+func (pq slicePriorityQueue) Less(i, j int) bool {
+	return pq[i][0] < pq[j][0]
+}
+
+func (pq slicePriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *slicePriorityQueue) Push(x any) {
+	entry := x.([]int)
+	*pq = append(*pq, entry)
+}
+
+func (pq *slicePriorityQueue) Pop() any {
+	old := *pq
+	item := old[len(old)-1]
+	old[len(old)-1] = nil
+	*pq = old[0 : len(old)-1]
+	return item
+}
+
+func rangeSum(nums []int, n int, left int, right int) int {
+	pq := make(slicePriorityQueue, 0)
+
+	for i := 0; i < n; i++ {
+		pq.Push([]int{nums[i], i})
+	}
+
+	var answer int
+	var modulo int = 1e10 + 7
+
+	for i := 1; i <= right; i++ {
+		p := pq.Pop().([]int)
+
+		if i >= left {
+			answer = (answer + p[0]) % modulo
+		}
+
+		if p[1] < n-1 {
+			p[1]++
+			p[0] += nums[p[1]]
+			pq.Push(p)
+		}
+	}
+
+	return answer
+}
+
+func kthDistinct(strings []string, k int) string {
+	s := NewStack[int]()
+	occurrencesByWord := map[string]int{}
+
+	for _, word := range strings {
+		occurrencesByWord[word]++
+	}
+
+	for i, word := range strings {
+		if occurrencesByWord[word] == 1 {
+			s.Push(i)
+		}
+	}
+
+	if s.Size() < k {
+		return ""
+	}
+
+	for s.Size() > k {
+		s.Pop()
+	}
+
+	i, _ := s.Peek()
+
+	return strings[i]
+}
+
+func minimumPushes(word string) int {
+	characterCounts := map[rune]int{}
+	characters := []rune{}
+
+	for _, c := range word {
+		if _, present := characterCounts[c]; !present {
+			characters = append(characters, c)
+		}
+
+		characterCounts[c]++
+	}
+
+	sort.SliceStable(characters, func(i, j int) bool {
+		return characterCounts[characters[i]] > characterCounts[characters[j]]
+	})
+
+	var totalPushes int
+
+	for i, c := range characters {
+		totalPushes += (i/8 + 1) * characterCounts[c]
+	}
+
+	return totalPushes
+}
