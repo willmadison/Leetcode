@@ -802,3 +802,73 @@ func minimumPushes(word string) int {
 
 	return totalPushes
 }
+
+func numberToWords(num int) string {
+	if num == 0 {
+		return "Zero"
+	}
+
+	return convertToWords(num)
+}
+
+var underTen = []string{"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"}
+var underTwenty = []string{"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"}
+var underOneHundred = []string{"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"}
+
+func convertToWords(i int) string {
+	if i < 10 {
+		return underTen[i]
+	}
+
+	if i < 20 {
+		return underTwenty[i-10]
+	}
+
+	if i < 100 {
+		base := underOneHundred[i/10]
+
+		if i%10 != 0 {
+			return base + " " + convertToWords(i%10)
+		}
+
+		return base
+	}
+
+	if i < 1000 {
+		base := convertToWords(i/100) + " Hundred"
+
+		if i%100 != 0 {
+			return base + " " + convertToWords(i%100)
+		}
+
+		return base
+	}
+
+	if i < 1000000 {
+		base := convertToWords(i/1000) + " Thousand"
+
+		if i%1000 != 0 {
+			return base + " " + convertToWords(i%1000)
+		}
+
+		return base
+	}
+
+	if i < 1000000000 {
+		base := convertToWords(i/1000000) + " Million"
+
+		if i%1000000 != 0 {
+			return base + " " + convertToWords(i%1000000)
+		}
+
+		return base
+	}
+
+	base := convertToWords(i/1000000000) + " Billion"
+
+	if i%1000000000 != 0 {
+		return base + " " + convertToWords(i%1000000000)
+	}
+
+	return base
+}

@@ -869,3 +869,34 @@ func TestMinimumPushes(t *testing.T) {
 		})
 	}
 }
+
+func TestNumberToWords(t *testing.T) {
+	cases := []struct {
+		given    int
+		expected string
+	}{
+		{
+			5,
+			"Five",
+		},
+		{
+			12,
+			"Twelve",
+		},
+		{
+			24,
+			"Twenty Four",
+		},
+		{
+			1234567,
+			"One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("numberToWords(%v): %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := numberToWords(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
