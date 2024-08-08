@@ -872,3 +872,41 @@ func convertToWords(i int) string {
 
 	return base
 }
+
+func spiralMatrixIII(rows int, cols int, rStart int, cStart int) [][]int {
+	right := []int{0, 1}
+	down := []int{1, 0}
+	left := []int{0, -1}
+	up := []int{-1, 0}
+
+	directions := [][]int{right, down, left, up}
+	path := make([][]int, rows*cols)
+
+	for i := range path {
+		path[i] = make([]int, 2)
+	}
+
+	var i int
+
+	currentRow, currentCol := rStart, cStart
+
+	for step, direction := 1, 0; i < rows*cols; {
+		for j := 0; j < 2; j++ {
+			for k := 0; k < step; k++ {
+				if currentRow >= 0 && currentRow < rows && currentCol >= 0 && currentCol < cols {
+					path[i][0] = currentRow
+					path[i][1] = currentCol
+					i++
+				}
+
+				currentRow += directions[direction][0]
+				currentCol += directions[direction][1]
+			}
+
+			direction = (direction + 1) % len(directions)
+		}
+		step++
+	}
+
+	return path
+}
