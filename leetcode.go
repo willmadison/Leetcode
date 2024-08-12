@@ -910,3 +910,55 @@ func spiralMatrixIII(rows int, cols int, rStart int, cStart int) [][]int {
 
 	return path
 }
+
+type minHeap []int
+
+func (h minHeap) Len() int           { return len(h) }
+func (h minHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h minHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *minHeap) Push(x any) {
+	*h = append(*h, x.(int))
+}
+
+func (h *minHeap) Pop() any {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func (h minHeap) Peek() any {
+	return h[0]
+}
+
+type KthLargest struct {
+	k int
+	h *minHeap
+}
+
+func NewKthLargest(k int, nums []int) KthLargest {
+	h := minHeap([]int{})
+	heap.Init(&h)
+
+	kthLargest := KthLargest{k: k, h: &h}
+
+	for _, i := range nums {
+		kthLargest.Add(i)
+	}
+
+	return kthLargest
+}
+
+func (this *KthLargest) Add(val int) int {
+	if this.h.Len() < this.k || this.h.Peek().(int) < val {
+		heap.Push(this.h, val)
+
+		if this.h.Len() > this.k {
+			heap.Pop(this.h)
+		}
+	}
+
+	return this.h.Peek().(int)
+}

@@ -900,3 +900,12 @@ func TestNumberToWords(t *testing.T) {
 		})
 	}
 }
+
+func TestKthLargest(t *testing.T) {
+	k := NewKthLargest(3, []int{4, 5, 8, 2})
+	assert.Equal(t, 4, k.Add(3))
+	assert.Equal(t, 5, k.Add(5))
+	assert.Equal(t, 5, k.Add(10))
+	assert.Equal(t, 8, k.Add(9))
+	assert.Equal(t, 8, k.Add(4))
+}
