@@ -909,3 +909,30 @@ func TestKthLargest(t *testing.T) {
 	assert.Equal(t, 8, k.Add(9))
 	assert.Equal(t, 8, k.Add(4))
 }
+
+func TestLemonadeChange(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected bool
+	}{
+		{
+			[]int{5, 5, 5, 10, 20},
+			true,
+		},
+		{
+			[]int{5, 5, 10, 10, 20},
+			false,
+		},
+		{
+			[]int{5, 5, 5, 10, 5, 5, 10, 20, 20, 20},
+			false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("lemonadeChange(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := lemonadeChange(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

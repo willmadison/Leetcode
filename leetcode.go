@@ -962,3 +962,49 @@ func (this *KthLargest) Add(val int) int {
 
 	return this.h.Peek().(int)
 }
+
+func lemonadeChange(bills []int) bool {
+	billsByDenomination := map[int]int{}
+
+	cost := 5
+
+	for _, amount := range bills {
+		changeDue := amount - cost
+
+		if changeDue > 0 {
+			switch changeDue {
+			case 5:
+				if _, present := billsByDenomination[5]; !present {
+					return false
+				}
+
+				billsByDenomination[5]--
+			case 15:
+				if numFives, fivesPresent := billsByDenomination[5]; !fivesPresent {
+					return false
+				} else if _, tensPresent := billsByDenomination[10]; !tensPresent {
+					if numFives < 3 {
+						return false
+					} else {
+						billsByDenomination[5] -= 3
+					}
+				} else {
+					billsByDenomination[10]--
+					billsByDenomination[5]--
+				}
+			}
+
+			if billsByDenomination[5] == 0 {
+				delete(billsByDenomination, 5)
+			}
+
+			if billsByDenomination[10] == 0 {
+				delete(billsByDenomination, 10)
+			}
+		}
+
+		billsByDenomination[amount]++
+	}
+
+	return true
+}
