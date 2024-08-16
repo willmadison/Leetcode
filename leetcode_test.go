@@ -936,3 +936,48 @@ func TestLemonadeChange(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxDistance(t *testing.T) {
+	cases := []struct {
+		given    [][]int
+		expected int
+	}{
+		{
+			[][]int{
+				{1, 2, 3},
+				{4, 5},
+				{1, 2, 3},
+			},
+			4,
+		},
+		{
+			[][]int{
+				{1},
+				{1},
+			},
+			0,
+		},
+		{
+			[][]int{
+				{1, 4},
+				{0, 5},
+			},
+			4,
+		},
+		{
+			[][]int{
+				{1, 5},
+				{3, 4},
+			},
+			3,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("maxDistance(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := maxDistance(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+
+}

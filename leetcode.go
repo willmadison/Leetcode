@@ -1008,3 +1008,25 @@ func lemonadeChange(bills []int) bool {
 
 	return true
 }
+
+func maxDistance(arrays [][]int) int {
+	maximum := 0
+	minValue := arrays[0][0]
+	maxValue := arrays[0][len(arrays[0])-1]
+
+	for _, a := range arrays[1:] {
+		maximum = max(maximum, max(abs(a[len(a)-1]-minValue), abs(maxValue-a[0])))
+		minValue = min(minValue, a[0])
+		maxValue = max(maxValue, a[len(a)-1])
+	}
+
+	return maximum
+}
+
+func abs(i int) int {
+	if i > 0 {
+		return i
+	}
+
+	return -i
+}
