@@ -1030,3 +1030,22 @@ func abs(i int) int {
 
 	return -i
 }
+
+func findComplement(num int) int {
+	binaryRepresentation := strconv.FormatInt(int64(num), 2)
+
+	var complementSb strings.Builder
+
+	for _, d := range binaryRepresentation {
+		switch d {
+		case '0':
+			complementSb.WriteRune('1')
+		case '1':
+			complementSb.WriteRune('0')
+		}
+	}
+
+	complement, _ := strconv.ParseInt(complementSb.String(), 2, 64)
+
+	return int(complement)
+}
