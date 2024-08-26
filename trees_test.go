@@ -144,3 +144,25 @@ func TestDelNodes(t *testing.T) {
 		})
 	}
 }
+
+func TestPostorder(t *testing.T) {
+	root := &Node{
+		Val: 1,
+		Children: []*Node{
+			{
+				Val: 3,
+				Children: []*Node{
+					{Val: 5},
+					{Val: 6},
+				},
+			},
+			{Val: 2},
+			{Val: 4},
+		},
+	}
+
+	actual := postorder(root)
+	expected := []int{5, 6, 3, 2, 4, 1}
+	assert.Equal(t, actual, expected)
+
+}

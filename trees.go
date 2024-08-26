@@ -352,3 +352,26 @@ func topologicalSort(edges [][]int, n int) []int {
 
 	return order
 }
+
+type Node struct {
+	Val      int
+	Children []*Node
+}
+
+func postorder(root *Node) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	var traversal []int
+
+	for _, child := range root.Children {
+		if child != nil {
+			traversal = append(traversal, postorder(child)...)
+		}
+	}
+
+	traversal = append(traversal, root.Val)
+
+	return traversal
+}
