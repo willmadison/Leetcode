@@ -1049,3 +1049,26 @@ func findComplement(num int) int {
 
 	return int(complement)
 }
+
+func construct2DArray(original []int, m, n int) [][]int {
+	if len(original) != m*n {
+		return [][]int{}
+	}
+
+	matrix := [][]int{
+		{},
+	}
+
+	var currentRow int
+
+	for i, value := range original {
+		if i > (currentRow+1)*n-1 {
+			matrix = append(matrix, []int{})
+			currentRow++
+		}
+
+		matrix[currentRow] = append(matrix[currentRow], value)
+	}
+
+	return matrix
+}

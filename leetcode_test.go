@@ -1005,3 +1005,35 @@ func TestFindComplement(t *testing.T) {
 	}
 
 }
+
+func TestConstruct2DArray(t *testing.T) {
+	cases := []struct {
+		given struct {
+			original []int
+			m, n     int
+		}
+		expected [][]int
+	}{
+		{
+			struct {
+				original []int
+				m, n     int
+			}{
+				[]int{1, 2, 3, 4},
+				2,
+				2,
+			},
+			[][]int{
+				{1, 2},
+				{3, 4},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("construct2Darray(%v, %v, %v) = %v", tc.given.original, tc.given.m, tc.given.n, tc.expected), func(t *testing.T) {
+			actual := construct2DArray(tc.given.original, tc.given.m, tc.given.n)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
