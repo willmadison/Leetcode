@@ -2309,3 +2309,28 @@ fun minDifference(nums: IntArray): Int {
 
     return minDifference
 }
+
+fun chalkReplacer(chalk: IntArray, k: Int): Int {
+    var chalkAvailable = k
+    var chalkUsedPerRound = 0
+
+    for (c in chalk) {
+        chalkUsedPerRound += c
+
+        if (chalkUsedPerRound > k) {
+            break
+        }
+    }
+
+    chalkAvailable %= chalkUsedPerRound
+
+    for (i in chalk.indices) {
+        if (chalkAvailable < chalk[i]) {
+            return i
+        }
+
+        chalkAvailable -= chalk[i]
+    }
+
+    return Int.MIN_VALUE
+}

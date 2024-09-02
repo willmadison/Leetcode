@@ -1795,6 +1795,22 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun chalkProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 1, 5),
+                    22,
+                    0
+                ),
+                Arguments.of(
+                    intArrayOf(3,4,1,2),
+                    25,
+                    1
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2452,4 +2468,10 @@ class ArraysTests {
         assertThat(actual).isEqualTo(expected)
     }
 
+    @ParameterizedTest(name = "chalkReplacer({0}, {1}) = {2}")
+    @MethodSource("chalkProvider")
+    fun chalkReplacer(chalk: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.chalkReplacer(chalk, k)
+        assertThat(actual).isEqualTo(expected)
+    }
 }
