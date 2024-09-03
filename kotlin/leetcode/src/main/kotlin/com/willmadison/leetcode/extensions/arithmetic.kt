@@ -218,27 +218,12 @@ fun confusingNumber(n: Int): Boolean {
     return rotatedDigits != digits
 }
 
-internal fun Int.digits(): Collection<Int> {
+internal fun Number.digits(): Collection<Int> {
     if (this == 0) return listOf(0)
 
     val digits = mutableListOf<Int>()
 
-    var v = this
-
-    while (v > 0) {
-        digits.add(v % 10)
-        v /= 10
-    }
-
-    return digits.reversed()
-}
-
-internal fun Long.digits(): Collection<Int> {
-    if (this == 0L) return listOf(0)
-
-    val digits = mutableListOf<Int>()
-
-    var v = this
+    var v = this.toLong()
 
     while (v > 0) {
         digits.add((v % 10).toInt())
