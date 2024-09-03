@@ -386,6 +386,27 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun luckyProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "zbax",
+                    2,
+                    8,
+                ),
+                Arguments.of(
+                    "iiii",
+                    1,
+                    36,
+                ),
+                Arguments.of(
+                    "leetcode",
+                    2,
+                    6,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -532,6 +553,13 @@ class ArithmeticTests {
     @MethodSource("winnerProvider")
     fun findTheWinner(n: Int, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.findTheWinner(n, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "getLucky({0}, {1}) = {2}")
+    @MethodSource("luckyProvider")
+    fun getLucky(s: String, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.getLucky(s, k)
         assertThat(actual).isEqualTo(expected)
     }
 

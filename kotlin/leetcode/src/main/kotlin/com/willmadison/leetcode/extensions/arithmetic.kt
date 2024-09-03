@@ -4,6 +4,7 @@ import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+
 // https://leetcode.com/problems/3sum/
 fun threeSum(nums: IntArray): List<List<Int>> {
     nums.sort()
@@ -226,6 +227,21 @@ internal fun Int.digits(): Collection<Int> {
 
     while (v > 0) {
         digits.add(v % 10)
+        v /= 10
+    }
+
+    return digits.reversed()
+}
+
+internal fun Long.digits(): Collection<Int> {
+    if (this == 0L) return listOf(0)
+
+    val digits = mutableListOf<Int>()
+
+    var v = this
+
+    while (v > 0) {
+        digits.add((v % 10).toInt())
         v /= 10
     }
 
@@ -512,4 +528,25 @@ fun findTheWinner(n: Int, k: Int): Int {
     }
 
     return deque.peek()
+}
+
+fun getLucky(s: String, k: Int): Int {
+    var numIterations = k
+    var numericString = ""
+
+    for (c in s) {
+        numericString += (c.code - 'a'.code + 1).toString()
+    }
+
+    while (numIterations-- > 0) {
+        var digitSum = 0
+
+        for (digit in numericString) {
+            digitSum += digit.code - '0'.code
+        }
+
+        numericString = digitSum.toString()
+    }
+
+    return numericString.toInt()
 }
