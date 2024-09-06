@@ -1,6 +1,8 @@
 package leetcode
 
-import "math"
+import (
+	"math"
+)
 
 type ListNode struct {
 	Val  int
@@ -86,4 +88,32 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 	}
 
 	return result
+}
+
+func modifiedList(nums []int, head *ListNode) *ListNode {
+	dummy := &ListNode{Next: head}
+	previous := dummy
+	current := head
+
+	values := map[int]struct{}{}
+
+	for _, n := range nums {
+		values[n] = struct{}{}
+	}
+
+	for current != nil {
+		if _, present := values[current.Val]; present {
+			if current == dummy.Next {
+				dummy.Next = current.Next
+			}
+
+			previous.Next = current.Next
+		} else {
+			previous = current
+		}
+
+		current = current.Next
+	}
+
+	return dummy.Next
 }
