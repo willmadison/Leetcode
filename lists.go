@@ -92,8 +92,7 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 
 func modifiedList(nums []int, head *ListNode) *ListNode {
 	dummy := &ListNode{Next: head}
-	previous := dummy
-	current := head
+	current := dummy
 
 	values := map[int]struct{}{}
 
@@ -101,18 +100,12 @@ func modifiedList(nums []int, head *ListNode) *ListNode {
 		values[n] = struct{}{}
 	}
 
-	for current != nil {
-		if _, present := values[current.Val]; present {
-			if current == dummy.Next {
-				dummy.Next = current.Next
-			}
-
-			previous.Next = current.Next
+	for current.Next != nil {
+		if _, present := values[current.Next.Val]; present {
+			current.Next = current.Next.Next
 		} else {
-			previous = current
+			current = current.Next
 		}
-
-		current = current.Next
 	}
 
 	return dummy.Next
