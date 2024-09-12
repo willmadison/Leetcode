@@ -5,6 +5,7 @@ import (
 	"container/heap"
 	"fmt"
 	"math"
+	"math/bits"
 	"sort"
 	"strconv"
 	"strings"
@@ -1071,4 +1072,42 @@ func construct2DArray(original []int, m, n int) [][]int {
 	}
 
 	return matrix
+}
+
+func minBitFlips(start int, goal int) int {
+	return bits.OnesCount(uint(start ^ goal))
+}
+
+func countConsistentStrings(allowed string, words []string) int {
+	allowedLookup := map[rune]struct{}{}
+
+	for _, c := range allowed {
+		allowedLookup[c] = struct{}{}
+	}
+
+	var numConsistent int
+
+	for _, word := range words {
+		if isConsistent(word, allowedLookup) {
+			numConsistent++
+		}
+	}
+
+	return numConsistent
+}
+
+func isConsistent(word string, allowedCharacters map[rune]struct{}) bool {
+	characters := map[rune]struct{}{}
+
+	for _, c := range word {
+		characters[c] = struct{}{}
+	}
+
+	for c := range characters {
+		if _, present := allowedCharacters[c]; !present {
+			return false
+		}
+	}
+
+	return true
 }

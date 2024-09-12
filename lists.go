@@ -110,3 +110,32 @@ func modifiedList(nums []int, head *ListNode) *ListNode {
 
 	return dummy.Next
 }
+
+func insertGreatestCommonDivisors(head *ListNode) *ListNode {
+	var prev *ListNode
+	current := head
+
+	for current != nil {
+		if prev != nil {
+			d := gcd(current.Val, prev.Val)
+			prev.Next = &ListNode{d, current}
+		}
+
+		prev = current
+		current = current.Next
+	}
+
+	return head
+}
+
+func gcd(a, b int) int {
+	if b == 0 {
+		return a
+	}
+
+	if a > b {
+		return gcd(b, a%b)
+	}
+
+	return gcd(a, b%a)
+}

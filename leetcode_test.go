@@ -1037,3 +1037,55 @@ func TestConstruct2DArray(t *testing.T) {
 		})
 	}
 }
+
+func TestMinBitFlips(t *testing.T) {
+	cases := []struct {
+		start, goal, expected int
+	}{
+		{
+			10,
+			7,
+			3,
+		},
+		{
+			3,
+			4,
+			3,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minBitFlips(%v, %v) = %v", tc.start, tc.goal, tc.expected), func(t *testing.T) {
+			actual := minBitFlips(tc.start, tc.goal)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
+
+func TestCountConsistentStrings(t *testing.T) {
+	cases := []struct {
+		given struct {
+			allowed string
+			words   []string
+		}
+		expected int
+	}{
+		{
+			struct {
+				allowed string
+				words   []string
+			}{
+				"ab",
+				[]string{"ad", "bd", "aaab", "baa", "badab"},
+			},
+			2,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("countConsistentStrings(%v, %v) = %v", tc.given.allowed, tc.given.words, tc.expected), func(t *testing.T) {
+			actual := countConsistentStrings(tc.given.allowed, tc.given.words)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
