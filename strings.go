@@ -379,3 +379,36 @@ func countSeniors(details []string) int {
 
 	return numSeniors
 }
+
+func uncommonFromSentences(s1, s2 string) []string {
+	var uncommons []string
+
+	s1WordCounts := map[string]int{}
+	s2WordCounts := map[string]int{}
+
+	for _, word := range strings.Fields(s1) {
+		s1WordCounts[word]++
+	}
+
+	for _, word := range strings.Fields(s2) {
+		s2WordCounts[word]++
+	}
+
+	for word, count := range s1WordCounts {
+		if count == 1 {
+			if _, present := s2WordCounts[word]; !present {
+				uncommons = append(uncommons, word)
+			}
+		}
+	}
+
+	for word, count := range s2WordCounts {
+		if count == 1 {
+			if _, present := s1WordCounts[word]; !present {
+				uncommons = append(uncommons, word)
+			}
+		}
+	}
+
+	return uncommons
+}

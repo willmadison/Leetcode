@@ -246,3 +246,38 @@ func TestCountSeniors(t *testing.T) {
 		})
 	}
 }
+
+func TestUncommonFromSentences(t *testing.T) {
+	cases := []struct {
+		given struct {
+			s1, s2 string
+		}
+		expected []string
+	}{
+		{
+			struct {
+				s1, s2 string
+			}{
+				"this apple is sweet",
+				"this apple is sour",
+			},
+			[]string{"sweet", "sour"},
+		},
+		{
+			struct {
+				s1, s2 string
+			}{
+				"apple apple",
+				"banana",
+			},
+			[]string{"banana"},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("uncommonFromSentences(%v, %v): %v", tc.given.s1, tc.given.s2, tc.expected), func(t *testing.T) {
+			actual := uncommonFromSentences(tc.given.s1, tc.given.s2)
+			assert.ElementsMatch(t, tc.expected, actual)
+		})
+	}
+}

@@ -1111,3 +1111,19 @@ func isConsistent(word string, allowedCharacters map[rune]struct{}) bool {
 
 	return true
 }
+
+func xorQueries(arr []int, queries [][]int) []int {
+	var xorPrefixes = make([]int, len(arr)+1, len(arr)+1)
+
+	for i := 0; i < len(arr); i++ {
+		xorPrefixes[i+1] = xorPrefixes[i] ^ arr[i]
+	}
+
+	var result = make([]int, len(queries), len(queries))
+
+	for i := 0; i < len(queries); i++ {
+		result[i] = xorPrefixes[queries[i][1]+1] ^ xorPrefixes[queries[i][0]]
+	}
+
+	return result
+}
