@@ -1089,3 +1089,30 @@ func TestCountConsistentStrings(t *testing.T) {
 		})
 	}
 }
+
+func TestGetRow(t *testing.T) {
+	cases := []struct {
+		given    int
+		expected []int
+	}{
+		{
+			3,
+			[]int{1, 3, 3, 1},
+		},
+		{
+			0,
+			[]int{1},
+		},
+		{
+			1,
+			[]int{1, 1},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("getRow(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := getRow(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

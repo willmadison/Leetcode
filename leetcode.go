@@ -1127,3 +1127,21 @@ func xorQueries(arr []int, queries [][]int) []int {
 
 	return result
 }
+
+// https://leetcode.com/problems/pascals-triangle-ii/description/
+func getRow(degree int) []int {
+	coefficients := []int{1}
+
+	currentTerm := 1
+
+	for degree > 0 {
+		nextCoefficient := coefficients[currentTerm-1] * degree / currentTerm
+
+		coefficients = append(coefficients, nextCoefficient)
+
+		degree--
+		currentTerm++
+	}
+
+	return coefficients
+}
