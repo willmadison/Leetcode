@@ -1113,13 +1113,13 @@ func isConsistent(word string, allowedCharacters map[rune]struct{}) bool {
 }
 
 func xorQueries(arr []int, queries [][]int) []int {
-	var xorPrefixes = make([]int, len(arr)+1, len(arr)+1)
+	var xorPrefixes = make([]int, len(arr)+1)
 
 	for i := 0; i < len(arr); i++ {
 		xorPrefixes[i+1] = xorPrefixes[i] ^ arr[i]
 	}
 
-	var result = make([]int, len(queries), len(queries))
+	var result = make([]int, len(queries))
 
 	for i := 0; i < len(queries); i++ {
 		result[i] = xorPrefixes[queries[i][1]+1] ^ xorPrefixes[queries[i][0]]
@@ -1144,4 +1144,56 @@ func getRow(degree int) []int {
 	}
 
 	return coefficients
+}
+
+/**
+ * The read4 API is already defined for you.
+ *
+ *     read4 := func(buf4 []byte) int
+ *
+ * // Below is an example of how the read4 API can be called.
+ * file := File("abcdefghijk") // File is "abcdefghijk", initially file pointer (fp) points to 'a'
+ * buf4 := make([]byte, 4) // Create buffer with enough space to store characters
+ * read4(buf4) // read4 returns 4. Now buf = ['a','b','c','d'], fp points to 'e'
+ * read4(buf4) // read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'
+ * read4(buf4) // read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file
+ */
+
+var solution = func(read4 func([]byte) int) func([]byte, int) int {
+
+	return func(buf []byte, n int) int {
+		copiedChars, readChars := 0, 4
+
+		for readChars == 4 {
+			readChars = read4(buf[copiedChars:])
+			copiedChars += readChars
+		}
+
+		return int(math.Min(float64(n), float64(copiedChars)))
+	}
+}
+
+func maxWidthRamp(nums []int) int {
+	n := len(nums)
+
+	var indices []int
+
+	for i := 0; i < n; i++ {
+		indices = append(indices, i)
+	}
+
+	sort.SliceStable(indices, func(i, j int) bool {
+		return nums[indices[i]] < nums[indices[j]]
+	})
+
+	var maxWidth int
+
+	minIndex := n
+
+	for _, i := range indices {
+		maxWidth = max(maxWidth, i-minIndex)
+		minIndex = min(minIndex, i)
+	}
+
+	return maxWidth
 }
