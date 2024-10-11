@@ -2334,3 +2334,58 @@ fun chalkReplacer(chalk: IntArray, k: Int): Int {
 
     return Int.MIN_VALUE
 }
+
+data class Friend(val arrival: Int, val departure: Int, val id: Int)
+
+fun smallestChair(times: Array<IntArray>, targetFriend: Int): Int {
+    val friends = times.mapIndexed { index, it -> Friend(it[0], it[1], index) }
+    val friendsById = friends.associateBy { it.id }
+    val target = friendsById[targetFriend]!!
+
+    var friendsArrivingBeforeTarget = friends.filter { it.arrival < target.arrival }
+    var friendsDepartingBeforeTargetArrives = friends.filter { it.departure <= target.arrival }
+
+    friendsArrivingBeforeTarget = friendsArrivingBeforeTarget.sortedBy { it.arrival }
+    friendsDepartingBeforeTargetArrives = friendsDepartingBeforeTargetArrives.sortedBy { it.departure }
+
+    val seats = mutableSetOf<Int>()
+    val emptySeats = mutableSetOf<Int>()
+    val seatAssignments = mutableMapOf<Int, Int>()
+
+    var currentSeat = 0
+
+    for (friend in friendsArrivingBeforeTarget) {
+        if (seats.isEmpty()) {
+            seatAssignments[friend.id] = currentSeat
+            seats.add(currentSeat++)
+        } else if (emptySeats.isNotEmpty()) {
+            val seat = emptySeats.min()
+            emptySeats.remove(seat)
+            seatAssignments[friend.id] = seat
+        } else {
+            seatAssignments[friend.id] = currentSeat
+            seats.add(currentSeat++)
+        }
+
+        val departingFriends =
+            friendsDepartingBeforeTargetArrives.filter { it.departure <= friend.arrival }
+
+        val freshlyEmptySeats =
+            departingFriends.filter { seatAssignments.containsKey(it.id) }.map { seatAssignments.remove(it.id)!! }
+                .toMutableSet()
+
+        if (freshlyEmptySeats.isNotEmpty()) {
+            emptySeats.addAll(freshlyEmptySeats)
+        }
+    }
+
+    val occupiedSeats = seatAssignments.values.toSet()
+    seats.addAll(emptySeats)
+    seats.removeAll(occupiedSeats)
+
+    if (seats.isNotEmpty()) {
+        return seats.min()
+    }
+
+    return occupiedSeats.max() + 1
+}

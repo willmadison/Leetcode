@@ -407,6 +407,20 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun largestNumberProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10,2),
+                    "210",
+                ),
+                Arguments.of(
+                    intArrayOf(3, 30, 34, 5, 9),
+                    "9543330",
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -563,5 +577,10 @@ class ArithmeticTests {
         assertThat(actual).isEqualTo(expected)
     }
 
-
+    @ParameterizedTest(name = "largestNumber({0}) = {1}")
+    @MethodSource("largestNumberProvider")
+    fun largestNumber(nums: IntArray, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.largestNumber(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
 }

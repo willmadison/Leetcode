@@ -535,3 +535,16 @@ fun getLucky(s: String, k: Int): Int {
 
     return numericString.toInt()
 }
+
+fun largestNumber(nums: IntArray): String {
+    val maxHeap = PriorityQueue<Int>(Comparator.reverseOrder())
+    maxHeap.addAll(nums.asIterable().map { it.digits() }.flatten().sorted().toList())
+
+    val sb = StringBuilder()
+
+    while (maxHeap.isNotEmpty()) {
+        sb.append(maxHeap.remove()!!)
+    }
+
+    return sb.toString()
+}
