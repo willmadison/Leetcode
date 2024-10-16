@@ -1127,3 +1127,17 @@ func xorQueries(arr []int, queries [][]int) []int {
 
 	return result
 }
+
+func minimumSteps(s string) int64 {
+	var whitePosition int
+	var swaps int64
+
+	for currentPosition := 0; currentPosition < len(s); currentPosition++ {
+		if s[currentPosition] == '0' {
+			swaps += int64(currentPosition - whitePosition)
+			whitePosition++
+		}
+	}
+
+	return swaps
+}

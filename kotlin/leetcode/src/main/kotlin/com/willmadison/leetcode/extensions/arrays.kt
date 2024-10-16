@@ -2389,3 +2389,23 @@ fun smallestChair(times: Array<IntArray>, targetFriend: Int): Int {
 
     return occupiedSeats.max() + 1
 }
+
+fun maxKelements(nums: IntArray, k: Int): Long {
+    val maxHeap = PriorityQueue<Int>(Collections.reverseOrder())
+
+    for (n in nums) {
+        maxHeap.add(n)
+    }
+
+    var kMutable = k
+
+    var score = 0L
+
+    while (kMutable-- > 0) {
+        val max = maxHeap.remove()!!
+        score += max
+        maxHeap.add(Math.ceil(max/3.0).toInt())
+    }
+
+    return score
+}

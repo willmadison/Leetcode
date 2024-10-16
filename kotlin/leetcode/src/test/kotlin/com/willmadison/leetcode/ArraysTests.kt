@@ -1857,6 +1857,23 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxKElementsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10, 10, 10, 10, 10),
+                    5,
+                    50L
+                ),
+                Arguments.of(
+                    intArrayOf(1, 10, 3, 3, 3),
+                    3,
+                    17L
+                ),
+            )
+
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2526,6 +2543,13 @@ class ArraysTests {
     @MethodSource("smallestChairProvider")
     fun smallestChair(times: Array<IntArray>, targetFriend: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.smallestChair(times, targetFriend)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxKElements({0}, {1}) = {2}")
+    @MethodSource("maxKElementsProvider")
+    fun maxKElements(nums: IntArray, k: Int, expected: Long) {
+        val actual = com.willmadison.leetcode.extensions.maxKelements(nums, k)
         assertThat(actual).isEqualTo(expected)
     }
 }

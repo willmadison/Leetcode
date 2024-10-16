@@ -1257,3 +1257,66 @@ fun replaceWords(dictionary: List<String>, sentence: String): String {
 
     return sb.toString().trim()
 }
+
+data class CharacterCount(val c: Char, var count: Int)
+
+fun longestDiverseString(a: Int, b: Int, c: Int): String {
+    val byCountDescending: Comparator<CharacterCount> = compareBy<CharacterCount> { it.count }.reversed()
+
+    val maxHeap = PriorityQueue(byCountDescending)
+
+    if (a > 0) {
+        maxHeap.add(CharacterCount('a', a))
+    }
+
+    if (b > 0) {
+        maxHeap.add(CharacterCount('b', b))
+    }
+
+    if (c > 0) {
+        maxHeap.add(CharacterCount('c', c))
+    }
+
+    val sb = StringBuilder()
+
+    while (maxHeap.isNotEmpty()) {
+        val max = maxHeap.poll()
+
+        if (sb.length > 1) {
+            if (sb[sb.length - 1] != max.c || sb[sb.length - 2] != max.c) {
+                sb.append(max.c)
+                max.count--
+
+                if (max.count > 0) {
+                    maxHeap.add(max)
+                }
+            } else {
+                if (maxHeap.isNotEmpty()) {
+                    val nextUp = maxHeap.poll()
+                    sb.append(nextUp.c)
+                    nextUp.count--
+                    if (nextUp.count > 0) {
+                        maxHeap.add(nextUp)
+                    }
+                    if (max.count > 0) {
+                        maxHeap.add(max)
+                    }
+                } else {
+                    break
+                }
+            }
+        } else {
+            sb.append(max.c)
+            max.count--
+            if (max.count > 0) {
+                maxHeap.add(max)
+            }
+        }
+    }
+
+    if (maxHeap.isNotEmpty()) {
+        return ""
+    }
+
+    return sb.toString()
+}

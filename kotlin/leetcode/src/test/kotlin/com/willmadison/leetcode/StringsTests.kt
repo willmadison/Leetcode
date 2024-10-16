@@ -922,7 +922,23 @@ class StringsTests {
             )
         }
 
-
+        @JvmStatic
+        fun longestDiverseStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    1,
+                    1,
+                    7,
+                    listOf("ccaccbcc", "ccbccacc"),
+                ),
+                Arguments.of(
+                    7,
+                    1,
+                    0,
+                    listOf("aabaa"),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1268,5 +1284,12 @@ class StringsTests {
     fun replaceWords(dictionary: List<String>, sentence: String, expected: String) {
         val actual = com.willmadison.leetcode.extensions.replaceWords(dictionary, sentence)
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestDiverseString({0}, {1}, {2}) = anyOf({3})")
+    @MethodSource("longestDiverseStringProvider")
+    fun longestDiverseString(a: Int, b: Int, c: Int, expected: Collection<String>) {
+        val actual = com.willmadison.leetcode.extensions.longestDiverseString(a, b, c)
+        assertThat(listOf(actual)).containsAnyOf(*expected.toTypedArray())
     }
 }

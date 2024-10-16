@@ -1089,3 +1089,30 @@ func TestCountConsistentStrings(t *testing.T) {
 		})
 	}
 }
+
+func TestMinimumSteps(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected int64
+	}{
+		{
+			"101",
+			1,
+		},
+		{
+			"100",
+			2,
+		},
+		{
+			"0111",
+			0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("minimumSteps(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := minimumSteps(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
