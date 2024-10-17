@@ -1,6 +1,7 @@
 package com.willmadison.leetcode.extensions
 
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -547,4 +548,41 @@ fun largestNumber(nums: IntArray): String {
     }
 
     return sb.toString()
+}
+
+fun maximumSwap(num: Int): Int {
+    val digits = num.digits().toMutableList()
+    val max = digits.max()
+
+    if (digits.first() == max) {
+        return num
+    }
+
+    val i = digits.indexOf(max)
+    val temp = digits[0]
+    digits[0] = max
+    digits[i] = temp
+
+    return digits.joinToString(separator = "") { it.toString() }.toInt()
+}
+
+fun maxOperations(nums: IntArray, k: Int): Int {
+    var ops = 0
+
+    val occurrencesByNumber = nums.asIterable().groupingBy { it }.eachCount().toMutableMap()
+
+    for (v in nums) {
+        val complement = k - v
+
+        if (occurrencesByNumber.getOrDefault(v, 0) > 0 &&
+            occurrencesByNumber.getOrDefault(complement, 0) > 0) {
+            if (complement == v && occurrencesByNumber[v]!! < 2) continue
+
+            occurrencesByNumber[v] = occurrencesByNumber.getOrDefault(v, 0) - 1
+            occurrencesByNumber[complement] = occurrencesByNumber.getOrDefault(complement, 0) - 1
+            ops++
+        }
+    }
+
+    return ops
 }

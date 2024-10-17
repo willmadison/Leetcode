@@ -412,12 +412,47 @@ class ArithmeticTests {
         fun largestNumberProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(10,2),
+                    intArrayOf(10, 2),
                     "210",
                 ),
                 Arguments.of(
                     intArrayOf(3, 30, 34, 5, 9),
                     "9543330",
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maximumSwapProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    2736,
+                    7236,
+                ),
+                Arguments.of(
+                    9973,
+                    9973,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun maxOperationsProvider(): Stream<Arguments> {
+            return Stream.of(
+//                Arguments.of(
+//                    intArrayOf(1,2,3,4),
+//                    5,
+//                    2
+//                ),
+//                Arguments.of(
+//                    intArrayOf(3,1,3,4,3),
+//                    6,
+//                    1
+//                ),
+                Arguments.of(
+                    intArrayOf(2,2,2,3,1,1,4,1),
+                    4,
+                    2
                 ),
             )
         }
@@ -583,4 +618,20 @@ class ArithmeticTests {
         val actual = com.willmadison.leetcode.extensions.largestNumber(nums)
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest(name = "maximumSwap({0}) = {1}")
+    @MethodSource("maximumSwapProvider")
+    fun maximumSwap(given: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maximumSwap(given)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxOperations({0}, {1}) = {2}")
+    @MethodSource("maxOperationsProvider")
+    fun maxOperations(given: IntArray, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxOperations(given, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
 }
