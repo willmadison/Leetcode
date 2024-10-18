@@ -466,6 +466,27 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxAverageProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,12,-5,-6,50,3),
+                    4,
+                    12.75000,
+                ),
+                Arguments.of(
+                    intArrayOf(5),
+                    1,
+                    5.00000,
+                ),
+                Arguments.of(
+                    intArrayOf(-1),
+                    1,
+                    -1.00000,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -647,6 +668,13 @@ class ArithmeticTests {
     @MethodSource("maxOrSubsetProvider")
     fun countMaxOrSubsets(given: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.countMaxOrSubsets(given)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findMaxAverage({0}, {1}) = {2}")
+    @MethodSource("maxAverageProvider")
+    fun findMaxAverage(given: IntArray, k: Int, expected: Double) {
+        val actual = com.willmadison.leetcode.extensions.findMaxAverage(given, k)
         assertThat(actual).isEqualTo(expected)
     }
 

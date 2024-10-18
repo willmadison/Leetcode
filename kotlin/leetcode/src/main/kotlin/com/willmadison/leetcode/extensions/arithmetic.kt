@@ -617,3 +617,19 @@ fun doCountSubsets(nums: IntArray, i: Int, currentOr: Int, targetOr: Int, memo: 
 
     return memo[i][currentOr]!!
 }
+
+fun findMaxAverage(nums: IntArray, k: Int): Double {
+    var sum = 0
+    for (i in 0..<k) {
+        sum += nums[i]
+    }
+
+    var maxSum = sum
+
+    for (i in k..nums.lastIndex) {
+        sum += nums[i]-nums[i-k]
+        maxSum = maxOf(maxSum, sum)
+    }
+
+    return (maxSum.toDouble() / k)
+}
