@@ -456,6 +456,16 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxOrSubsetProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(3,1),
+                    2
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -630,6 +640,13 @@ class ArithmeticTests {
     @MethodSource("maxOperationsProvider")
     fun maxOperations(given: IntArray, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxOperations(given, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countMaxOrSubsets({0}) = {1}")
+    @MethodSource("maxOrSubsetProvider")
+    fun countMaxOrSubsets(given: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.countMaxOrSubsets(given)
         assertThat(actual).isEqualTo(expected)
     }
 

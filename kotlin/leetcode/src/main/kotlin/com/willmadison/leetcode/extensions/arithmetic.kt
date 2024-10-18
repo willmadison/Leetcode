@@ -369,7 +369,7 @@ private val cache = mutableMapOf(
 fun tribonacci(n: Int): Int {
     if (cache.containsKey(n)) return cache[n]!!
 
-    val ans = tribonacci(n-1) + tribonacci(n-2) + tribonacci(n-3)
+    val ans = tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3)
 
     cache[n] = ans
 
@@ -454,10 +454,10 @@ fun numSteps(s: String): Int {
 
 fun judgeSquareSum(c: Int): Boolean {
     for (a in 0..sqrt(c.toDouble()).toInt()) {
-        val b2 = c - a*a
+        val b2 = c - a * a
         val b = sqrt(b2.toDouble()).toInt()
 
-        if (b2 == b*b) {
+        if (b2 == b * b) {
             return true
         }
     }
@@ -506,7 +506,7 @@ fun findTheWinner(n: Int, k: Int): Int {
     }
 
     while (deque.size > 1) {
-        for (i in 0 until k-1) {
+        for (i in 0 until k - 1) {
             deque.add(deque.remove())
         }
 
@@ -575,7 +575,8 @@ fun maxOperations(nums: IntArray, k: Int): Int {
         val complement = k - v
 
         if (occurrencesByNumber.getOrDefault(v, 0) > 0 &&
-            occurrencesByNumber.getOrDefault(complement, 0) > 0) {
+            occurrencesByNumber.getOrDefault(complement, 0) > 0
+        ) {
             if (complement == v && occurrencesByNumber[v]!! < 2) continue
 
             occurrencesByNumber[v] = occurrencesByNumber.getOrDefault(v, 0) - 1
@@ -585,4 +586,34 @@ fun maxOperations(nums: IntArray, k: Int): Int {
     }
 
     return ops
+}
+
+fun countMaxOrSubsets(nums: IntArray): Int {
+    val n = nums.size
+    var maxOrValue = 0
+
+    for (num in nums) {
+        maxOrValue = maxOrValue or num
+    }
+
+    val memo = Array(n) { Array<Int?>(maxOrValue+1) { null } }
+
+    return doCountSubsets(nums, 0, 0, maxOrValue, memo)
+}
+
+fun doCountSubsets(nums: IntArray, i: Int, currentOr: Int, targetOr: Int, memo: Array<Array<Int?>>): Int {
+    if (i == nums.size) {
+        return if (currentOr == targetOr) 1 else 0
+    }
+
+    if (memo[i][currentOr] != null) {
+        return memo[i][currentOr]!!
+    }
+
+    val countWithout = doCountSubsets(nums, i+1, currentOr, targetOr, memo)
+    val countWith = doCountSubsets(nums, i+1, currentOr or nums[i], targetOr, memo)
+
+    memo[i][currentOr] = countWith + countWithout
+
+    return memo[i][currentOr]!!
 }
