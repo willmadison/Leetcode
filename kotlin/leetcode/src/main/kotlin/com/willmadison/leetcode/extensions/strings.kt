@@ -1320,3 +1320,21 @@ fun longestDiverseString(a: Int, b: Int, c: Int): String {
 
     return sb.toString()
 }
+
+fun removeSubfolders(folders: Array<String>): List<String> {
+    folders.sort()
+
+    val nonSubfolders = mutableListOf<String>()
+    nonSubfolders.add(folders[0])
+
+    for (i in 1..folders.lastIndex) {
+        var lastFolder = nonSubfolders[nonSubfolders.size-1]
+        lastFolder += '/'
+
+        if (!folders[i].startsWith(lastFolder)) {
+            nonSubfolders.add(folders[i])
+        }
+    }
+
+    return nonSubfolders
+}

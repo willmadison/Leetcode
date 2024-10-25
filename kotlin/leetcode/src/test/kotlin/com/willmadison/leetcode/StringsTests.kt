@@ -939,6 +939,24 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun folderProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("/a","/a/b","/c/d","/c/d/e","/c/f"),
+                    listOf("/a","/c/d","/c/f"),
+                ),
+                Arguments.of(
+                    arrayOf("/a","/a/b/c","/a/b/d"),
+                    listOf("/a"),
+                ),
+                Arguments.of(
+                    arrayOf("/a/b/c","/a/b/ca","/a/b/d"),
+                    listOf("/a/b/c","/a/b/ca","/a/b/d"),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1291,5 +1309,12 @@ class StringsTests {
     fun longestDiverseString(a: Int, b: Int, c: Int, expected: Collection<String>) {
         val actual = com.willmadison.leetcode.extensions.longestDiverseString(a, b, c)
         assertThat(listOf(actual)).containsAnyOf(*expected.toTypedArray())
+    }
+
+    @ParameterizedTest(name = "removeSubfolders({0}) = {1}")
+    @MethodSource("folderProvider")
+    fun removeSubfolders(folders: Array<String>, expected: List<String>) {
+        val actual = com.willmadison.leetcode.extensions.removeSubfolders(folders)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }
