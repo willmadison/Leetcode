@@ -2409,3 +2409,16 @@ fun maxKelements(nums: IntArray, k: Int): Long {
 
     return score
 }
+
+// https://leetcode.com/problems/find-the-highest-altitude/editorial/?envType=study-plan-v2&envId=leetcode-75
+fun largestAltitude(gains: IntArray): Int {
+    val altitudes = mutableListOf(0)
+
+    for (gain in gains) {
+        altitudes.add(altitudes.last() + gain)
+    }
+
+    return altitudes.max()
+}
+
+

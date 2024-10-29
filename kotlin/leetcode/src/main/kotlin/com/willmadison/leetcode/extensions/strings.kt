@@ -1328,7 +1328,7 @@ fun removeSubfolders(folders: Array<String>): List<String> {
     nonSubfolders.add(folders[0])
 
     for (i in 1..folders.lastIndex) {
-        var lastFolder = nonSubfolders[nonSubfolders.size-1]
+        var lastFolder = nonSubfolders[nonSubfolders.size - 1]
         lastFolder += '/'
 
         if (!folders[i].startsWith(lastFolder)) {
@@ -1337,4 +1337,37 @@ fun removeSubfolders(folders: Array<String>): List<String> {
     }
 
     return nonSubfolders
+}
+
+// https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/?envType=study-plan-v2&envId=leetcode-75
+fun maxVowels(s: String, k: Int): Int {
+    var start = 0
+
+    var maxVowelsSeen = Int.MIN_VALUE
+    var vowelsInWindow = Int.MIN_VALUE
+
+    for (end in k - 1..s.lastIndex) {
+        if (vowelsInWindow == Int.MIN_VALUE) {
+            vowelsInWindow = maxOf(vowelsInWindow, s.substring(start..end).count { it.isVowel() })
+        } else {
+            if (s[start-1].isVowel() && !s[end].isVowel()) {
+                vowelsInWindow--
+            } else if (!s[start-1].isVowel() && s[end].isVowel()) {
+                vowelsInWindow++
+            }
+        }
+
+        maxVowelsSeen = maxOf(maxVowelsSeen, vowelsInWindow)
+
+        start++
+    }
+
+    return maxVowelsSeen
+}
+
+fun Char.isVowel(): Boolean {
+    return when (this) {
+        'a', 'e', 'i', 'o', 'u' -> true
+        else -> false
+    }
 }

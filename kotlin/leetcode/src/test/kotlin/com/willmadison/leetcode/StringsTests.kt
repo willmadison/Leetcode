@@ -957,6 +957,32 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxVowelsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abciiidef",
+                    3,
+                    3,
+                ),
+                Arguments.of(
+                    "aeiou",
+                    2,
+                    2,
+                ),
+                Arguments.of(
+                    "leetcode",
+                    3,
+                    2,
+                ),
+                Arguments.of(
+                    "a",
+                    1,
+                    1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1316,5 +1342,12 @@ class StringsTests {
     fun removeSubfolders(folders: Array<String>, expected: List<String>) {
         val actual = com.willmadison.leetcode.extensions.removeSubfolders(folders)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+    @ParameterizedTest(name = "maxVowels({0}, {1}) = {2}")
+    @MethodSource("maxVowelsProvider")
+    fun maxVowels(s: String, k: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxVowels(s, k)
+        assertThat(actual).isEqualTo(expected)
     }
 }
