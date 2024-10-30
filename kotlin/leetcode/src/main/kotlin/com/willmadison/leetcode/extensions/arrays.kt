@@ -2421,4 +2421,57 @@ fun largestAltitude(gains: IntArray): Int {
     return altitudes.max()
 }
 
+fun minimumMountainRemovals(nums: IntArray): Int {
+    val N = nums.size
 
+    val lisLength = IntArray(N)
+    val ldsLength = IntArray(N)
+
+    Arrays.fill(lisLength, 1)
+    Arrays.fill(ldsLength, 1)
+
+    for (i in 0 until N) {
+        for (j in i - 1 downTo 0) {
+            if (nums[i] > nums[j]) {
+                lisLength[i] = max(lisLength[i].toDouble(), (lisLength[j] + 1).toDouble()).toInt()
+            }
+        }
+    }
+
+    for (i in N - 1 downTo 0) {
+        for (j in i + 1 until N) {
+            if (nums[i] > nums[j]) {
+                ldsLength[i] = max(ldsLength[i].toDouble(), (ldsLength[j] + 1).toDouble()).toInt()
+            }
+        }
+    }
+
+    var minRemovals = Int.MAX_VALUE
+    for (i in 0 until N) {
+        if (lisLength[i] > 1 && ldsLength[i] > 1) {
+            minRemovals = min(
+                minRemovals.toDouble(),
+                (N - lisLength[i] - ldsLength[i] + 1).toDouble()
+            ).toInt()
+        }
+    }
+
+    return minRemovals
+}
+
+fun longestOnes(nums: IntArray, k: Int): Int {
+    var k = k
+    var left = 0
+    var right = 0
+    while (right < nums.size) {
+        if (nums[right] == 0) {
+            k--
+        }
+        if (k < 0) {
+            k += 1 - nums[left]
+            left++
+        }
+        right++
+    }
+    return right - left
+}
