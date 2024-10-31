@@ -1893,6 +1893,25 @@ class ArraysTests {
             )
 
         }
+
+        @JvmStatic
+        fun pivotIndexProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,7,3,6,5,6),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,3),
+                    -1,
+                ),
+                Arguments.of(
+                    intArrayOf(2,1,-1),
+                    0,
+                ),
+            )
+
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2576,6 +2595,13 @@ class ArraysTests {
     @MethodSource("longestBinarySubarrayProvider")
     fun longestSubarray(nums: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.longestSubarray(nums)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "pivotIndex({0}) = {1}")
+    @MethodSource("pivotIndexProvider")
+    fun pivotIndex(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.pivotIndex(nums)
         assertThat(actual).isEqualTo(expected)
     }
 }

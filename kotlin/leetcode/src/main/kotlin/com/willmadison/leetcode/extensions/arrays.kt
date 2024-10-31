@@ -2494,3 +2494,22 @@ fun longestSubarray(nums: IntArray): Int {
 
     return longestWindow
 }
+
+fun pivotIndex(nums: IntArray): Int {
+    val leftSums = IntArray(nums.size)
+    val rightSums = IntArray(nums.size)
+    leftSums[0] = 0
+    rightSums[rightSums.size-1] = 0
+
+    for ((i, n) in nums.withIndex()) {
+        for (j in leftSums.indices) {
+            if (i < j) {
+                leftSums[j] += n
+            } else if (i > j) {
+                rightSums[j] +=n
+            }
+        }
+    }
+
+    return leftSums.indices.firstOrNull { leftSums[it] == rightSums[it]  } ?: -1
+}
