@@ -2404,7 +2404,7 @@ fun maxKelements(nums: IntArray, k: Int): Long {
     while (kMutable-- > 0) {
         val max = maxHeap.remove()!!
         score += max
-        maxHeap.add(Math.ceil(max/3.0).toInt())
+        maxHeap.add(Math.ceil(max / 3.0).toInt())
     }
 
     return score
@@ -2474,4 +2474,23 @@ fun longestOnes(nums: IntArray, k: Int): Int {
         right++
     }
     return right - left
+}
+
+fun longestSubarray(nums: IntArray): Int {
+    var zeroes = 0
+    var longestWindow = 0
+
+    var start = 0
+
+    for (end in 0..nums.lastIndex) {
+        zeroes += if (nums[end] == 0) 1 else 0
+
+        while (zeroes > 1) {
+            zeroes -= if (nums[start++] == 0) 1 else 0
+        }
+
+        longestWindow = maxOf(longestWindow, end-start)
+    }
+
+    return longestWindow
 }

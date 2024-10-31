@@ -1874,6 +1874,25 @@ class ArraysTests {
             )
 
         }
+
+        @JvmStatic
+        fun longestBinarySubarrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,1,0,1),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(0,1,1,1,0,1,1,0,1),
+                    5,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,1),
+                    2,
+                ),
+            )
+
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2550,6 +2569,13 @@ class ArraysTests {
     @MethodSource("maxKElementsProvider")
     fun maxKElements(nums: IntArray, k: Int, expected: Long) {
         val actual = com.willmadison.leetcode.extensions.maxKelements(nums, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestSubarray({0}) = {1}")
+    @MethodSource("longestBinarySubarrayProvider")
+    fun longestSubarray(nums: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.longestSubarray(nums)
         assertThat(actual).isEqualTo(expected)
     }
 }
