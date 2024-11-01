@@ -983,6 +983,24 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun fancyStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leeetcode",
+                    "leetcode",
+                ),
+                Arguments.of(
+                    "aaabaaaa",
+                    "aabaa",
+                ),
+                Arguments.of(
+                    "aab",
+                    "aab",
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1348,6 +1366,13 @@ class StringsTests {
     @MethodSource("maxVowelsProvider")
     fun maxVowels(s: String, k: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxVowels(s, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "makeFancyString({0}) = {1}")
+    @MethodSource("fancyStringProvider")
+    fun makeFancyString(s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.makeFancyString(s)
         assertThat(actual).isEqualTo(expected)
     }
 }
