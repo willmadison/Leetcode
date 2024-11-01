@@ -1371,3 +1371,24 @@ fun Char.isVowel(): Boolean {
         else -> false
     }
 }
+
+fun makeFancyString(s: String): String {
+    if (s.isEmpty()) return s
+
+    val sb = StringBuilder()
+    sb.append(s[0])
+
+    for (i in 1..s.lastIndex) {
+        if (sb.length < 2) {
+            sb.append(s[i])
+        } else {
+            if (sb[sb.length-1] == s[i] && sb[sb.length-2] == s[i]) {
+                continue
+            }
+
+            sb.append(s[i])
+        }
+    }
+
+    return sb.toString()
+}
