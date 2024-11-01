@@ -1001,6 +1001,24 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun circularSentenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "leeetcode",
+                    false,
+                ),
+                Arguments.of(
+                    "leetcode exercises sound delightful",
+                    true,
+                ),
+                Arguments.of(
+                    "eetcode",
+                    true,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1373,6 +1391,13 @@ class StringsTests {
     @MethodSource("fancyStringProvider")
     fun makeFancyString(s: String, expected: String) {
         val actual = com.willmadison.leetcode.extensions.makeFancyString(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isCircularSentence({0}) = {1}")
+    @MethodSource("circularSentenceProvider")
+    fun isCircularSentence(s: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isCircularSentence(s)
         assertThat(actual).isEqualTo(expected)
     }
 }

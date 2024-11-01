@@ -1392,3 +1392,27 @@ fun makeFancyString(s: String): String {
 
     return sb.toString()
 }
+
+fun isCircularSentence(sentence: String): Boolean {
+    var lastWord: String? = null
+    val words = sentence.trim().split(" ")
+
+    for (word in words) {
+        if (lastWord != null) {
+            if (lastWord.last() != word.first()) {
+                return false
+            }
+        }
+
+        lastWord = word
+    }
+
+    val firstWord = words.first()
+    lastWord = words.last()
+
+    if (firstWord.first() != lastWord.last()) {
+        return false
+    }
+
+    return true
+}
