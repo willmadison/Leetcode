@@ -1416,3 +1416,7 @@ fun isCircularSentence(sentence: String): Boolean {
 
     return true
 }
+
+fun rotateString(s: String, goal: String): Boolean {
+    return s.length == goal.length && (s+s).contains(goal)
+}

@@ -1019,6 +1019,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun stringRotationProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcde",
+                    "cdeab",
+                    true,
+                ),
+                Arguments.of(
+                    "abcde",
+                    "abced",
+                    false,
+                ),
+                Arguments.of(
+                    "aa",
+                    "a",
+                    false,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1398,6 +1419,13 @@ class StringsTests {
     @MethodSource("circularSentenceProvider")
     fun isCircularSentence(s: String, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.isCircularSentence(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "rotateString({0}, {1}) = {2}")
+    @MethodSource("stringRotationProvider")
+    fun rotateString(s: String, goal: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.rotateString(s, goal)
         assertThat(actual).isEqualTo(expected)
     }
 }
