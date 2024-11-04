@@ -1040,6 +1040,20 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun compressedStringProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "abcde",
+                    "1a1b1c1d1e",
+                ),
+                Arguments.of(
+                    "aaaaaaaaaaaaaabb",
+                    "9a5a2b",
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1426,6 +1440,13 @@ class StringsTests {
     @MethodSource("stringRotationProvider")
     fun rotateString(s: String, goal: String, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.rotateString(s, goal)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "compressedString({0}) = {1}")
+    @MethodSource("compressedStringProvider")
+    fun compressedString(s: String, expected: String) {
+        val actual = com.willmadison.leetcode.extensions.compressedString(s)
         assertThat(actual).isEqualTo(expected)
     }
 }

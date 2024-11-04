@@ -1350,9 +1350,9 @@ fun maxVowels(s: String, k: Int): Int {
         if (vowelsInWindow == Int.MIN_VALUE) {
             vowelsInWindow = maxOf(vowelsInWindow, s.substring(start..end).count { it.isVowel() })
         } else {
-            if (s[start-1].isVowel() && !s[end].isVowel()) {
+            if (s[start - 1].isVowel() && !s[end].isVowel()) {
                 vowelsInWindow--
-            } else if (!s[start-1].isVowel() && s[end].isVowel()) {
+            } else if (!s[start - 1].isVowel() && s[end].isVowel()) {
                 vowelsInWindow++
             }
         }
@@ -1382,7 +1382,7 @@ fun makeFancyString(s: String): String {
         if (sb.length < 2) {
             sb.append(s[i])
         } else {
-            if (sb[sb.length-1] == s[i] && sb[sb.length-2] == s[i]) {
+            if (sb[sb.length - 1] == s[i] && sb[sb.length - 2] == s[i]) {
                 continue
             }
 
@@ -1418,5 +1418,33 @@ fun isCircularSentence(sentence: String): Boolean {
 }
 
 fun rotateString(s: String, goal: String): Boolean {
-    return s.length == goal.length && (s+s).contains(goal)
+    return s.length == goal.length && (s + s).contains(goal)
+}
+
+fun compressedString(word: String): String {
+    val maxRecurrence = 9
+
+    val compressedSb = StringBuilder()
+
+    var occurrences = 1
+    var lastCharacter: Char? = null
+
+    for (character in word) {
+        if (lastCharacter != null) {
+            if (character == lastCharacter && occurrences < maxRecurrence) {
+                occurrences++
+            } else {
+                compressedSb.append(occurrences)
+                compressedSb.append(lastCharacter)
+                occurrences = 1
+            }
+        }
+
+        lastCharacter = character
+    }
+
+    compressedSb.append(occurrences)
+    compressedSb.append(lastCharacter)
+
+    return compressedSb.toString()
 }
