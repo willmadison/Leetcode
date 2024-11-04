@@ -1448,3 +1448,59 @@ fun compressedString(word: String): String {
 
     return compressedSb.toString()
 }
+
+fun sameEndSubstringCount(s: String, queries: Array<IntArray>): IntArray {
+    val n = s.length
+
+    val charFreqPrefixSum = Array(26) { IntArray(n) }
+
+    for (i in 0 until n) {
+        charFreqPrefixSum[s[i].code - 'a'.code][i]++
+    }
+
+    for (i in 0..25) {
+        for (j in 1 until n) {
+            charFreqPrefixSum[i][j] += charFreqPrefixSum[i][j - 1]
+        }
+    }
+
+    val results = IntArray(queries.size)
+
+    for (i in queries.indices) {
+        val leftIndex = queries[i][0]
+        val rightIndex = queries[i][1]
+        var countSameEndSubstrings = 0
+
+        for (charIndex in 0..25) {
+            val leftFreq = if ((leftIndex == 0))
+                0
+            else
+                charFreqPrefixSum[charIndex][leftIndex - 1]
+
+            val rightFreq = charFreqPrefixSum[charIndex][rightIndex]
+            val frequencyInRange = rightFreq - leftFreq
+
+            countSameEndSubstrings +=
+                (frequencyInRange * (frequencyInRange + 1)) / 2
+        }
+
+        results[i] = countSameEndSubstrings
+    }
+
+    return results
+}
+
+
+fun minChanges(s: String): Int {
+    var minChangesRequired = 0
+
+    var i = 0
+    while (i < s.length) {
+        if (s[i] != s[i + 1]) {
+            minChangesRequired++
+        }
+        i += 2
+    }
+
+    return minChangesRequired
+}

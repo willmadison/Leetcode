@@ -1054,6 +1054,20 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun minChangesProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "1001",
+                    2,
+                ),
+                Arguments.of(
+                    "10",
+                    1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1447,6 +1461,13 @@ class StringsTests {
     @MethodSource("compressedStringProvider")
     fun compressedString(s: String, expected: String) {
         val actual = com.willmadison.leetcode.extensions.compressedString(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "minChanges({0}) = {1}")
+    @MethodSource("minChangesProvider")
+    fun minChanges(s: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.minChanges(s)
         assertThat(actual).isEqualTo(expected)
     }
 }
