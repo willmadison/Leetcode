@@ -2513,3 +2513,26 @@ fun pivotIndex(nums: IntArray): Int {
 
     return leftSums.indices.firstOrNull { leftSums[it] == rightSums[it]  } ?: -1
 }
+
+fun findDifference(nums: IntArray, nums2: IntArray): List<List<Int>> {
+    val left = nums.toSet()
+    val right = nums2.toSet()
+    val leftDifferences = mutableListOf<Int>()
+    val rightDifferences = mutableListOf<Int>()
+
+    for (num in left) {
+        if (!right.contains(num)) {
+            leftDifferences.add(num)
+        }
+    }
+
+    for (num in right) {
+        if (!left.contains(num)) {
+            rightDifferences.add(num)
+        }
+    }
+
+
+
+    return listOf(leftDifferences, rightDifferences)
+}

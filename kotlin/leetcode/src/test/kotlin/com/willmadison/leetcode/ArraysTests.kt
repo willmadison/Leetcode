@@ -1910,7 +1910,28 @@ class ArraysTests {
                     0,
                 ),
             )
+        }
 
+        @JvmStatic
+        fun arrayDifferenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3),
+                    intArrayOf(2,4,6),
+                    listOf(
+                        listOf(1,3),
+                        listOf(4,6),
+                    )
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,3,3),
+                    intArrayOf(1,1,2,2),
+                    listOf(
+                        listOf(3),
+                        listOf(),
+                    )
+                ),
+            )
         }
     }
 
@@ -2604,4 +2625,13 @@ class ArraysTests {
         val actual = com.willmadison.leetcode.extensions.pivotIndex(nums)
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest(name = "findDifference({0}, {1}) = {2}")
+    @MethodSource("arrayDifferenceProvider")
+    fun findDifference(nums: IntArray, nums2: IntArray, expected: List<List<Int>>) {
+        val actual = com.willmadison.leetcode.extensions.findDifference(nums, nums2)
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    }
+
+
 }
