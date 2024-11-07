@@ -633,3 +633,26 @@ fun findMaxAverage(nums: IntArray, k: Int): Double {
 
     return (maxSum.toDouble() / k)
 }
+
+// https://leetcode.com/problems/largest-combination-with-bitwise-and-greater-than-zero/submissions/1445850877/?envType=daily-question&envId=2024-11-07
+fun largestCombination(candidates: IntArray): Int {
+    val bitCount = IntArray(24)
+
+    for (i in 0..<24) {
+        for (num in candidates) {
+            if (num and (1 shl i) != 0) {
+                bitCount[i]++
+            }
+        }
+    }
+
+    var max = 0
+
+    for (count in bitCount) {
+        if (count > max) {
+            max = count
+        }
+    }
+
+    return max
+}

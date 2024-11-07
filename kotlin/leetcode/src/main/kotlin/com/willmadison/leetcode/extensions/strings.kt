@@ -1504,3 +1504,7 @@ fun minChanges(s: String): Int {
 
     return minChangesRequired
 }
+
+fun main(vararg args: String) {
+    println("Hello World! ${args.joinToString()}")
+}
