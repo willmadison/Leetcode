@@ -1,7 +1,6 @@
 package com.willmadison.leetcode.extensions
 
 import java.util.*
-import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -655,4 +654,24 @@ fun largestCombination(candidates: IntArray): Int {
     }
 
     return max
+}
+
+// https://leetcode.com/problems/maximum-xor-for-each-query/submissions/1446780250/?envType=daily-question&envId=2024-11-08
+fun getMaximumXor(nums: IntArray, maximumBit: Int): IntArray {
+    val prefixXOR = IntArray(nums.size)
+    prefixXOR[0] = nums[0]
+
+    for (i in 1 until nums.size) {
+        prefixXOR[i] = prefixXOR[i - 1] xor nums[i]
+    }
+    val ans = IntArray(nums.size)
+
+    val mask = (1 shl maximumBit) - 1
+
+    for (i in nums.indices) {
+        val currentXOR = prefixXOR[prefixXOR.size - 1 - i]
+        ans[i] = currentXOR xor mask
+    }
+
+    return ans
 }
