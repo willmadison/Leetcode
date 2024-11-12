@@ -1805,7 +1805,7 @@ class ArraysTests {
                     0
                 ),
                 Arguments.of(
-                    intArrayOf(3,4,1,2),
+                    intArrayOf(3, 4, 1, 2),
                     25,
                     1
                 ),
@@ -1835,22 +1835,22 @@ class ArraysTests {
 //                ),
                 Arguments.of(
                     arrayOf(
-                        intArrayOf(33889,98676),
-                        intArrayOf(80071,89737),
-                        intArrayOf(44118,52565),
-                        intArrayOf(52992,84310),
-                        intArrayOf(78492,88209),
-                        intArrayOf(21695,67063),
-                        intArrayOf(84622,95452),
-                        intArrayOf(98048,98856),
-                        intArrayOf(98411,99433),
-                        intArrayOf(55333,56548),
-                        intArrayOf(65375,88566),
-                        intArrayOf(55011,62821),
-                        intArrayOf(48548,48656),
-                        intArrayOf(87396,94825),
-                        intArrayOf(55273,81868),
-                        intArrayOf(75629,91467),
+                        intArrayOf(33889, 98676),
+                        intArrayOf(80071, 89737),
+                        intArrayOf(44118, 52565),
+                        intArrayOf(52992, 84310),
+                        intArrayOf(78492, 88209),
+                        intArrayOf(21695, 67063),
+                        intArrayOf(84622, 95452),
+                        intArrayOf(98048, 98856),
+                        intArrayOf(98411, 99433),
+                        intArrayOf(55333, 56548),
+                        intArrayOf(65375, 88566),
+                        intArrayOf(55011, 62821),
+                        intArrayOf(48548, 48656),
+                        intArrayOf(87396, 94825),
+                        intArrayOf(55273, 81868),
+                        intArrayOf(75629, 91467),
                     ),
                     6,
                     2
@@ -1879,15 +1879,15 @@ class ArraysTests {
         fun longestBinarySubarrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,1,0,1),
+                    intArrayOf(1, 1, 0, 1),
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(0,1,1,1,0,1,1,0,1),
+                    intArrayOf(0, 1, 1, 1, 0, 1, 1, 0, 1),
                     5,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,1),
+                    intArrayOf(1, 1, 1),
                     2,
                 ),
             )
@@ -1898,15 +1898,15 @@ class ArraysTests {
         fun pivotIndexProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,7,3,6,5,6),
+                    intArrayOf(1, 7, 3, 6, 5, 6),
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,3),
+                    intArrayOf(1, 2, 3),
                     -1,
                 ),
                 Arguments.of(
-                    intArrayOf(2,1,-1),
+                    intArrayOf(2, 1, -1),
                     0,
                 ),
             )
@@ -1916,20 +1916,37 @@ class ArraysTests {
         fun arrayDifferenceProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,2,3),
-                    intArrayOf(2,4,6),
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(2, 4, 6),
                     listOf(
-                        listOf(1,3),
-                        listOf(4,6),
+                        listOf(1, 3),
+                        listOf(4, 6),
                     )
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,3,3),
-                    intArrayOf(1,1,2,2),
+                    intArrayOf(1, 2, 3, 3),
+                    intArrayOf(1, 1, 2, 2),
                     listOf(
                         listOf(3),
                         listOf(),
                     )
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun beautifulItemProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(1, 2),
+                        intArrayOf(3, 2),
+                        intArrayOf(2, 4),
+                        intArrayOf(5, 6),
+                        intArrayOf(3, 5),
+                    ),
+                    intArrayOf(1, 2, 3, 4, 5, 6),
+                    intArrayOf(2, 4, 5, 5, 6, 6),
                 ),
             )
         }
@@ -2633,5 +2650,10 @@ class ArraysTests {
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 
-
+    @ParameterizedTest(name = "maximumBeauty({0}, {1}) = {2}")
+    @MethodSource("beautifulItemProvider")
+    fun maximumBeauty(items: Array<IntArray>, queries: IntArray, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.maximumBeauty(items, queries)
+        assertThat(actual).isEqualTo(expected)
+    }
 }

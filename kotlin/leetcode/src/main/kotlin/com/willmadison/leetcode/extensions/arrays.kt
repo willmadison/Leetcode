@@ -2536,3 +2536,31 @@ fun findDifference(nums: IntArray, nums2: IntArray): List<List<Int>> {
 
     return listOf(leftDifferences, rightDifferences)
 }
+
+data class Item(val index: Int, val price: Int, val beauty: Int)
+
+fun maximumBeauty(rawItems: Array<IntArray>, queries: IntArray): IntArray {
+    val answers = IntArray(queries.size) { 0 }
+
+    val beautyComparator: Comparator<Item> = compareBy<Item> { it.beauty }.reversed()
+
+    var items = mutableListOf<Item>()
+
+    for ((i, rawItem) in rawItems.withIndex()) {
+        items.add(Item(i, rawItem[0], rawItem[1]))
+    }
+
+    items = items.sortedWith(beautyComparator).toMutableList()
+
+    for ((i, query) in queries.withIndex()) {
+        val needle = items.firstOrNull { it.price <= query }
+
+        if (needle != null) {
+            answers[i] = needle.beauty
+        }
+    }
+
+    return answers
+}
+
+
