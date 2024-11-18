@@ -1950,6 +1950,27 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun decryptionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(5, 7, 1, 4),
+                    3,
+                    intArrayOf(12, 10, 16, 13),
+                ),
+                Arguments.of(
+                    intArrayOf(1, 2, 3, 4),
+                    0,
+                    intArrayOf(0, 0, 0, 0),
+                ),
+                Arguments.of(
+                    intArrayOf(2, 4, 9, 3),
+                    -2,
+                    intArrayOf(12, 5, 6, 13),
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2654,6 +2675,13 @@ class ArraysTests {
     @MethodSource("beautifulItemProvider")
     fun maximumBeauty(items: Array<IntArray>, queries: IntArray, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.maximumBeauty(items, queries)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "decrypt({0}, {1}) = {2}")
+    @MethodSource("decryptionProvider")
+    fun decrypt(code: IntArray, k: Int, expected: IntArray) {
+        val actual = com.willmadison.leetcode.extensions.decrypt(code, k)
         assertThat(actual).isEqualTo(expected)
     }
 }

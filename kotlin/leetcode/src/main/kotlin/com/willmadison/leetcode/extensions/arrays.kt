@@ -2397,14 +2397,14 @@ fun maxKelements(nums: IntArray, k: Int): Long {
         maxHeap.add(n)
     }
 
-    var kMutable = k
+    var k = k
 
     var score = 0L
 
-    while (kMutable-- > 0) {
+    while (k-- > 0) {
         val max = maxHeap.remove()!!
         score += max
-        maxHeap.add(Math.ceil(max / 3.0).toInt())
+        maxHeap.add(ceil(max / 3.0).toInt())
     }
 
     return score
@@ -2489,7 +2489,7 @@ fun longestSubarray(nums: IntArray): Int {
             zeroes -= if (nums[start++] == 0) 1 else 0
         }
 
-        longestWindow = maxOf(longestWindow, end-start)
+        longestWindow = maxOf(longestWindow, end - start)
     }
 
     return longestWindow
@@ -2499,19 +2499,19 @@ fun pivotIndex(nums: IntArray): Int {
     val leftSums = IntArray(nums.size)
     val rightSums = IntArray(nums.size)
     leftSums[0] = 0
-    rightSums[rightSums.size-1] = 0
+    rightSums[rightSums.size - 1] = 0
 
     for ((i, n) in nums.withIndex()) {
         for (j in leftSums.indices) {
             if (i < j) {
                 leftSums[j] += n
             } else if (i > j) {
-                rightSums[j] +=n
+                rightSums[j] += n
             }
         }
     }
 
-    return leftSums.indices.firstOrNull { leftSums[it] == rightSums[it]  } ?: -1
+    return leftSums.indices.firstOrNull { leftSums[it] == rightSums[it] } ?: -1
 }
 
 fun findDifference(nums: IntArray, nums2: IntArray): List<List<Int>> {
@@ -2561,6 +2561,49 @@ fun maximumBeauty(rawItems: Array<IntArray>, queries: IntArray): IntArray {
     }
 
     return answers
+}
+
+fun decrypt(code: IntArray, k: Int): IntArray {
+    return when {
+        k == 0 -> IntArray(code.size) { 0 }
+        k < 0 -> {
+            IntArray(code.size) {
+                val start = it - 1
+                val end = it + k
+                val range = if (start > end) end..start else start..end
+                val values = mutableListOf<Int>()
+                for (i in range) {
+                    values.add(
+                        if (i >= 0) {
+                            code[i]
+                        } else {
+                            code[code.size + i]
+                        }
+                    )
+                }
+                values.sum()
+            }
+        }
+
+        else -> {
+            IntArray(code.size) {
+                val start = it + 1
+                val end = it + k
+                val range = start..end
+                val values = mutableListOf<Int>()
+                for (i in range) {
+                    values.add(
+                        if (i < code.size) {
+                            code[i]
+                        } else {
+                            code[i % code.size]
+                        }
+                    )
+                }
+                values.sum()
+            }
+        }
+    }
 }
 
 
