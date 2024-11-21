@@ -1505,6 +1505,32 @@ fun minChanges(s: String): Int {
     return minChangesRequired
 }
 
-fun main(vararg args: String) {
-    println("Hello World! ${args.joinToString()}")
+fun takeCharacters(s: String, k: Int): Int {
+    val countsByCharacter = s.asIterable().groupingBy { it }.eachCount()
+    if (countsByCharacter.values.any { it < k} || countsByCharacter.size < 3) return -1
+
+    val n = s.length
+
+    var left = 0
+    var maxWindow = 0
+
+    val window = IntArray(3)
+
+    for (right in 0 until n) {
+        window[s[right].code - 'a'.code]++
+
+        while (left <= right &&
+            (countsByCharacter['a']!! - window['a'.code - 'a'.code] < k ||
+                    countsByCharacter['b']!! - window['b'.code - 'a'.code] < k ||
+                    countsByCharacter['c']!! - window['c'.code - 'a'.code] < k
+                    )) {
+            window[s[left].code - 'a'.code]--
+            left++
+        }
+
+        maxWindow = maxOf(maxWindow, right - left + 1)
+    }
+
+    return n - maxWindow
 }
+

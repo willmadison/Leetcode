@@ -2606,4 +2606,83 @@ fun decrypt(code: IntArray, k: Int): IntArray {
     }
 }
 
+data class Coordinate(val row: Int, val col: Int)
+
+fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Array<IntArray>): Int {
+    val guardCoordinates = guards.map { Coordinate(it[0], it[1]) }.toSet()
+    val wallCoordinate = walls.map { Coordinate(it[0], it[1]) }.toSet()
+
+    val guardedCells = mutableSetOf<Coordinate>()
+
+    for (guard in guardCoordinates) {
+        // North
+        for (row in guard.row-1 downTo  0) {
+            val c = Coordinate(row, guard.col)
+
+            val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
+
+            if (occupied) {
+                break
+            }
+
+            guardedCells.add(c)
+        }
+
+        // East
+        for (col in guard.col+1 until columns) {
+            val c = Coordinate(guard.row, col)
+
+            val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
+
+            if (occupied) {
+                break
+            }
+
+            guardedCells.add(c)
+        }
+
+        // South
+        for (row in guard.row+1 until rows) {
+            val c = Coordinate(row, guard.col)
+
+            val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
+
+            if (occupied) {
+                break
+            }
+
+            guardedCells.add(c)
+        }
+
+        // West
+        for (col in guard.col-1 downTo 0) {
+            val c = Coordinate(guard.row, col)
+
+            val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
+
+            if (occupied) {
+                break
+            }
+
+            guardedCells.add(c)
+        }
+    }
+
+    var unguardedCells = 0
+
+    for (row in 0 until rows) {
+        for (col in 0 until columns) {
+            val c = Coordinate(row, col)
+
+            val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
+
+            if (!occupied && !guardedCells.contains(c)) {
+                unguardedCells++
+            }
+        }
+    }
+
+    return unguardedCells
+}
+
 

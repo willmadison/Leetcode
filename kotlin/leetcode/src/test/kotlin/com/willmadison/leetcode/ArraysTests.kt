@@ -1971,6 +1971,27 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun unguardedProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    4,
+                    6,
+                    arrayOf(
+                        intArrayOf(0,0),
+                        intArrayOf(1,1),
+                        intArrayOf(2,3),
+                    ),
+                    arrayOf(
+                        intArrayOf(0,1),
+                        intArrayOf(2,2),
+                        intArrayOf(1,4),
+                    ),
+                    7,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2682,6 +2703,13 @@ class ArraysTests {
     @MethodSource("decryptionProvider")
     fun decrypt(code: IntArray, k: Int, expected: IntArray) {
         val actual = com.willmadison.leetcode.extensions.decrypt(code, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "countUnguarded({0}, {1}, {2}, {3}) = {4}")
+    @MethodSource("unguardedProvider")
+    fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.countUnguarded(rows, columns, guards, walls)
         assertThat(actual).isEqualTo(expected)
     }
 }
