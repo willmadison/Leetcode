@@ -2686,3 +2686,20 @@ fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Arra
 }
 
 
+fun maxEqualRowsAfterFlips(matrix: Array<IntArray>): Int {
+    val patternFrequency = mutableMapOf<String, Int>()
+
+    for (row in matrix) {
+        val patternSb = StringBuilder()
+
+        for (col in row) {
+            if (col == row[0]) patternSb.append('T') else patternSb.append('F')
+        }
+
+        val pattern = patternSb.toString()
+        var count = patternFrequency.getOrPut(pattern) { 0 }
+        patternFrequency[pattern] = count+1
+    }
+
+    return patternFrequency.entries.map { it.value }.max()
+}

@@ -1979,16 +1979,44 @@ class ArraysTests {
                     4,
                     6,
                     arrayOf(
-                        intArrayOf(0,0),
-                        intArrayOf(1,1),
-                        intArrayOf(2,3),
+                        intArrayOf(0, 0),
+                        intArrayOf(1, 1),
+                        intArrayOf(2, 3),
                     ),
                     arrayOf(
-                        intArrayOf(0,1),
-                        intArrayOf(2,2),
-                        intArrayOf(1,4),
+                        intArrayOf(0, 1),
+                        intArrayOf(2, 2),
+                        intArrayOf(1, 4),
                     ),
                     7,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun equalRowProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 1),
+                        intArrayOf(1, 1),
+                    ),
+                    1,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 1),
+                        intArrayOf(1, 0),
+                    ),
+                    2,
+                ),
+                Arguments.of(
+                    arrayOf(
+                        intArrayOf(0, 0, 0),
+                        intArrayOf(0, 0, 1),
+                        intArrayOf(1, 1, 0),
+                    ),
+                    2,
                 ),
             )
         }
@@ -2710,6 +2738,13 @@ class ArraysTests {
     @MethodSource("unguardedProvider")
     fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Array<IntArray>, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.countUnguarded(rows, columns, guards, walls)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxEqualRowsAfterFlips({0}) = {1}")
+    @MethodSource("equalRowProvider")
+    fun maxEqualRowsAfterFlips(matrix: Array<IntArray>, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.maxEqualRowsAfterFlips(matrix)
         assertThat(actual).isEqualTo(expected)
     }
 }
