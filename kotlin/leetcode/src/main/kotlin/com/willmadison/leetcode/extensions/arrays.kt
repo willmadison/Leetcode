@@ -2697,9 +2697,9 @@ fun maxEqualRowsAfterFlips(matrix: Array<IntArray>): Int {
         }
 
         val pattern = patternSb.toString()
-        var count = patternFrequency.getOrPut(pattern) { 0 }
+        val count = patternFrequency.getOrPut(pattern) { 0 }
         patternFrequency[pattern] = count+1
     }
 
-    return patternFrequency.entries.map { it.value }.max()
+    return patternFrequency.entries.maxOfOrNull { it.value } ?: 0
 }
