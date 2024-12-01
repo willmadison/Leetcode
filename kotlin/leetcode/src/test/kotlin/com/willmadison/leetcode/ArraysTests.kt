@@ -2020,6 +2020,20 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun existenceProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(10,2,5,3),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(3,1,7,11),
+                    false,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2745,6 +2759,13 @@ class ArraysTests {
     @MethodSource("equalRowProvider")
     fun maxEqualRowsAfterFlips(matrix: Array<IntArray>, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxEqualRowsAfterFlips(matrix)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "checkIfExist({0}) = {1}")
+    @MethodSource("existenceProvider")
+    fun checkIfExist(arr: IntArray, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.checkIfExist(arr)
         assertThat(actual).isEqualTo(expected)
     }
 }

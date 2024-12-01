@@ -2616,7 +2616,7 @@ fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Arra
 
     for (guard in guardCoordinates) {
         // North
-        for (row in guard.row-1 downTo  0) {
+        for (row in guard.row - 1 downTo 0) {
             val c = Coordinate(row, guard.col)
 
             val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
@@ -2629,7 +2629,7 @@ fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Arra
         }
 
         // East
-        for (col in guard.col+1 until columns) {
+        for (col in guard.col + 1 until columns) {
             val c = Coordinate(guard.row, col)
 
             val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
@@ -2642,7 +2642,7 @@ fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Arra
         }
 
         // South
-        for (row in guard.row+1 until rows) {
+        for (row in guard.row + 1 until rows) {
             val c = Coordinate(row, guard.col)
 
             val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
@@ -2655,7 +2655,7 @@ fun countUnguarded(rows: Int, columns: Int, guards: Array<IntArray>, walls: Arra
         }
 
         // West
-        for (col in guard.col-1 downTo 0) {
+        for (col in guard.col - 1 downTo 0) {
             val c = Coordinate(guard.row, col)
 
             val occupied = wallCoordinate.contains(c) || guardCoordinates.contains(c)
@@ -2698,8 +2698,36 @@ fun maxEqualRowsAfterFlips(matrix: Array<IntArray>): Int {
 
         val pattern = patternSb.toString()
         val count = patternFrequency.getOrPut(pattern) { 0 }
-        patternFrequency[pattern] = count+1
+        patternFrequency[pattern] = count + 1
     }
 
     return patternFrequency.entries.maxOfOrNull { it.value } ?: 0
+}
+
+fun checkIfExist(arr: IntArray): Boolean {
+    val indicesByValue = mutableMapOf<Int, MutableSet<Int>>()
+
+    for ((i, value) in arr.withIndex()) {
+        val indices = indicesByValue.getOrPut(value) { mutableSetOf(i) }
+        indices.add(i)
+        indicesByValue[value] = indices
+    }
+
+    for ((i, value) in arr.withIndex()) {
+        val double = value*2
+
+        val indices = indicesByValue[double]
+
+        if (indices != null) {
+            indices.remove(i)
+
+            if (indices.isNotEmpty()) {
+                return true
+            }
+
+            indices.add(i)
+        }
+    }
+
+    return false
 }
