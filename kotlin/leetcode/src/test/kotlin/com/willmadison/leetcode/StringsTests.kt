@@ -1068,6 +1068,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun isPrefixOfWordProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "i love eating burger",
+                    "burg",
+                    4,
+                ),
+                Arguments.of(
+                    "this problem is an easy problem",
+                    "pro",
+                    2,
+                ),
+                Arguments.of(
+                    "I am tired",
+                    "you",
+                    -1,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1468,6 +1489,13 @@ class StringsTests {
     @MethodSource("minChangesProvider")
     fun minChanges(s: String, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.minChanges(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isPrefixOfWord({0}, {1}) = {2}")
+    @MethodSource("isPrefixOfWordProvider")
+    fun minChanges(sentence: String, needle: String, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.isPrefixOfWord(sentence, needle)
         assertThat(actual).isEqualTo(expected)
     }
 }

@@ -1534,3 +1534,15 @@ fun takeCharacters(s: String, k: Int): Int {
     return n - maxWindow
 }
 
+fun isPrefixOfWord(sentence: String, needle: String): Int {
+    val words = sentence.split(' ')
+
+    val word = words.find { it.startsWith(needle) }
+
+    if (word == null) {
+        return -1
+    }
+
+    return words.indexOf(word) + 1
+}
+
