@@ -1546,3 +1546,19 @@ fun isPrefixOfWord(sentence: String, needle: String): Int {
     return words.indexOf(word) + 1
 }
 
+fun addSpaces(s: String, spaces: IntArray): String {
+    val sb = StringBuilder()
+
+    val spaces = spaces.toSet()
+
+    for ((i,c) in s.withIndex()) {
+        if (spaces.contains(i)) {
+            sb.append(" ")
+        }
+
+        sb.append(c)
+    }
+
+    return sb.toString()
+}
+
