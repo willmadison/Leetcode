@@ -2034,6 +2034,24 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun specialtyArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1),
+                    true,
+                ),
+                Arguments.of(
+                    intArrayOf(3,1,7,11),
+                    false,
+                ),
+                Arguments.of(
+                    intArrayOf(2,1,4,11),
+                    true,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2766,6 +2784,13 @@ class ArraysTests {
     @MethodSource("existenceProvider")
     fun checkIfExist(arr: IntArray, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.checkIfExist(arr)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isArraySpecial({0}) = {1}")
+    @MethodSource("specialtyArrayProvider")
+    fun isArraySpecial(arr: IntArray, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isArraySpecial(arr)
         assertThat(actual).isEqualTo(expected)
     }
 }

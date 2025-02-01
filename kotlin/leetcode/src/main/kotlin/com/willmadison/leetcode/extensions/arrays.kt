@@ -2731,3 +2731,19 @@ fun checkIfExist(arr: IntArray): Boolean {
 
     return false
 }
+
+fun isArraySpecial(nums: IntArray): Boolean {
+    for (i in 0..<nums.lastIndex) {
+        if (nums[i] % 2 == 0) {
+            if (nums[i+1] % 2 == 0) {
+                return false
+            }
+        } else {
+            if (nums[i+1] % 2 != 0) {
+                return false
+            }
+        }
+    }
+
+    return true
+}
