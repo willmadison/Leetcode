@@ -2714,7 +2714,7 @@ fun checkIfExist(arr: IntArray): Boolean {
     }
 
     for ((i, value) in arr.withIndex()) {
-        val double = value*2
+        val double = value * 2
 
         val indices = indicesByValue[double]
 
@@ -2735,11 +2735,11 @@ fun checkIfExist(arr: IntArray): Boolean {
 fun isArraySpecial(nums: IntArray): Boolean {
     for (i in 0..<nums.lastIndex) {
         if (nums[i] % 2 == 0) {
-            if (nums[i+1] % 2 == 0) {
+            if (nums[i + 1] % 2 == 0) {
                 return false
             }
         } else {
-            if (nums[i+1] % 2 != 0) {
+            if (nums[i + 1] % 2 != 0) {
                 return false
             }
         }
@@ -2747,3 +2747,31 @@ fun isArraySpecial(nums: IntArray): Boolean {
 
     return true
 }
+
+fun longestMonotonicSubarray(nums: IntArray): Int {
+    var maxWindowSize = 1
+    var (increasingLength, decreasingLength) = 1 to 1
+
+    for (i in 0..<nums.lastIndex) {
+        when {
+            nums[i + 1] > nums[i] -> {
+                increasingLength++
+                decreasingLength = 1
+            }
+
+            nums[i + 1] < nums[i] -> {
+                decreasingLength++
+                increasingLength = 1
+            }
+
+            else -> {
+                increasingLength = 1
+                decreasingLength = 1
+            }
+        }
+
+            maxWindowSize = maxOf(maxWindowSize, maxOf(increasingLength, decreasingLength))
+        }
+
+        return maxWindowSize
+    }

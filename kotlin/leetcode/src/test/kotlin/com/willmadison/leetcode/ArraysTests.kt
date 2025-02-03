@@ -2052,6 +2052,28 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun monotonicArrayProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,4,3,3,2),
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(3,3,3,3),
+                    1,
+                ),
+                Arguments.of(
+                    intArrayOf(3,2,1),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(1,9,7,1),
+                    3,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2791,6 +2813,13 @@ class ArraysTests {
     @MethodSource("specialtyArrayProvider")
     fun isArraySpecial(arr: IntArray, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.isArraySpecial(arr)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "longestMonotonicSubarray({0}) = {1}")
+    @MethodSource("monotonicArrayProvider")
+    fun longestMonotonicSubarray(arr: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.longestMonotonicSubarray(arr)
         assertThat(actual).isEqualTo(expected)
     }
 }
