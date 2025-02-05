@@ -2774,4 +2774,19 @@ fun longestMonotonicSubarray(nums: IntArray): Int {
         }
 
         return maxWindowSize
+}
+
+fun maxAscendingSum(nums: IntArray): Int {
+    var maximumSum = 0
+    var currentSum = nums[0]
+
+    for (i in 1..nums.lastIndex) {
+        if (nums[i] <= nums[i-1]) {
+            maximumSum = maxOf(maximumSum, currentSum)
+            currentSum = 0
+        }
+        currentSum += nums[i]
     }
+
+    return maxOf(maximumSum, currentSum)
+}

@@ -1562,3 +1562,28 @@ fun addSpaces(s: String, spaces: IntArray): String {
     return sb.toString()
 }
 
+fun areAlmostEqual(s1: String, s2: String): Boolean {
+    if (s1 == s2) return true
+
+    var mismatches = 0
+    var firstVariance = 0
+    var secondVariance = 0
+
+    for (i in s1.indices) {
+        if (s1[i] != s2[i]) {
+            mismatches++
+
+            if (mismatches > 2) return false
+
+            when {
+                mismatches == 1 -> firstVariance = i
+                else -> secondVariance = i
+            }
+        }
+
+
+    }
+
+    return s1[firstVariance] == s2[secondVariance] && s1[secondVariance] == s2[firstVariance]
+}
+

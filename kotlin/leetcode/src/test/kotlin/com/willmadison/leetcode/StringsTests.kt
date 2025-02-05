@@ -1089,6 +1089,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun almostEqualProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "bank",
+                    "kanb",
+                    true,
+                ),
+                Arguments.of(
+                    "attack",
+                    "defend",
+                    false,
+                ),
+                Arguments.of(
+                    "kelb",
+                    "kelb",
+                    true,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1496,6 +1517,13 @@ class StringsTests {
     @MethodSource("isPrefixOfWordProvider")
     fun minChanges(sentence: String, needle: String, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.isPrefixOfWord(sentence, needle)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "areAlmostEqual({0}, {1}) = {2}")
+    @MethodSource("almostEqualProvider")
+    fun areAlmostEqual(s1: String, s2: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.areAlmostEqual(s1, s2)
         assertThat(actual).isEqualTo(expected)
     }
 }
