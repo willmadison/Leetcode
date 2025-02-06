@@ -2092,6 +2092,20 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun sameProductTupleProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(2,3,4,6),
+                    8,
+                ),
+                Arguments.of(
+                    intArrayOf(1,2,4,5,10),
+                    16,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2845,6 +2859,13 @@ class ArraysTests {
     @MethodSource("ascendingSumProvider")
     fun maxAscendingSum(arr: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.maxAscendingSum(arr)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "tupleSameProduct({0}) = {1}")
+    @MethodSource("sameProductTupleProvider")
+    fun tupleSameProduct(arr: IntArray, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.tupleSameProduct(arr)
         assertThat(actual).isEqualTo(expected)
     }
 }

@@ -2770,10 +2770,10 @@ fun longestMonotonicSubarray(nums: IntArray): Int {
             }
         }
 
-            maxWindowSize = maxOf(maxWindowSize, maxOf(increasingLength, decreasingLength))
-        }
+        maxWindowSize = maxOf(maxWindowSize, maxOf(increasingLength, decreasingLength))
+    }
 
-        return maxWindowSize
+    return maxWindowSize
 }
 
 fun maxAscendingSum(nums: IntArray): Int {
@@ -2781,7 +2781,7 @@ fun maxAscendingSum(nums: IntArray): Int {
     var currentSum = nums[0]
 
     for (i in 1..nums.lastIndex) {
-        if (nums[i] <= nums[i-1]) {
+        if (nums[i] <= nums[i - 1]) {
             maximumSum = maxOf(maximumSum, currentSum)
             currentSum = 0
         }
@@ -2789,4 +2789,26 @@ fun maxAscendingSum(nums: IntArray): Int {
     }
 
     return maxOf(maximumSum, currentSum)
+}
+
+fun tupleSameProduct(nums: IntArray): Int {
+    val n = nums.size
+
+    val pairwiseProductFrequency = mutableMapOf<Int, Int>()
+
+    var tuples = 0
+
+    for (i in 0..<n) {
+        for (j in i + 1..<n) {
+            val product = nums[i] * nums[j]
+            pairwiseProductFrequency[product] = pairwiseProductFrequency.getOrDefault(product, 0) + 1
+        }
+    }
+
+    for (frequency in pairwiseProductFrequency.values) {
+        val pairs = ((frequency-1) * frequency) / 2
+        tuples += 8 * pairs
+    }
+
+    return tuples
 }
