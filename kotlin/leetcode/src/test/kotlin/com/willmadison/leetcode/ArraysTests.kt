@@ -2106,6 +2106,27 @@ class ArraysTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun alternatingGroupProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(0,1,0,1,0),
+                    3,
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(0,1,0,0,1,0,1),
+                    6,
+                    2,
+                ),
+                Arguments.of(
+                    intArrayOf(1,1,0,1),
+                    4,
+                    0,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "countSubarrays({0}, {1}) = {2}")
@@ -2866,6 +2887,13 @@ class ArraysTests {
     @MethodSource("sameProductTupleProvider")
     fun tupleSameProduct(arr: IntArray, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.tupleSameProduct(arr)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "numberOfAlternatingGroups({0}, {1}) = {2}")
+    @MethodSource("alternatingGroupProvider")
+    fun numberOfAlternatingGroups(arr: IntArray, groupSize: Int, expected: Int) {
+        val actual = com.willmadison.leetcode.extensions.numberOfAlternatingGroups(arr, groupSize)
         assertThat(actual).isEqualTo(expected)
     }
 }

@@ -2812,3 +2812,37 @@ fun tupleSameProduct(nums: IntArray): Int {
 
     return tuples
 }
+
+fun numberOfAlternatingGroups(colors: IntArray, k: Int): Int {
+    val extendedColors = IntArray(colors.size + k - 1)
+
+    for (i in colors.indices) {
+        extendedColors[i] = colors[i]
+    }
+    for (i in 0..<k - 1) {
+        extendedColors[colors.size + i] = colors[i]
+    }
+
+    val length = extendedColors.size
+    var result = 0
+
+    var left = 0
+    var right = 1
+
+    while (right < length) {
+        if (extendedColors[right] == extendedColors[right - 1]) {
+            left = right
+            right++
+            continue
+        }
+
+        right++
+
+        if (right - left < k) continue
+
+        result++
+        left++
+    }
+
+    return result
+}
