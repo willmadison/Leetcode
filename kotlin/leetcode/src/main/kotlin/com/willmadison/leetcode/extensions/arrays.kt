@@ -2846,3 +2846,17 @@ fun numberOfAlternatingGroups(colors: IntArray, k: Int): Int {
 
     return result
 }
+
+fun maximumCount(nums: IntArray): Int {
+    var (positives, negatives) = 0 to 0
+
+    for (num in nums) {
+        if (num > 0) {
+            positives++
+        } else if (num < 0) {
+            negatives++
+        }
+    }
+
+    return maxOf(positives, negatives)
+}
