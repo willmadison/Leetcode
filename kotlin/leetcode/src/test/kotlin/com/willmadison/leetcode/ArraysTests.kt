@@ -2025,11 +2025,11 @@ class ArraysTests {
         fun existenceProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(10,2,5,3),
+                    intArrayOf(10, 2, 5, 3),
                     true,
                 ),
                 Arguments.of(
-                    intArrayOf(3,1,7,11),
+                    intArrayOf(3, 1, 7, 11),
                     false,
                 ),
             )
@@ -2043,11 +2043,11 @@ class ArraysTests {
                     true,
                 ),
                 Arguments.of(
-                    intArrayOf(3,1,7,11),
+                    intArrayOf(3, 1, 7, 11),
                     false,
                 ),
                 Arguments.of(
-                    intArrayOf(2,1,4,11),
+                    intArrayOf(2, 1, 4, 11),
                     true,
                 ),
             )
@@ -2057,19 +2057,19 @@ class ArraysTests {
         fun monotonicArrayProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(1,4,3,3,2),
+                    intArrayOf(1, 4, 3, 3, 2),
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(3,3,3,3),
+                    intArrayOf(3, 3, 3, 3),
                     1,
                 ),
                 Arguments.of(
-                    intArrayOf(3,2,1),
+                    intArrayOf(3, 2, 1),
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(1,9,7,1),
+                    intArrayOf(1, 9, 7, 1),
                     3,
                 ),
             )
@@ -2079,15 +2079,15 @@ class ArraysTests {
         fun ascendingSumProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(10,20,30,5,10,50),
+                    intArrayOf(10, 20, 30, 5, 10, 50),
                     65,
                 ),
                 Arguments.of(
-                    intArrayOf(10,20,30,40,50),
+                    intArrayOf(10, 20, 30, 40, 50),
                     150,
                 ),
                 Arguments.of(
-                    intArrayOf(12,17,15,13,10,11,12),
+                    intArrayOf(12, 17, 15, 13, 10, 11, 12),
                     33,
                 ),
             )
@@ -2097,11 +2097,11 @@ class ArraysTests {
         fun sameProductTupleProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(2,3,4,6),
+                    intArrayOf(2, 3, 4, 6),
                     8,
                 ),
                 Arguments.of(
-                    intArrayOf(1,2,4,5,10),
+                    intArrayOf(1, 2, 4, 5, 10),
                     16,
                 ),
             )
@@ -2111,19 +2111,30 @@ class ArraysTests {
         fun alternatingGroupProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    intArrayOf(0,1,0,1,0),
+                    intArrayOf(0, 1, 0, 1, 0),
                     3,
                     3,
                 ),
                 Arguments.of(
-                    intArrayOf(0,1,0,0,1,0,1),
+                    intArrayOf(0, 1, 0, 0, 1, 0, 1),
                     6,
                     2,
                 ),
                 Arguments.of(
-                    intArrayOf(1,1,0,1),
+                    intArrayOf(1, 1, 0, 1),
                     4,
                     0,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun averagesProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(40527, 53696, 10730, 66491, 62141, 83909, 78635, 18560),
+                    2,
+                    intArrayOf(-1, -1, 46717, 55393, 60381, 61947, -1, -1)
                 ),
             )
         }
@@ -2894,6 +2905,13 @@ class ArraysTests {
     @MethodSource("alternatingGroupProvider")
     fun numberOfAlternatingGroups(arr: IntArray, groupSize: Int, expected: Int) {
         val actual = com.willmadison.leetcode.extensions.numberOfAlternatingGroups(arr, groupSize)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "getAverages({0}, {1}) = {2}")
+    @MethodSource("averagesProvider")
+    fun getAverages(arr: IntArray, groupSize: Int, expected: IntArray) {
+        val actual = Leetcode().getAverages(arr, groupSize)
         assertThat(actual).isEqualTo(expected)
     }
 }
