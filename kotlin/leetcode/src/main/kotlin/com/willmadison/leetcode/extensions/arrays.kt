@@ -8,20 +8,20 @@ import kotlin.math.*
 
 // https://leetcode.com/problems/two-sum/
 fun twoSum(nums: IntArray, target: Int): IntArray {
-    val indiciesByValue = mutableMapOf<Int, MutableList<Int>>()
+    val indicesByValue = mutableMapOf<Int, MutableList<Int>>()
 
     for (i in nums.indices) {
-        val indicies = indiciesByValue.getOrDefault(nums[i], mutableListOf())
-        indicies.add(i)
-        indiciesByValue[nums[i]] = indicies
+        val indices = indicesByValue.getOrDefault(nums[i], mutableListOf())
+        indices.add(i)
+        indicesByValue[nums[i]] = indices
     }
 
     for (i in nums.indices) {
         val complement = target - nums[i]
-        val indicies = indiciesByValue.getOrDefault(complement, mutableListOf())
+        val indices = indicesByValue.getOrDefault(complement, mutableListOf())
 
-        if (indicies.size > 0 && i != indicies[0]) {
-            return intArrayOf(i, indicies[0])
+        if (indices.isNotEmpty() && i != indices[0]) {
+            return intArrayOf(i, indices[0])
         }
     }
 

@@ -1,9 +1,6 @@
 package com.willmadison.leetcode;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Leetcode {
@@ -20,7 +17,7 @@ public class Leetcode {
     }
 
     public int longestPalindrome(String[] words) {
-        HashMap<String, Integer> count = new HashMap<>();
+        Map<String, Integer> count = new HashMap<>();
 
         for (String word : words) {
             count.merge(word, 1, Integer::sum);
@@ -186,5 +183,26 @@ public class Leetcode {
         }
 
         return averages;
+    }
+
+    public boolean checkIfPangram(String sentence) {
+        Set<Character> characters = new HashSet<>();
+
+        for (char c : sentence.toCharArray()) {
+            characters.add(c);
+        }
+
+        return characters.size() == 26;
+    }
+
+    public int missingNumber(int[] nums) {
+        int expectedSum = nums.length * (nums.length + 1) / 2;
+        int actualSum = 0;
+
+        for (int i : nums) {
+            actualSum += i;
+        }
+
+        return expectedSum - actualSum;
     }
 }
