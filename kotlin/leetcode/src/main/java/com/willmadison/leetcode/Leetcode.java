@@ -205,4 +205,27 @@ public class Leetcode {
 
         return expectedSum - actualSum;
     }
+
+    public int maxDifference(String s) {
+        Map<Character, Integer> characterCounts = new HashMap<>();
+
+        for (Character c : s.toCharArray()) {
+            characterCounts.merge(c, 1, Integer::sum);
+        }
+
+        int maxOdd = 1;
+        int minEven = Integer.MAX_VALUE;
+
+        for (Map.Entry<Character, Integer> entry : characterCounts.entrySet()) {
+            Integer count = entry.getValue();
+
+            if (count % 2 == 0) {
+                minEven = Math.min(minEven, count);
+            } else {
+                maxOdd = Math.max(maxOdd, count);
+            }
+        }
+
+        return maxOdd - minEven;
+    }
 }
