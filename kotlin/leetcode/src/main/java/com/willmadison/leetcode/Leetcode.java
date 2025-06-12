@@ -228,4 +228,16 @@ public class Leetcode {
 
         return maxOdd - minEven;
     }
+
+    public int maxAdjacentDistance(int[] nums) {
+        int maxDifference = Math.max(Integer.MIN_VALUE,
+                Math.abs(nums[0]-nums[nums.length-1]));
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            int difference = Math.abs(nums[i] - nums[i+1]);
+            maxDifference = Math.max(maxDifference, difference);
+        }
+
+        return maxDifference;
+    }
 }
