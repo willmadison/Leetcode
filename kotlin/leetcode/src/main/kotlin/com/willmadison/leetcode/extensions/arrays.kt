@@ -2806,7 +2806,7 @@ fun tupleSameProduct(nums: IntArray): Int {
     }
 
     for (frequency in pairwiseProductFrequency.values) {
-        val pairs = ((frequency-1) * frequency) / 2
+        val pairs = ((frequency - 1) * frequency) / 2
         tuples += 8 * pairs
     }
 
@@ -2859,4 +2859,67 @@ fun maximumCount(nums: IntArray): Int {
     }
 
     return maxOf(positives, negatives)
+}
+
+fun maxFreeTime(
+    eventTime: Int,
+    k: Int,
+    startTime: IntArray,
+    endTime: IntArray
+): Int {
+    val n = startTime.size
+    var maximumFreeTime = 0
+    val sum = IntArray(n + 1)
+    for (i in 0..<n) {
+        sum[i + 1] = sum[i] + endTime[i] - startTime[i]
+    }
+
+    for (i in k - 1..<n) {
+        val right = if (i == n - 1) eventTime else startTime[i + 1]
+        val left = if (i == k - 1) 0 else endTime[i - k]
+        maximumFreeTime = max(maximumFreeTime, right - left - (sum[i + 1] - sum[i - k + 1]))
+    }
+
+    return maximumFreeTime
+}
+
+fun maxFreeTime2(eventTime: Int, startTime: IntArray, endTime: IntArray): Int {
+    val n = startTime.size
+    val q = BooleanArray(n)
+
+    run {
+        var i = 0
+        var t1 = 0
+        var t2 = 0
+        while (i < n) {
+            if (endTime[i] - startTime[i] <= t1) {
+                q[i] = true
+            }
+            t1 = max(t1, startTime[i] - (if (i == 0) 0 else endTime[i - 1]))
+
+            if (endTime[n - i - 1] - startTime[n - i - 1] <= t2) {
+                q[n - i - 1] = true
+            }
+            t2 = max(
+                t2,
+                (if (i == 0) eventTime else startTime[n - i]) - endTime[n - i - 1]
+            )
+            i++
+        }
+    }
+
+    var maximumFreeTime = 0
+
+    for (i in 0..<n) {
+        val left = if (i == 0) 0 else endTime[i - 1]
+        val right = if (i == n - 1) eventTime else startTime[i + 1]
+
+        maximumFreeTime = if (q[i]) {
+            max(maximumFreeTime, right - left)
+        } else {
+            max(maximumFreeTime, right - left - (endTime[i] - startTime[i]))
+        }
+    }
+
+    return maximumFreeTime
 }
