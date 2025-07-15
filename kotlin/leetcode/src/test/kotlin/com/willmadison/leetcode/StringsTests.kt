@@ -1110,6 +1110,28 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun isValid2Provider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "234Adas",
+                    true,
+                ),
+                Arguments.of(
+                    "b3",
+                    false,
+                ),
+                Arguments.of(
+                    "aya",
+                    true,
+                ),
+                Arguments.of(
+                    "IMG",
+                    true,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1524,6 +1546,13 @@ class StringsTests {
     @MethodSource("almostEqualProvider")
     fun areAlmostEqual(s1: String, s2: String, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.areAlmostEqual(s1, s2)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "isValid({0}) = {1}")
+    @MethodSource("isValid2Provider")
+    fun isValid2(s: String, expected: Boolean) {
+        val actual = com.willmadison.leetcode.extensions.isValid2(s)
         assertThat(actual).isEqualTo(expected)
     }
 }

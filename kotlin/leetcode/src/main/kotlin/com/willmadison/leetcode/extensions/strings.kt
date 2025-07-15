@@ -1587,3 +1587,29 @@ fun areAlmostEqual(s1: String, s2: String): Boolean {
     return s1[firstVariance] == s2[secondVariance] && s1[secondVariance] == s2[firstVariance]
 }
 
+fun isValid2(word: String): Boolean {
+    val characters = word.toCharArray()
+    val alphanumericRegex = Regex("""\w+""")
+    val vowelString = "aeiou"
+    val vowels = vowelString.toCharArray().toMutableSet()
+    vowelString.uppercase().toCharArray().forEach { vowels.add(it) }
+    val consonantString = "bcdfghjklmnpqrstvwxyz"
+    val consonants = consonantString.toCharArray().toMutableSet()
+    consonantString.uppercase().toCharArray().forEach { consonants.add(it) }
+
+    if (characters.size < 3)
+        return false
+
+    if (!alphanumericRegex.matches(word))
+        return false
+
+    if (characters.intersect(consonants).isEmpty())
+        return false
+
+    if (characters.intersect(vowels).isEmpty())
+        return false
+
+    return true
+}
+
+
