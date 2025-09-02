@@ -231,13 +231,61 @@ public class Leetcode {
 
     public int maxAdjacentDistance(int[] nums) {
         int maxDifference = Math.max(Integer.MIN_VALUE,
-                Math.abs(nums[0]-nums[nums.length-1]));
+                Math.abs(nums[0] - nums[nums.length - 1]));
 
         for (int i = 0; i < nums.length - 1; i++) {
-            int difference = Math.abs(nums[i] - nums[i+1]);
+            int difference = Math.abs(nums[i] - nums[i + 1]);
             maxDifference = Math.max(maxDifference, difference);
         }
 
         return maxDifference;
     }
+
+
+    public int numberOfPairs(int[][] points) {
+        int numPairs = 0;
+        int n = points.length;
+
+        for (int i = 0; i < n; i++) {
+            int[] pointA = points[i];
+            for (int j = 0; j < n; j++) {
+                int[] pointB = points[j];
+                if (
+                        i == j ||
+                                !(pointA[0] <= pointB[0] && pointA[1] >= pointB[1])
+                ) {
+                    continue;
+                }
+                if (n == 2) {
+                    numPairs++;
+                    continue;
+                }
+
+                boolean legal = true;
+
+                for (int k = 0; k < n; k++) {
+                    if (k == i || k == j) {
+                        continue;
+                    }
+
+                    int[] pointTmp = points[k];
+                    boolean isXContained =
+                            pointTmp[0] >= pointA[0] && pointTmp[0] <= pointB[0];
+                    boolean isYContained =
+                            pointTmp[1] <= pointA[1] && pointTmp[1] >= pointB[1];
+                    if (isXContained && isYContained) {
+                        legal = false;
+                        break;
+                    }
+                }
+
+                if (legal) {
+                    numPairs++;
+                }
+            }
+        }
+
+        return numPairs;
+    }
+
 }
