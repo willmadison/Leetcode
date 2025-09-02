@@ -241,7 +241,6 @@ public class Leetcode {
         return maxDifference;
     }
 
-
     public int numberOfPairs(int[][] points) {
         int numPairs = 0;
         int n = points.length;
@@ -288,4 +287,47 @@ public class Leetcode {
         return numPairs;
     }
 
+    public int minimumDeletions(String word, int k) {
+        Map<Character, Integer> countsByCharacter = new HashMap<>();
+        for (char c : word.toCharArray()) {
+            countsByCharacter.merge(c, 1, Integer::sum);
+        }
+
+        int minDeletions = word.length();
+
+        for (int a : countsByCharacter.values()) {
+            int deleted = 0;
+            for (int b : countsByCharacter.values()) {
+                if (a > b) {
+                    deleted += b;
+                } else if (b > a + k) {
+                    deleted += b - (a + k);
+                }
+            }
+            minDeletions = Math.min(minDeletions, deleted);
+        }
+
+        return minDeletions;
+    }
+
+    public String[] divideString(String s, int k, char fill) {
+        List<String> partitionedString = new ArrayList<>();
+        int n = s.length();
+        int startIndex = 0;
+
+        while (startIndex < n) {
+            int end = Math.min(startIndex + k, n);
+            partitionedString.add(s.substring(startIndex, end));
+            startIndex += k;
+        }
+
+        String last = partitionedString.getLast();
+
+        if (last.length() < k) {
+            last += String.valueOf(fill).repeat(k - last.length());
+            partitionedString.set(partitionedString.size() - 1, last);
+        }
+
+        return partitionedString.toArray(new String[0]);
+    }
 }
