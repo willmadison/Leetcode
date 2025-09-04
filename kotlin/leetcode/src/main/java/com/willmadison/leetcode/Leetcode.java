@@ -330,4 +330,13 @@ public class Leetcode {
 
         return partitionedString.toArray(new String[0]);
     }
+
+
+    public int findClosest(int x, int y, int z) {
+        int xDistance = Math.abs(x - z);
+        int yDistance = Math.abs(y - z);
+
+        if (xDistance == yDistance) return 0;
+        return xDistance < yDistance ? 1 : 2;
+    }
 }
