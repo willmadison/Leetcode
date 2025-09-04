@@ -487,6 +487,20 @@ class ArithmeticTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun findClosestProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    2,7,4,1
+                ),
+                Arguments.of(
+                    2,5,6,2
+                ),                Arguments.of(
+                    1,5,3,0
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "findMaxK({0}) = {1}")
@@ -675,6 +689,14 @@ class ArithmeticTests {
     @MethodSource("maxAverageProvider")
     fun findMaxAverage(given: IntArray, k: Int, expected: Double) {
         val actual = com.willmadison.leetcode.extensions.findMaxAverage(given, k)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "findClosest({0}, {1}, {2}) = {3}")
+    @MethodSource("findClosestProvider")
+    fun findClosest(x: Int, y: Int, z: Int, expected: Int) {
+        val lc = Leetcode()
+        val actual = lc.findClosest(x, y, z)
         assertThat(actual).isEqualTo(expected)
     }
 
