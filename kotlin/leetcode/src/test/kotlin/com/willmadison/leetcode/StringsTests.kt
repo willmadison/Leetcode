@@ -1132,6 +1132,20 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun maxFreqSumProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "successes",
+                    6,
+                ),
+                Arguments.of(
+                    "aeiaeia",
+                    3,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1553,6 +1567,14 @@ class StringsTests {
     @MethodSource("isValid2Provider")
     fun isValid2(s: String, expected: Boolean) {
         val actual = com.willmadison.leetcode.extensions.isValid2(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "maxFreqSum({0}) = {1}")
+    @MethodSource("maxFreqSumProvider")
+    fun maxFreqSum(s: String, expected: Int) {
+        val lc = Leetcode()
+        val actual = lc.maxFreqSum(s)
         assertThat(actual).isEqualTo(expected)
     }
 }

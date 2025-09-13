@@ -1,5 +1,7 @@
 package com.willmadison.leetcode;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -338,5 +340,30 @@ public class Leetcode {
 
         if (xDistance == yDistance) return 0;
         return xDistance < yDistance ? 1 : 2;
+    }
+
+    public int maxFreqSum(@NotNull String s) {
+        Map<Character, Integer> countsByVowel = new HashMap<>(
+                Map.of('a', 0, 'e', 0, 'i', 0, 'o', 0, 'u', 0)
+        );
+
+        Map<Character, Integer> countsByConsonant = new HashMap<>();
+
+        for (char c : s.toCharArray()) {
+            if (isVowel(c)) {
+                countsByVowel.merge(c, 1, Integer::sum);
+            } else {
+                countsByConsonant.merge(c, 1, Integer::sum);
+            }
+        }
+
+        int maxVowelCount = countsByVowel.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+        int maxConsonantCount = countsByConsonant.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+
+        return maxVowelCount+maxConsonantCount;
+    }
+
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(c) >= 0;
     }
 }
