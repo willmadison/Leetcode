@@ -944,16 +944,16 @@ class StringsTests {
         fun folderProvider(): Stream<Arguments> {
             return Stream.of(
                 Arguments.of(
-                    arrayOf("/a","/a/b","/c/d","/c/d/e","/c/f"),
-                    listOf("/a","/c/d","/c/f"),
+                    arrayOf("/a", "/a/b", "/c/d", "/c/d/e", "/c/f"),
+                    listOf("/a", "/c/d", "/c/f"),
                 ),
                 Arguments.of(
-                    arrayOf("/a","/a/b/c","/a/b/d"),
+                    arrayOf("/a", "/a/b/c", "/a/b/d"),
                     listOf("/a"),
                 ),
                 Arguments.of(
-                    arrayOf("/a/b/c","/a/b/ca","/a/b/d"),
-                    listOf("/a/b/c","/a/b/ca","/a/b/d"),
+                    arrayOf("/a/b/c", "/a/b/ca", "/a/b/d"),
+                    listOf("/a/b/c", "/a/b/ca", "/a/b/d"),
                 ),
             )
         }
@@ -1143,6 +1143,22 @@ class StringsTests {
                 Arguments.of(
                     "aeiaeia",
                     3,
+                ),
+            )
+        }
+
+        @JvmStatic
+        fun spellcheckerProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("KiTe", "kite", "hare", "Hare"),
+                    arrayOf("kite", "Kite", "KiTe", "Hare", "HARE", "Hear", "hear", "keti", "keet", "keto"),
+                    arrayOf("kite", "KiTe", "KiTe", "Hare", "hare", "", "", "KiTe", "", "KiTe"),
+                ),
+                Arguments.of(
+                    arrayOf("yellow"),
+                    arrayOf("YellOw"),
+                    arrayOf("yellow"),
                 ),
             )
         }
@@ -1575,6 +1591,14 @@ class StringsTests {
     fun maxFreqSum(s: String, expected: Int) {
         val lc = Leetcode()
         val actual = lc.maxFreqSum(s)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "spellchecker({0}, {1}) = {2}")
+    @MethodSource("spellcheckerProvider")
+    fun spellchecker(words: Array<String>, queries: Array<String>, expected: Array<String>) {
+        val lc = Leetcode()
+        val actual = lc.spellchecker(words, queries)
         assertThat(actual).isEqualTo(expected)
     }
 }

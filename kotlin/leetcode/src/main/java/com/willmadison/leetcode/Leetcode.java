@@ -366,4 +366,55 @@ public class Leetcode {
     private boolean isVowel(char c) {
         return "aeiou".indexOf(c) >= 0;
     }
+
+    Set<String> asIsLookup;
+    Map<String, String> caseInsensitiveLookup;
+    Map<String, String> devoweledLookup;
+
+    public String[] spellchecker(String[] wordlist, String[] queries) {
+        asIsLookup = new HashSet<>();
+        caseInsensitiveLookup = new HashMap<>();
+        devoweledLookup = new HashMap<>();
+
+        for (String word: wordlist) {
+            asIsLookup.add(word);
+
+            String lowercased = word.toLowerCase();
+            caseInsensitiveLookup.putIfAbsent(lowercased, word);
+
+            devoweledLookup.putIfAbsent(devowel(lowercased), word);
+        }
+
+        String[] answers = new String[queries.length];
+
+        int t = 0;
+
+        for (String query: queries) {
+            answers[t++] = search(query);
+        }
+
+        return answers;
+    }
+
+    public String search(String query) {
+        if (asIsLookup.contains(query))
+            return query;
+
+        String lowercased = query.toLowerCase();
+        if (caseInsensitiveLookup.containsKey(lowercased))
+            return caseInsensitiveLookup.get(lowercased);
+
+        String devoweled = devowel(lowercased);
+        if (devoweledLookup.containsKey(devoweled))
+            return devoweledLookup.get(devoweled);
+
+        return "";
+    }
+
+    public String devowel(String word) {
+        StringBuilder ans = new StringBuilder();
+        for (char c: word.toCharArray())
+            ans.append(isVowel(c) ? '*' : c);
+        return ans.toString();
+    }
 }
