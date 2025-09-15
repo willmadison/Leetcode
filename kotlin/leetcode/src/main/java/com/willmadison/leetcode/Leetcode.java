@@ -3,6 +3,8 @@ package com.willmadison.leetcode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Leetcode {
@@ -417,4 +419,32 @@ public class Leetcode {
             ans.append(isVowel(c) ? '*' : c);
         return ans.toString();
     }
+
+    public int canBeTypedWords(String text, String brokenLetters) {
+        Set<Character> letters = brokenLetters.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toSet());
+
+        String[] words = text.split(Pattern.quote(" "));
+
+        int canBeTypedWords = 0;
+
+        for (String word : words) {
+            boolean canType = true;
+
+            for (Character letter: letters) {
+                if (word.indexOf(letter) >= 0) {
+                    canType = false;
+                    break;
+                }
+            }
+
+            if (canType) {
+                canBeTypedWords++;
+            }
+        }
+
+        return canBeTypedWords;
+    }
+
 }

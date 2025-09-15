@@ -1162,6 +1162,27 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun canBeTypedWordsProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    "hello world",
+                    "ad",
+                    1,
+                ),
+                Arguments.of(
+                    "leet code",
+                    "lt",
+                    1,
+                ),
+                Arguments.of(
+                    "leet code",
+                    "e",
+                    0,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1599,6 +1620,14 @@ class StringsTests {
     fun spellchecker(words: Array<String>, queries: Array<String>, expected: Array<String>) {
         val lc = Leetcode()
         val actual = lc.spellchecker(words, queries)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "canBeTypedWords({0}, {1}) = {2}")
+    @MethodSource("canBeTypedWordsProvider")
+    fun canBeTypedWords(text: String, brokenLetters: String, expected: Int) {
+        val lc = Leetcode()
+        val actual = lc.canBeTypedWords(text, brokenLetters)
         assertThat(actual).isEqualTo(expected)
     }
 }
