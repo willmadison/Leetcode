@@ -1183,6 +1183,18 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun couponCodeProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    arrayOf("SAVE20","","PHARMA5","SAVE@20"),
+                    arrayOf("restaurant","grocery","pharmacy","restaurant"),
+                    booleanArrayOf(true,true,true,true),
+                    listOf("PHARMA5","SAVE20")
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1628,6 +1640,14 @@ class StringsTests {
     fun canBeTypedWords(text: String, brokenLetters: String, expected: Int) {
         val lc = Leetcode()
         val actual = lc.canBeTypedWords(text, brokenLetters)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "validateCoupons({0}, {1}, {2}) = {3}")
+    @MethodSource("couponCodeProvider")
+    fun validateCoupons(codes: Array<String>, businessLines: Array<String>, activeStatuses: BooleanArray, expected: List<String>) {
+        val lc = Leetcode()
+        val actual = lc.validateCoupons(codes, businessLines, activeStatuses)
         assertThat(actual).isEqualTo(expected)
     }
 }

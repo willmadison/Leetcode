@@ -253,10 +253,8 @@ public class Leetcode {
             int[] pointA = points[i];
             for (int j = 0; j < n; j++) {
                 int[] pointB = points[j];
-                if (
-                        i == j ||
-                                !(pointA[0] <= pointB[0] && pointA[1] >= pointB[1])
-                ) {
+                if (i == j ||
+                        !(pointA[0] <= pointB[0] && pointA[1] >= pointB[1])) {
                     continue;
                 }
                 if (n == 2) {
@@ -272,10 +270,8 @@ public class Leetcode {
                     }
 
                     int[] pointTmp = points[k];
-                    boolean isXContained =
-                            pointTmp[0] >= pointA[0] && pointTmp[0] <= pointB[0];
-                    boolean isYContained =
-                            pointTmp[1] <= pointA[1] && pointTmp[1] >= pointB[1];
+                    boolean isXContained = pointTmp[0] >= pointA[0] && pointTmp[0] <= pointB[0];
+                    boolean isYContained = pointTmp[1] <= pointA[1] && pointTmp[1] >= pointB[1];
                     if (isXContained && isYContained) {
                         legal = false;
                         break;
@@ -335,19 +331,18 @@ public class Leetcode {
         return partitionedString.toArray(new String[0]);
     }
 
-
     public int findClosest(int x, int y, int z) {
         int xDistance = Math.abs(x - z);
         int yDistance = Math.abs(y - z);
 
-        if (xDistance == yDistance) return 0;
+        if (xDistance == yDistance)
+            return 0;
         return xDistance < yDistance ? 1 : 2;
     }
 
     public int maxFreqSum(@NotNull String s) {
         Map<Character, Integer> countsByVowel = new HashMap<>(
-                Map.of('a', 0, 'e', 0, 'i', 0, 'o', 0, 'u', 0)
-        );
+                Map.of('a', 0, 'e', 0, 'i', 0, 'o', 0, 'u', 0));
 
         Map<Character, Integer> countsByConsonant = new HashMap<>();
 
@@ -362,7 +357,7 @@ public class Leetcode {
         int maxVowelCount = countsByVowel.values().stream().mapToInt(Integer::intValue).max().orElse(0);
         int maxConsonantCount = countsByConsonant.values().stream().mapToInt(Integer::intValue).max().orElse(0);
 
-        return maxVowelCount+maxConsonantCount;
+        return maxVowelCount + maxConsonantCount;
     }
 
     private boolean isVowel(char c) {
@@ -378,7 +373,7 @@ public class Leetcode {
         caseInsensitiveLookup = new HashMap<>();
         devoweledLookup = new HashMap<>();
 
-        for (String word: wordlist) {
+        for (String word : wordlist) {
             asIsLookup.add(word);
 
             String lowercased = word.toLowerCase();
@@ -391,7 +386,7 @@ public class Leetcode {
 
         int t = 0;
 
-        for (String query: queries) {
+        for (String query : queries) {
             answers[t++] = search(query);
         }
 
@@ -415,7 +410,7 @@ public class Leetcode {
 
     public String devowel(String word) {
         StringBuilder ans = new StringBuilder();
-        for (char c: word.toCharArray())
+        for (char c : word.toCharArray())
             ans.append(isVowel(c) ? '*' : c);
         return ans.toString();
     }
@@ -432,7 +427,7 @@ public class Leetcode {
         for (String word : words) {
             boolean canType = true;
 
-            for (Character letter: letters) {
+            for (Character letter : letters) {
                 if (word.indexOf(letter) >= 0) {
                     canType = false;
                     break;
@@ -445,6 +440,53 @@ public class Leetcode {
         }
 
         return canBeTypedWords;
+    }
+
+    public List<String> validateCoupons(String[] codes, String[] businessLines, boolean[] activeStatuses) {
+        Map<String, Integer> businessLinePriority = Map.of(
+                "electronics", 0,
+                "grocery", 1,
+                "pharmacy", 2,
+                "restaurant", 3
+        );
+
+        return IntStream.range(0, codes.length)
+                .mapToObj(i -> new Coupon(codes[i], businessLines[i], activeStatuses[i]))
+                .filter(Coupon::isValid)
+                .sorted((a, b) -> {
+                    int priorityA = businessLinePriority.getOrDefault(a.businessLine(), Integer.MAX_VALUE);
+                    int priorityB = businessLinePriority.getOrDefault(b.businessLine(), Integer.MAX_VALUE);
+
+                    if (priorityA != priorityB) {
+                        return Integer.compare(priorityA, priorityB);
+                    }
+
+                    return a.code().compareTo(b.code());
+                })
+                .map(Coupon::code)
+                .toList();
+    }
+
+    record Coupon(String code, String businessLine, boolean isActive) {
+        private static final Set<String> validBusinessLines = Set.of("electronics", "grocery", "pharmacy", "restaurant");
+
+        public boolean isValid() {
+            if (code == null || code.isEmpty()) {
+                return false;
+            }
+
+            for (char c : code.toCharArray()) {
+                if (!Character.isLetterOrDigit(c) && c != '_') {
+                    return false;
+                }
+            }
+
+            if (!validBusinessLines.contains(businessLine)) {
+                return false;
+            }
+
+            return isActive;
+        }
     }
 
 }
