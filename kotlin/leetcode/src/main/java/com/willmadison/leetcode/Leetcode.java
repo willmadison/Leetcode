@@ -3,6 +3,7 @@ package com.willmadison.leetcode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -465,6 +466,27 @@ public class Leetcode {
                 })
                 .map(Coupon::code)
                 .toList();
+    }
+
+    public int repeatedNTimes(int[] numbers) {
+        int repetitionCount = numbers.length / 2;
+
+        Map<Integer, Long> countsByValue =
+                Arrays.stream(numbers)
+                        .boxed()
+                        .collect(Collectors.groupingBy(
+                                Function.identity(),
+                                Collectors.counting()
+                        ));
+
+        Map.Entry<Integer, Long> needle = countsByValue
+                .entrySet()
+                .stream()
+                .filter(it -> it.getValue() == repetitionCount)
+                .findFirst()
+                .orElseThrow();
+
+        return needle.getKey();
     }
 
     record Coupon(String code, String businessLine, boolean isActive) {

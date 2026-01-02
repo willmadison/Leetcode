@@ -1195,6 +1195,23 @@ class StringsTests {
                 ),
             )
         }
+
+        @JvmStatic
+        fun repetitionProvider(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    intArrayOf(1,2,3,3),
+                    3,
+                ),
+                Arguments.of(
+                    intArrayOf(2,1,2,5,3,2),
+                    2,
+                ), Arguments.of(
+                    intArrayOf(5,1,5,2,5,3,5,4),
+                    5,
+                ),
+            )
+        }
     }
 
     @ParameterizedTest(name = "canConstruct({0}, {1}) = {2}")
@@ -1648,6 +1665,14 @@ class StringsTests {
     fun validateCoupons(codes: Array<String>, businessLines: Array<String>, activeStatuses: BooleanArray, expected: List<String>) {
         val lc = Leetcode()
         val actual = lc.validateCoupons(codes, businessLines, activeStatuses)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest(name = "repeatedNTimes({0}) = {1}")
+    @MethodSource("repetitionProvider")
+    fun repeatedNTimes(numbers: IntArray, expected: Int) {
+        val lc = Leetcode()
+        val actual = lc.repeatedNTimes(numbers)
         assertThat(actual).isEqualTo(expected)
     }
 }
