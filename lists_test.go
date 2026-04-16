@@ -123,3 +123,26 @@ func TestModifiedList(t *testing.T) {
 		})
 	}
 }
+
+func TestFindWinners(t *testing.T) {
+	cases := []struct {
+		given    [][]int
+		expected [][]int
+	}{
+		{
+			[][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}},
+			[][]int{{1, 2, 10}, {4, 5, 7, 8}},
+		},
+		{
+			[][]int{{2, 3}, {1, 3}, {5, 4}, {6, 4}},
+			[][]int{{1, 2, 5, 6}, {}},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("findWinners(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := findWinners(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

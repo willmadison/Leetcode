@@ -2,6 +2,7 @@ package leetcode
 
 import (
 	"math"
+	"sort"
 )
 
 type ListNode struct {
@@ -138,4 +139,34 @@ func gcd(a, b int) int {
 	}
 
 	return gcd(a, b%a)
+}
+
+
+func findWinners(matches [][]int) [][]int {
+	losses := map[int]int{}
+
+	for _, match := range matches {
+		winner, loser := match[0], match[1]
+		if _, seen := losses[winner]; !seen {
+			losses[winner] = 0
+		}
+		losses[loser]++
+	}
+
+	undefeated := []int{}
+	oneLoss := []int{}
+
+	for player, lossCount := range losses {
+		switch lossCount {
+		case 0:
+			undefeated = append(undefeated, player)
+		case 1:
+			oneLoss = append(oneLoss, player)
+		}
+	}
+
+	sort.Ints(undefeated)
+	sort.Ints(oneLoss)
+
+	return [][]int{undefeated, oneLoss}
 }
