@@ -146,3 +146,42 @@ func TestFindWinners(t *testing.T) {
 		})
 	}
 }
+
+func TestLargestUniqueNumber(t *testing.T) {
+	cases := []struct {
+		given    []int
+		expected int
+	}{
+		{
+			given:    []int{5, 7, 3, 9, 4, 9, 8, 3, 1},
+			expected: 8,
+		},
+		{
+			given:    []int{9, 9, 8, 8},
+			expected: -1,
+		},
+		{
+			given:    []int{1},
+			expected: 1,
+		},
+		{
+			given:    []int{0, 0, 1000},
+			expected: 1000,
+		},
+		{
+			given:    []int{1, 2, 3, 4, 5},
+			expected: 5,
+		},
+		{
+			given:    []int{5, 5, 5},
+			expected: -1,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("largestUniqueNumber(%v) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := largestUniqueNumber(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}

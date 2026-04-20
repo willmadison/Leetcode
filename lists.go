@@ -141,7 +141,6 @@ func gcd(a, b int) int {
 	return gcd(a, b%a)
 }
 
-
 func findWinners(matches [][]int) [][]int {
 	losses := map[int]int{}
 
@@ -169,4 +168,28 @@ func findWinners(matches [][]int) [][]int {
 	sort.Ints(oneLoss)
 
 	return [][]int{undefeated, oneLoss}
+}
+
+func largestUniqueNumber(nums []int) int {
+	countsByNumber := map[int]int{}
+
+	for _, n := range nums {
+		countsByNumber[n]++
+	}
+
+	uniques := []int{}
+
+	for n, count := range countsByNumber {
+		if count == 1 {
+			uniques = append(uniques, n)
+		}
+	}
+
+	if len(uniques) == 0 {
+		return -1
+	}
+
+	sort.Ints(uniques)
+
+	return uniques[len(uniques)-1]
 }

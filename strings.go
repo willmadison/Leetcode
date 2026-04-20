@@ -412,3 +412,45 @@ func uncommonFromSentences(s1, s2 string) []string {
 
 	return uncommons
 }
+
+func maxNumberOfBalloons(text string) int {
+	beesNeeded := 1
+	asNeeded := 1
+	osNeeded := 2
+	ellsNeeded := 2
+	ensNeeded := 1
+
+	var bs, as, os, ls, ns int
+
+	for _, c := range text {
+		switch c {
+		case 'b':
+			bs++
+		case 'a':
+			as++
+		case 'l':
+			ls++
+		case 'o':
+			os++
+		case 'n':
+			ns++
+		}
+	}
+
+	balloons := []int{
+		bs / beesNeeded,
+		as / asNeeded,
+		ls / ellsNeeded,
+		os / osNeeded,
+		ns / ensNeeded,
+	}
+
+	minBalloons := balloons[0]
+	for _, b := range balloons[1:] {
+		if b < minBalloons {
+			minBalloons = b
+		}
+	}
+
+	return minBalloons
+}

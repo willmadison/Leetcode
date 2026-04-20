@@ -281,3 +281,50 @@ func TestUncommonFromSentences(t *testing.T) {
 		})
 	}
 }
+
+func TestMaxNumberOfBalloons(t *testing.T) {
+	cases := []struct {
+		given    string
+		expected int
+	}{
+		{
+			given:    "nlaebolko",
+			expected: 1,
+		},
+		{
+			given:    "loonbalxballpoon",
+			expected: 2,
+		},
+		{
+			given:    "leetcode",
+			expected: 0,
+		},
+		{
+			given:    "balloon",
+			expected: 1,
+		},
+		{
+			given:    "balloonballoon",
+			expected: 2,
+		},
+		{
+			given:    "bbbaaallllloooonnnn",
+			expected: 2,
+		},
+		{
+			given:    "balon",
+			expected: 0,
+		},
+		{
+			given:    "",
+			expected: 0,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("maxNumberOfBalloons(%q) = %v", tc.given, tc.expected), func(t *testing.T) {
+			actual := maxNumberOfBalloons(tc.given)
+			assert.Equal(t, tc.expected, actual)
+		})
+	}
+}
